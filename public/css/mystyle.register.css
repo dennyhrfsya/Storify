@@ -1,0 +1,220 @@
+/*margin untuk mengatur jarak dari luar*/
+/*padding untuk mengatur jarak dari dalam*/
+* {
+    -webkit-font-smoothing: antialiased;
+}
+
+/*CSS untuk halaman register*/
+.container-d {
+	display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.row-d {
+	position: relative;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+}
+
+@media (min-width: 768px) {
+	.section-d {
+		margin: 100px 0px 100px;
+	}
+}
+
+.section-d {
+	margin: 100px 0px 100px;
+}
+
+.content-wrap.register-content-d {
+	color: rgb(83, 83, 83);
+    padding: 30px 0px 0px;
+}
+
+.container-fluid.register-content-d {
+    max-width: 540px;
+}
+
+.section-title.register-d + .help-text.register-d {
+    font-size: 12px;
+    color: rgb(160, 164, 168);
+}
+
+.setting-items.register-d {
+    background-color: rgb(255, 255, 255);
+    color: rgb(160, 164, 168);
+    border-radius: 4px;
+    padding: 0px 0px;
+}
+
+.shadow-d {
+    box-shadow: rgba(17, 17, 17, 0.1) 0px 1px 8px!important;
+}
+
+.shadow-d > div > .input-d {
+    border-bottom: 0px;
+}
+
+.form-input:focus {
+    box-shadow: rgb(40, 128, 206) 4px 0px 0px 0px inset;
+}
+
+.form-input {
+    height: 49px;
+    width: 100%;
+    padding: 22px 1rem 5px;
+    font-size: 12px;
+    color: rgb(40, 128, 206);
+    border-radius: 0px;
+    border: 1px solid rgb(239, 238, 237);
+    outline: none;
+}
+
+.form-password:focus {
+    box-shadow: rgb(40, 128, 206) 4px 0px 0px 0px inset;
+}
+
+.form-password-show:focus {
+    box-shadow: rgb(40, 128, 206) 4px 0px 0px 0px inset;
+}
+
+.form-password, input[type='text'] {
+    height: 49px;
+    width: 100%;
+    padding: 22px 1rem 5px;
+    font-size: 12px;
+    color: rgb(40, 128, 206);
+    border-radius: 0px;
+    border: 1px solid rgb(239, 238, 237);
+    outline: none;
+}
+
+.form-label {
+    position: absolute;
+    top: 5px;
+    left: 1rem;
+    margin-bottom: 0px;
+    pointer-events: none;
+    cursor: text;
+    transition: all 0.2s ease-in-out 0s;
+    padding-bottom: 0px;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgb(83, 83, 83);
+}
+
+.icon-eye {
+    position: absolute;
+    right: 1rem;
+    top: 17px;
+}
+
+.checkbox-d {
+    position: relative;
+}
+
+.checkbox-d input {
+    position: absolute;
+    top: 0.25rem;
+    opacity: 0;
+    z-index: 1;
+}
+
+input[type='checkbox'], input[type='radio'] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.checkbox-d label {
+    display: inline-block;
+    padding-left: 1.75em;
+}
+
+.checkbox-d label::before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    top: 0.25em;
+    left: 0px;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 3px;
+    background-color: rgb(255, 255, 255);
+    transition: border 0.15s ease-in-out 0s, color 0.15s ease-in-out 0s;
+}
+
+.checkbox-d input:checked ~ label::before {
+    border-color: rgb(40, 128, 206);
+}
+
+.checkbox-d input:checked ~ label::after {
+    content: "";
+    position: absolute;
+    width: 0.3125em;
+    height: 0.625em;
+    left: 0.325em;
+    top: 0.325em;
+    border-style: solid;
+    border-width: 0px 1px 1px 0px;
+    border-color: rgb(27, 85, 226);
+    transform: rotate(45deg);
+}
+
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+}
+
+.btn-primary {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border: 1px solid rgb(40, 128, 206);
+    padding: 0px 1rem;
+    min-width: 100px;
+    min-height: 30px;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out 0s, background-color 0.15s ease-in-out 0s, border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    background-color: rgb(40, 128, 206);
+    min-height: 35px;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: rgb(89, 163, 228);
+    border-color: rgb(89, 163, 228);
+}
+
+.btn-default {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    padding: 0 1rem;
+    min-width: 100px;
+    min-height: 30px;
+    border-radius: 0.25rem;
+    -webkit-transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+    cursor: pointer;
+    color: #2880ce;
+    background-color: #ffffff;
+    border-color: #2880ce;
+    min-height: 35px;
+}
+
+.btn-default:hover {
+    color: #ffffff;
+    background-color: #59a3e4;
+    border-color: #59a3e4;
+}
+/*Akhir CSS untuk halaman register*/
