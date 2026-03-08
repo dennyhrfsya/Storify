@@ -4,6 +4,7 @@ use App\Http\Controllers\AsetController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\StokBarangController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/stok/{id}/ubah', [StokBarangController::class, 'ubah'])->middleware('permission:Stok,ubah')->name('stok.ubah');
     Route::put('/stok/{id}', [StokBarangController::class, 'update'])->middleware('permission:Stok,ubah')->name('stok.update');
     Route::delete('/stok/{id}', [StokBarangController::class, 'hapus'])->middleware('permission:Stok,hapus')->name('stok.hapus');
+    // });
+
+    //* Transaksi
+    // Route::prefix('transaksi')->group(function () {
+    Route::get('/transaksi', [TransaksiController::class, 'index'])
+        // ->middleware('permission:Stok,index') // Menyesuaikan modul Anda
+        ->name('transaksi.index');
+
+    // Route::get('/tambah', [TransaksiController::class, 'tambah'])
+    //     ->middleware('permission:Stok,tambah')
+    //     ->name('transaksi.tambah');
+
+    // Route::post('/simpan', [TransaksiController::class, 'simpan'])
+    //     ->middleware('permission:Stok,simpan')
+    //     ->name('transaksi.simpan');
     // });
 
     // Tes route

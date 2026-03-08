@@ -4,7 +4,7 @@
         ->keyBy('module');
     $isInventoriActive =
         request()->routeIs('aset.*') || request()->routeIs('peminjaman.*') || request()->routeIs('pengembalian.*');
-    $isStokActive = request()->routeIs('stok.*');
+    $isStokActive = request()->routeIs('stok.*') || request()->routeIs('transaksi.*');
 @endphp
 
 <!-- Sidebar atau Navigasi-->
@@ -70,7 +70,9 @@
                             <a href="{{ route('stok.index') }}"
                                 class="dx-sub-link {{ request()->routeIs('stok.*') ? 'active' : '' }}">Data Master</a>
                         </li>
-                        <li><a href="#" class="dx-sub-link">Transaksi</a></li>
+                        <li><a href="{{ route('transaksi.index') }}"
+                                class="dx-sub-link {{ request()->routeIs('transaksi.*') ? 'active' : '' }}">Transaksi</a>
+                        </li>
                         <li><a href="#" class="dx-sub-link">Report</a></li>
                     </ul>
                 </div>

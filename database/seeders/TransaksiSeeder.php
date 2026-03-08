@@ -16,7 +16,7 @@ class TransaksiSeeder extends Seeder
         Transaksi::create([
             'kode_transaksi' => 'TRX/2026/03/001',
             'stok_barang_id' => $barang1->id,
-            'nama_peminta'   => 'Agus Setiawan',
+            'nama_user'   => 'Agus Setiawan',
             'departemen'     => 'IT Support',
             'jumlah'         => 2,
             'status'         => 'dipinjamkan',
@@ -33,7 +33,7 @@ class TransaksiSeeder extends Seeder
         Transaksi::create([
             'kode_transaksi' => 'TRX/2026/03/002',
             'stok_barang_id' => $barang2->id,
-            'nama_peminta'   => 'Siti Aminah',
+            'nama_user'   => 'Siti Aminah',
             'departemen'     => 'HRD',
             'jumlah'         => 1,
             'status'         => 'diberikan',

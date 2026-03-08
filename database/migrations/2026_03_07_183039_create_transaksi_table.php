@@ -12,20 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaksi', function (Blueprint $table) {
-        $table->id();
-        $table->string('kode_transaksi')->unique();
-        $table->foreignId('stok_barang_id')->constrained('stok_barang')->onDelete('cascade');
-        $table->string('nama_peminta');
-        $table->string('departemen');
-        $table->integer('jumlah');
-        $table->enum('status', ['dipinjamkan', 'dibatalkan', 'diberikan']);
+            $table->id();
+            $table->string('kode_transaksi')->unique();
+            $table->foreignId('stok_barang_id')->constrained('stok_barang')->onDelete('cascade');
+            $table->string('nama_user');
+            $table->string('departemen');
+            $table->integer('jumlah');
+            $table->enum('status', ['dipinjamkan', 'dibatalkan', 'diberikan']);
 
-        // Kolom kunci untuk laporan "Stok Sebelumnya & Sesudah"
-        $table->integer('stok_snapshot');
+            // Kolom kunci untuk laporan "Stok Sebelumnya & Sesudah"
+            $table->integer('stok_snapshot');
 
-        $table->timestamp('tanggal_transaksi')->useCurrent();
-        $table->timestamps();
-    });
+            $table->timestamp('tanggal_transaksi')->useCurrent();
+            $table->timestamps();
+        });
     }
 
     /**
