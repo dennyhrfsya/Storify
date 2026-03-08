@@ -20,7 +20,7 @@
                                 <div class="dx-form-group">
                                     <label for="kode_barang">Kode Barang</label>
                                     <input type="text" id="kode_barang" name="kode_barang" placeholder="Kode Barang"
-                                        value="{{ old('kode_barang', $aset->kode_barang) }}" required />
+                                        value="{{ old('kode_barang', $aset->kode_barang) }}" />
                                     @error('kode_barang')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
@@ -32,7 +32,7 @@
                                 <div class="dx-form-group">
                                     <label for="nama_barang">Nama Barang</label>
                                     <input type="text" id="nama_barang" name="nama_barang" placeholder="Nama Barang"
-                                        value="{{ old('nama_barang', $aset->nama_barang) }}" required />
+                                        value="{{ old('nama_barang', $aset->nama_barang) }}" />
                                     @error('nama_barang')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
@@ -43,7 +43,7 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="kategori">Kategori</label>
-                                    <select id="select" name="kategori" required>
+                                    <select id="select" name="kategori">
                                         <option value="">Pilih Opsi...</option>
                                         <option value="Laptop"
                                             {{ old('kategori', $aset->kategori) == 'Laptop' ? 'selected' : '' }}>Laptop
@@ -181,9 +181,10 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="harga">Harga</label>
-                                    <input type="text" id="harga" name="harga_display" placeholder="Harga"
+                                    <input type="text" id="harga" class="input-currency"
                                         value="{{ number_format($aset->harga, 0, ',', '.') }}" />
-                                    <input type="hidden" id="harga_hidden" name="harga" value="{{ $aset->harga }}">
+                                    <input type="hidden" id="harga_aset_hidden" name="harga"
+                                        value="{{ $aset->harga }}">
                                 </div>
                             </div>
                         </div>
@@ -191,7 +192,7 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="pt_pembeban">PT Pembeban</label>
-                                    <select id="select" name="pt_pembeban" required>
+                                    <select id="select" name="pt_pembeban">
                                         <option value="">Pilih Opsi...</option>
                                         <option value="PT Armindo Langgeng Sejahtera"
                                             {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Armindo Langgeng Sejahtera' ? 'selected' : '' }}>
@@ -248,9 +249,6 @@
                                             {{ old('pt_pembeban', $aset->pt_pembeban) == 'Lainnya' ? 'selected' : '' }}>
                                             Lainnya</option>
                                     </select>
-                                    @error('pt_pembeban')
-                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
-                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -259,10 +257,7 @@
                                 <div class="dx-form-group">
                                     <label for="user_aset">User</label>
                                     <input type="text" id="user_aset" name="user_aset" placeholder="Nama User"
-                                        value="{{ old('user_aset', $aset->user_aset) }}" required />
-                                    @error('user_aset')
-                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
-                                    @enderror
+                                        value="{{ old('user_aset', $aset->user_aset) }}" />
                                 </div>
                             </div>
                         </div>
@@ -281,12 +276,12 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="kondisi">Kondisi</label>
-                                    <select id="select" name="kondisi" required>
+                                    <select id="select" name="kondisi">
                                         <option value="">Pilih Opsi...</option>
-                                        <option value="Baik"
-                                            {{ old('kondisi', $aset->kondisi) == 'Baik' ? 'selected' : '' }}>Baik</option>
-                                        <option value="Rusak"
-                                            {{ old('kondisi', $aset->kondisi) == 'Rusak' ? 'selected' : '' }}>Rusak
+                                        <option value="baik"
+                                            {{ old('kondisi', $aset->kondisi) == 'baik' ? 'selected' : '' }}>Baik</option>
+                                        <option value="rusak"
+                                            {{ old('kondisi', $aset->kondisi) == 'rusak' ? 'selected' : '' }}>Rusak
                                         </option>
                                     </select>
                                     @error('kondisi')
@@ -299,13 +294,13 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="status">Status</label>
-                                    <select id="select" name="status" required>
+                                    <select id="select" name="status">
                                         <option value="">Pilih Opsi...</option>
-                                        <option value="Tersedia"
-                                            {{ old('status', $aset->status) == 'Tersedia' ? 'selected' : '' }}>Tersedia
+                                        <option value="tersedia"
+                                            {{ old('status', $aset->status) == 'tersedia' ? 'selected' : '' }}>Tersedia
                                         </option>
-                                        <option value="Dipinjam"
-                                            {{ old('status', $aset->status) == 'Dipinjam' ? 'selected' : '' }}>Dipinjam
+                                        <option value="dipinjam"
+                                            {{ old('status', $aset->status) == 'dipinjam' ? 'selected' : '' }}>Dipinjam
                                         </option>
                                     </select>
                                     @error('status')
@@ -345,7 +340,7 @@
                     <div class="row mb-10">
                         <div class="col d-flex gap-2 justify-content-center">
                             <button type="submit" class="dx-btn dx-btn-primary">Update</button>
-                            <a href="{{ route('aset.index', $aset->id) }}" class="dx-btn dx-btn-secondary">Batal</a>
+                            <a href="{{ route('aset.index') }}" class="dx-btn dx-btn-secondary">Batal</a>
                         </div>
                     </div>
                 </form>

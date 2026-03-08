@@ -1,10 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\AsetController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\StokBarangController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     Route::redirect('/', '/login');
@@ -29,20 +30,30 @@ Route::middleware('auth')->group(function () {
     ->name('users.hapus');
 
     //* Permissions
-    Route::get('/users/hak-akses', [PermissionController::class, 'index'])->name('users.hak_akses');
-    Route::post('/users/hak-akses/update', [PermissionController::class, 'update'])->name('users.hak_akses.update');
+    Route::get('/users/hak-akses', [PermissionController::class, 'index'])->name('users.hak-akses');
+    Route::post('/users/hak-akses/update', [PermissionController::class, 'update'])->name('users.hak-akses.update');
 
     //* Aset
     Route::get('/aset', [AsetController::class, 'index'])->name('aset.index');
-    Route::get('/aset/tambah',[AsetController::class, 'tambah'])->middleware('permission:Inventory,tambah')
+    Route::get('/aset/tambah',[AsetController::class, 'tambah'])->middleware('permission:Inventori,tambah')
     ->name('aset.tambah');
-    Route::post('/aset', [AsetController::class, 'simpan'])->middleware('permission:Inventory,tambah')->name('aset.simpan');
+    Route::post('/aset', [AsetController::class, 'simpan'])->middleware('permission:Inventori,tambah')->name('aset.simpan');
     Route::get('/aset/{id}', [AsetController::class, 'detail'])->name('aset.detail');
-    Route::get('/aset/{id}/ubah', [AsetController::class, 'ubah'])->middleware('permission:Inventory,ubah')->name('aset.ubah');
-    Route::put('/aset/{id}', [AsetController::class, 'update'])->middleware('permission:Inventory,ubah')
+    Route::get('/aset/{id}/ubah', [AsetController::class, 'ubah'])->middleware('permission:Inventori,ubah')->name('aset.ubah');
+    Route::put('/aset/{id}', [AsetController::class, 'update'])->middleware('permission:Inventori,ubah')
     ->name('aset.update');
-    Route::delete('/aset/{id}', [AsetController::class, 'hapus'])->middleware('permission:Inventory,hapus')
+    Route::delete('/aset/{id}', [AsetController::class, 'hapus'])->middleware('permission:Inventori,hapus')
     ->name('aset.hapus');
+
+    //* Stok Barang
+    // Route::prefix('stok-barang')->group(function () {
+    Route::get('/stok', [StokBarangController::class, 'index'])->name('stok.index');
+    Route::get('/stok/tambah',[StokBarangController::class, 'tambah'])->middleware('permission:Stok,tambah')->name('stok.tambah');
+    Route::post('/stok',[StokBarangController::class, 'simpan']) ->middleware('permission:Stok,tambah')->name('stok.simpan');
+    Route::get('/stok/{id}/ubah', [StokBarangController::class, 'ubah'])->middleware('permission:Stok,ubah')->name('stok.ubah');
+    Route::put('/stok/{id}', [StokBarangController::class, 'update'])->middleware('permission:Stok,ubah')->name('stok.update');
+    Route::delete('/stok/{id}', [StokBarangController::class, 'hapus'])->middleware('permission:Stok,hapus')->name('stok.hapus');
+    // });
 
     // Tes route
     // Route::view('/aset/ubah', 'aset.ubah')->name('aset.ubah');

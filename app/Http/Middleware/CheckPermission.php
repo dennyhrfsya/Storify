@@ -23,6 +23,9 @@ class CheckPermission
             ->where('module', $module)
             ->first();
 
+        // Debugging: Cek apakah data ditemukan
+        // dd($role, $module, $action, $perm);
+
         if (!$perm || !$perm->$action) {
             return response()->view('errors.403', [
                 'action' => $action,

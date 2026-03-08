@@ -35,7 +35,7 @@
                         @if ($perm && $perm->tambah)
                             <a href="{{ route('users.tambah') }}" class="dx-btn dx-btn-primary">Tambah</a>
                         @endif
-                        <a href="{{ route('users.hak_akses') }}" class="dx-btn dx-btn-warning">Hak Akses</a>
+                        <a href="{{ route('users.hak-akses') }}" class="dx-btn dx-btn-warning">Hak Akses</a>
                     </div>
                     <div class="col-8 col-md-5 order-2 ms-auto">
                         <form method="GET" action="{{ route('users.index') }}"
@@ -80,7 +80,7 @@
                                                     data-bs-target="#deleteUserModal{{ $user->id }}"
                                                     class="dx-badge dx-badge-danger">Hapus</a>
                                             @endif
-                                            @include('users.partials.delete_modal_user', [
+                                            @include('users.partials.delete-modal-user', [
                                                 'user' => $user,
                                             ])
 

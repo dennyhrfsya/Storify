@@ -2,7 +2,8 @@
 @section('title', 'Users - Hak Akses')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" id="permissions-container" data-url="{{ route('users.hak-akses.update') }}"
+        data-csrf="{{ csrf_token() }}">
 
         <div class="row mx-auto">
             <div class="col">
@@ -81,3 +82,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/permission.js') }}"></script>
+@endpush

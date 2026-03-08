@@ -1,10 +1,10 @@
 @php
     $perm = \App\Models\Permission::where('role', Auth::user()->role)
-        ->where('module', 'Inventori')
+        ->where('module', 'Stok')
         ->first();
 @endphp
 @extends('layouts.admin')
-@section('title', 'Aset')
+@section('title', 'Stok Barang')
 
 @section('content')
     <div class="container-fluid">
@@ -26,18 +26,17 @@
                     </div>
                 @endif
 
-                <h3 class="dx-table-title dx-with-border dx-table-text-left">Aset</h3>
-                <p>Halaman untuk data <strong>Aset</strong></p>
+                <h3 class="dx-table-title dx-with-border dx-table-text-left">Stok Barang</h3>
+                <p>Halaman untuk data <strong>Stok</strong></p>
 
                 <div class="row mb-2">
                     <div class="col-4 col-md-2 order-1">
                         @if ($perm && $perm->tambah)
-                            <a href="{{ route('aset.tambah') }}" class="dx-btn dx-btn-primary">Tambah</a>
+                            <a href="{{ route('stok.tambah') }}" class="dx-btn dx-btn-primary">Tambah</a>
                         @endif
                     </div>
                     <div class="col-8 col-md-5 order-2 ms-auto">
-                        <form method="GET" action="{{ route('aset.index') }}"
-                            class="d-flex justify-content-end align-items-center">
+                        <form method="GET" action="#" class="d-flex justify-content-end align-items-center">
                             <div class="dx-form-wrapper w-50 me-2">
                                 <input type="text" class="dx-form-input-src" name="search"
                                     placeholder="Ketik di sini..." aria-label="Search" value="{{ request('search') }}">
@@ -57,40 +56,49 @@
                                     <th scope="col" class="align-middle">No</th>
                                     <th scope="col" class="align-middle dx-sortable">Kode Barang</th>
                                     <th scope="col" class="align-middle dx-sortable">Nama Barang</th>
-                                    <th scope="col" class="align-middle">Kategori</th>
                                     <th scope="col" class="align-middle">Tanggal Pembelian</th>
                                     <th scope="col" class="align-middle">PT Pembeban</th>
-                                    <th scope="col" class="align-middle">Nama User</th>
-                                    <th scope="col" class="align-middle">Kondisi</th>
-                                    <th scope="col" class="align-middle">Status</th>
+                                    <th scope="col" class="align-middle">Satuan</th>
+                                    <th scope="col" class="align-middle">Stok</th>
+                                    <th scope="col" class="align-middle">Harga Satuan</th>
+                                    <th scope="col" class="align-middle">Harga Total</th>
                                     <th scope="col" class="align-middle">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($asets as $aset)
+                                @forelse($stoks as $stok)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td><a href="{{ route('aset.detail', $aset->id) }}"
-                                                class="dx-text-biru dx-font-bold">{{ $aset->kode_barang }}</a></td>
-                                        <td>{{ $aset->nama_barang }}</td>
-                                        <td>{{ $aset->kategori }}</td>
-                                        <td>{{ $aset->tanggal_pembelian ? $aset->tanggal_pembelian->format('d-m-Y') : '-' }}
+                                        <td>{{ $stok->kode_barang }}</td>
+                                        <td>{{ $stok->nama_barang }}</td>
+                                        <td>{{ $stok->tanggal_pembelian ? $stok->tanggal_pembelian->format('d-m-Y') : '-' }}
                                         </td>
-                                        <td>{{ $aset->pt_pembeban }}</td>
-                                        <td>{{ $aset->user_aset }}</td>
-                                        <td>{{ ucfirst($aset->kondisi) }}</td>
-                                        <td>{{ ucfirst($aset->status) }}</td>
+                                        <td>{{ $stok->pt_pembeban }}</td>
+                                        <td>{{ $stok->satuan }}</td>
                                         <td>
-                                            @if ($perm && $perm->ubah)
-                                                <a href="{{ route('aset.ubah', $aset->id) }}"
-                                                    class="dx-badge dx-badge-primary">Ubah</a>
+                                            @if ($stok->stok_saat_ini <= 5)
+                                                <span class="dx-badge dx-no-cursor dx-badge-warning">Low :
+                                                    {{ $stok->stok_saat_ini }}</span>
+                                            @else
+                                                <span
+                                                    class="dx-badge dx-no-cursor dx-badge-success">{{ $stok->stok_saat_ini }}</span>
                                             @endif
-                                            @if ($perm && $perm->hapus)
-                                                <a href="#deleteAsetModal{{ $aset->id }}" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteAsetModal{{ $aset->id }}"
-                                                    class="dx-badge dx-badge-danger">Hapus</a>
-                                            @endif
-                                            @include('aset.partials.delete-modal-aset', ['aset' => $aset])
+                                        </td>
+                                        <td>Rp {{ number_format($stok->harga_satuan, 0, ',', '.') }}</td>
+                                        <td>Rp {{ number_format($stok->harga_total, 0, ',', '.') }}</td>
+                                        <td>
+                                            {{-- @if ($perm && $perm->ubah) --}}
+                                            <a href="{{ route('stok.ubah', $stok->id) }}"
+                                                class="dx-badge dx-badge-primary">Ubah</a>
+                                            {{-- @endif --}}
+                                            {{-- @if ($perm && $perm->hapus) --}}
+                                            <a href="#deleteStokModal{{ $stok->id }}" data-bs-toggle="modal"
+                                                data-bs-target="#deleteStokModal{{ $stok->id }}"
+                                                class="dx-badge dx-badge-danger">Hapus</a>
+                                            {{-- @endif --}}
+                                            @include('stok_barang.partials.delete-modal-stok', [
+                                                'stok' => $stok,
+                                            ])
                                         </td>
                                     </tr>
                                 @empty
@@ -116,11 +124,11 @@
                         <div class="dx-pagination-wrapper d-flex justify-content-between align-items-center px-2">
                             <div class="dx-pagination-info dx-text-abu-abu-gelap">
                                 <small style="letter-spacing: 0.5px;">Menampilkan
-                                    <strong>{{ $asets->firstItem() }} - {{ $asets->lastItem() }}</strong>
-                                    dari <strong>{{ $asets->total() }}</strong> data</small>
+                                    <strong>{{ $stoks->firstItem() }} - {{ $stoks->lastItem() }}</strong>
+                                    dari <strong>{{ $stoks->total() }}</strong> data</small>
                             </div>
 
-                            {{ $asets->links('aset.partials.pagination') }}
+                            {{ $stoks->links('stok_barang.partials.pagination') }}
 
                         </div>
                     </div>

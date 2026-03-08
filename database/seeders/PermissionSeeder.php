@@ -14,7 +14,8 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         // Hak akses default untuk admin
-        $modules = ['User', 'Inventory'];
+        // $modules = ['User', 'Inventory'];
+        $modules = ['Stok'];
 
         foreach ($modules as $module) {
             Permission::create([

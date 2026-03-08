@@ -1,0 +1,105 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\StokBarang;
+use Illuminate\Http\Request;
+
+class StokBarangController extends Controller
+{
+    public function index(Request $request)
+    {
+        $query = StokBarang::latest();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function($q) use ($search) {
+                $q->where('nama_barang', 'like', "%{$search}%")
+                ->orWhere('kode_barang', 'like', "%{$search}%");
+            });
+        }
+
+        $stoks = $query->paginate(5);
+        return view('stok_barang.index', compact('stoks'));
+    }
+
+    public function tambah()
+    {
+        return view('stok_barang.tambah');
+    }
+
+    public function simpan(Request $request)
+    {
+        $request->validate([
+            'kode_barang'       => 'required|unique:stok_barang,kode_barang|max:50',
+            'nama_barang'       => 'required|string|max:255',
+            'tanggal_pembelian' => 'required|date',
+            'pt_pembeban'       => 'required|string|max:100',
+            'satuan'            => 'required|string|max:20',
+            'stok_saat_ini'     => 'required|numeric|min:0',
+            'harga_satuan'      => 'required|numeric|min:0',
+        ], [
+            'kode_barang.unique' => 'Kode barang sudah ada, gunakan kode lain.',
+        ]);
+
+        // 2. Hitung Harga Total (Safety Check di Server)
+        // Kita ambil harga_satuan murni dari request (yang dikirim lewat hidden field)
+        $stok = $request->stok_saat_ini;
+        $hargaSatuan = $request->harga_satuan;
+        $hargaTotal = $stok * $hargaSatuan;
+
+        StokBarang::create([
+            'kode_barang'       => $request->kode_barang,
+            'nama_barang'       => $request->nama_barang,
+            'tanggal_pembelian' => $request->tanggal_pembelian,
+            'pt_pembeban'       => $request->pt_pembeban,
+            'satuan'            => $request->satuan,
+            'stok_saat_ini'     => $stok,
+            'harga_satuan'      => $hargaSatuan,
+            'harga_total'       => $hargaTotal, // Hasil hitungan server
+        ]);
+
+        return redirect()->route('stok.index')
+                         ->with('success', 'Stok baru berhasil di <strong>Tambah</strong>');
+    }
+
+    public function ubah($id)
+    {
+        $stok = StokBarang::findOrFail($id);
+        return view('stok_barang.ubah', compact('stok'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $stok = StokBarang::findOrFail($id);
+
+        $request->validate([
+            'kode_barang'       => 'required|max:50|unique:stok_barang,kode_barang,' . $id,
+            'nama_barang'       => 'required|string|max:255',
+            'stok_saat_ini'     => 'required|numeric|min:0',
+            'harga_satuan'      => 'required|numeric|min:0',
+        ],[
+            'kode_barang.unique' => 'Kode barang sudah ada, gunakan kode lain.',
+        ]);
+
+        // Kalkulasi Ulang
+        $total = $request->stok_saat_ini * $request->harga_satuan;
+
+        $stok->update(array_merge($request->all(), [
+            'harga_total' => $total
+        ]));
+
+        return redirect()->route('stok.index')
+                        ->with('success', 'Data stok berhasil di <strong>Ubah</strong>');
+    }
+
+    public function hapus($id)
+    {
+        $stok = StokBarang::findOrFail($id);
+        $stok->delete();
+
+        return redirect()->route('stok.index')
+                        ->with('success', 'Data stok berhasil di <strong>Hapus</strong>');
+    }
+}

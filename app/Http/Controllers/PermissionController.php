@@ -10,7 +10,7 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::all();
-        return view('users.hak_akses', compact('permissions'));
+        return view('users.hak-akses', compact('permissions'));
     }
 
     /**

@@ -67,10 +67,10 @@
                                     <span class="d-block">Lokasi <strong>{{ $aset->lokasi }}</strong></span>
                                 </div>
                                 <div class="col-md-6 mb-2">
-                                    <span class="d-block">Kondisi <strong>{{ $aset->kondisi }}</strong></span>
+                                    <span class="d-block">Kondisi <strong>{{ ucfirst($aset->kondisi) }}</strong></span>
                                 </div>
                                 <div class="col-md-6 mb-2">
-                                    <span class="d-block">Status <strong>{{ $aset->status }}</strong></span>
+                                    <span class="d-block">Status <strong>{{ ucfirst($aset->status) }}</strong></span>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <div class="mb-2">

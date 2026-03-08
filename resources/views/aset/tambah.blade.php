@@ -19,7 +19,7 @@
                                 <div class="dx-form-group">
                                     <label for="kode_barang">Kode Barang</label>
                                     <input type="text" id="kode_barang" name="kode_barang" placeholder="Kode Barang"
-                                        value="" required />
+                                        value="" />
                                     @error('kode_barang')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
@@ -31,7 +31,7 @@
                                 <div class="dx-form-group">
                                     <label for="nama_barang">Nama Barang</label>
                                     <input type="text" id="nama_barang" name="nama_barang" placeholder="Nama Barang"
-                                        value="" required />
+                                        value="" />
                                     @error('nama_barang')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
@@ -42,7 +42,7 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="kategori">Kategori</label>
-                                    <select id="select" name="kategori" required>
+                                    <select id="select" name="kategori">
                                         <option value="">Pilih Opsi...</option>
                                         <option value="Laptop">Laptop</option>
                                         <option value="Monitor">Monitor</option>
@@ -135,9 +135,8 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="harga">Harga</label>
-                                    <input type="text" id="harga" name="harga_display" placeholder="Harga"
-                                        value="" />
-                                    <input type="hidden" id="harga_hidden" name="harga">
+                                    <input type="text" id="harga" class="input-currency" />
+                                    <input type="hidden" id="harga_aset_hidden" name="harga">
                                 </div>
                             </div>
                         </div>
@@ -145,7 +144,7 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="pt_pembeban">PT Pembeban</label>
-                                    <select id="select" name="pt_pembeban" required>
+                                    <select id="select" name="pt_pembeban">
                                         <option value="">Pilih Opsi...</option>
                                         <option value="PT Armindo Langgeng Sejahtera">PT Armindo Langgeng Sejahtera
                                         </option>
@@ -178,10 +177,7 @@
                                 <div class="dx-form-group">
                                     <label for="user_aset">User</label>
                                     <input type="text" id="user_aset" name="user_aset" placeholder="Nama User"
-                                        value="" required />
-                                    @error('user_aset')
-                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
-                                    @enderror
+                                        value="" />
                                 </div>
                             </div>
                         </div>
@@ -200,10 +196,10 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="kondisi">Kondisi</label>
-                                    <select id="select" name="kondisi" required>
+                                    <select id="select" name="kondisi">
                                         <option value="">Pilih Opsi...</option>
-                                        <option value="Baik">Baik</option>
-                                        <option value="Rusak">Rusak</option>
+                                        <option value="baik">Baik</option>
+                                        <option value="rusak">Rusak</option>
                                     </select>
                                     @error('kondisi')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
@@ -215,10 +211,10 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="status">Status</label>
-                                    <select id="select" name="status" required>
+                                    <select id="select" name="status">
                                         <option value="">Pilih Opsi...</option>
-                                        <option value="Tersedia">Tersedia</option>
-                                        <option value="Dipinjam">Dipinjam</option>
+                                        <option value="tersedia">Tersedia</option>
+                                        <option value="dipinjam">Dipinjam</option>
                                     </select>
                                     @error('status')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
@@ -249,7 +245,7 @@
                     <div class="row mb-10 text-center">
                         <div class="col d-flex gap-2 justify-content-center">
                             <button type="submit" class="dx-btn dx-btn-primary">Simpan</button>
-                            <button type="reset" class="dx-btn dx-btn-secondary">Reset</button>
+                            <a href="{{ route('aset.index') }}" class="dx-btn dx-btn-secondary">Batal</a>
                         </div>
                     </div>
                 </form>

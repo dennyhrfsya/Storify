@@ -48,15 +48,6 @@ class AsetController extends Controller
     {
         // dd($request->all());
 
-        // Jika request memiliki input 'harga_display'
-        if($request->has('harga_display')){
-            // Bersihkan input harga_display dari karakter non-numeric (misalnya titik, koma, Rp)
-            $harga_bersih = preg_replace('/[^0-9]/', '', $request->harga_display);
-
-            // Gabungkan hasil bersih ke dalam request sebagai field 'harga'
-            $request->merge(['harga' => $harga_bersih]);
-        }
-
         // Validasi data yang dikirim dari form
         $validated = $request->validate([
             'kode_barang' => 'required|string|max:50|unique:aset,kode_barang', // wajib unik
@@ -69,16 +60,15 @@ class AsetController extends Controller
             'kuantitas' => 'nullable|integer|min:0',
             'harga' => 'nullable|numeric|min:0',
             'pt_pembeban' => 'required|string|max:150',
-            'user_aset' => 'required|string|max:150',
+            'user_aset' => 'nullable|string|max:150',
             'lokasi' => 'nullable|string|max:255',
-            'kondisi' => 'required|in:Baik,Rusak',
+            'kondisi' => 'required|in:baik,rusak',
             'keterangan' => 'nullable|string',
-            'status' => 'required|in:Tersedia,Dipinjam',
+            'status' => 'required|in:tersedia,dipinjam',
             'bukti_tanda_terima' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ],[
             // Pesan error custom
-            'kode_barang.unique' => 'Kode barang sudah terdaftar oleh aset lain.',
-            'kode_barang.required' => 'Kode barang tidak boleh kosong.',
+            'kode_barang.unique' => 'Kode barang sudah ada, gunakan kode lain.'
         ]);
 
         // Jika ada file bukti tanda terima diupload
@@ -165,21 +155,20 @@ class AsetController extends Controller
             'kategori' => 'required|string|max:100',
             'merk' => 'nullable|string|max:150',
             'nomor_seri' => 'nullable|string|max:100',
-            'tanggal_pembelian' => 'required|date',
+            'tanggal_pembelian' => 'nullable|date',
             'tanggal_garansi' => 'nullable|date',
             'kuantitas' => 'nullable|integer|min:0',
-            'harga' => 'required|numeric',
+            'harga' => 'nullable|numeric',
             'pt_pembeban' => 'nullable|string|max:150',
             'user_aset' => 'nullable|string|max:150',
             'lokasi' => 'nullable|string|max:255',
-            'kondisi' => 'required|in:Baik,Rusak',
+            'kondisi' => 'required|in:baik,rusak',
             'keterangan' => 'nullable|string',
-            'status' => 'required|in:Tersedia,Dipinjam',
+            'status' => 'required|in:tersedia,dipinjam',
             'bukti_tanda_terima' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ],[
             // Pesan error custom
-            'kode_barang.unique' => 'Kode barang sudah terdaftar oleh aset lain.',
-            'kode_barang.required' => 'Kode barang tidak boleh kosong.',
+            'kode_barang.unique' => 'Kode barang sudah ada, gunakan kode lain.',
         ]);
 
         // Jika ada file bukti tanda terima diupload
