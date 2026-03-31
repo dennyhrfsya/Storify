@@ -24,11 +24,13 @@ class Aset extends Model
         'harga',
         'pt_pembeban',
         'user_aset',
+        'departemen',
         'lokasi',
+        'grade_barang',
         'kondisi',
         'keterangan',
         'status',
-        'bukti_tanda_terima',
+        'upload_bukti_aset',
     ];
 
     // Casting field ke tipe data tertentu agar otomatis dikonversi saat diakses

@@ -10,7 +10,6 @@ class TransaksiSeeder extends Seeder
 {
     public function run(): void
     {
-        // Ambil barang pertama (MacBook)
         $barang1 = StokBarang::where('kode_barang', 'BRG-2026-001')->first();
 
         Transaksi::create([

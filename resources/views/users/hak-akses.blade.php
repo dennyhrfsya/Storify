@@ -81,8 +81,7 @@
             </div>
         </div>
     </div>
+    @push('scripts')
+        <script src="{{ asset('js/permission.js') }}"></script>
+    @endpush
 @endsection
-
-@push('scripts')
-    <script src="{{ asset('js/permission.js') }}"></script>
-@endpush

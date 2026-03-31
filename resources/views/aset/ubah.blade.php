@@ -14,7 +14,7 @@
                 <form method="POST" action="{{ route('aset.update', $aset->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
-                    <div class="row">
+                    <div class="row mb-4">
                         <div class="col-12 col-lg-4">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
@@ -43,77 +43,58 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="kategori">Kategori</label>
-                                    <select id="select" name="kategori">
+                                    @php
+                                        $daftarKategori = [
+                                            'Laptop',
+                                            'Monitor',
+                                            'Server',
+                                            'Printer',
+                                            'Keyboard',
+                                            'PC Desktop',
+                                            'CCTV',
+                                            'Proyektor',
+                                            'Scanner',
+                                            'Hardisk',
+                                            'Modem',
+                                            'Router',
+                                            'Access Point',
+                                            'Switch',
+                                            'Range Extender',
+                                            'Webcam',
+                                            'Speaker',
+                                            'Paper Shredder',
+                                        ];
+
+                                        $nilaiDb = old('kategori', $aset->kategori);
+                                        $isLainnya = !empty($nilaiDb) && !in_array($nilaiDb, $daftarKategori);
+                                    @endphp
+
+                                    <select id="select" name="kategori" class="select2-js js-select-single">
                                         <option value="">Pilih Opsi...</option>
-                                        <option value="Laptop"
-                                            {{ old('kategori', $aset->kategori) == 'Laptop' ? 'selected' : '' }}>Laptop
-                                        </option>
-                                        <option value="Monitor"
-                                            {{ old('kategori', $aset->kategori) == 'Monitor' ? 'selected' : '' }}>Monitor
-                                        </option>
-                                        <option value="Server"
-                                            {{ old('kategori', $aset->kategori) == 'Server' ? 'selected' : '' }}>Server
-                                        </option>
-                                        <option value="Printer"
-                                            {{ old('kategori', $aset->kategori) == 'Printer' ? 'selected' : '' }}>Printer
-                                        </option>
-                                        <option value="Keyboard"
-                                            {{ old('kategori', $aset->kategori) == 'Keyboard' ? 'selected' : '' }}>Keyboard
-                                        </option>
-                                        <option value="PC Desktop"
-                                            {{ old('kategori', $aset->kategori) == 'PC Desktop' ? 'selected' : '' }}>PC
-                                            Desktop</option>
-                                        <option value="CCTV"
-                                            {{ old('kategori', $aset->kategori) == 'CCTV' ? 'selected' : '' }}>CCTV
-                                        </option>
-                                        <option value="Proyektor"
-                                            {{ old('kategori', $aset->kategori) == 'Proyektor' ? 'selected' : '' }}>
-                                            Proyektor
-                                        </option>
-                                        <option value="Scanner"
-                                            {{ old('kategori', $aset->kategori) == 'Scanner' ? 'selected' : '' }}>Scanner
-                                        </option>
-                                        <option value="Hardisk"
-                                            {{ old('kategori', $aset->kategori) == 'Hardisk' ? 'selected' : '' }}>Hardisk
-                                        </option>
-                                        <option value="Modem"
-                                            {{ old('kategori', $aset->kategori) == 'Modem' ? 'selected' : '' }}>Modem
-                                        </option>
-                                        <option value="Router"
-                                            {{ old('kategori', $aset->kategori) == 'Router' ? 'selected' : '' }}>Router
-                                        </option>
-                                        <option value="Access Point"
-                                            {{ old('kategori', $aset->kategori) == 'Access Point' ? 'selected' : '' }}>
-                                            Access Point</option>
-                                        <option value="Switch"
-                                            {{ old('kategori', $aset->kategori) == 'Switch' ? 'selected' : '' }}>Switch
-                                        </option>
-                                        <option value="Range Extender"
-                                            {{ old('kategori', $aset->kategori) == 'Range Extender' ? 'selected' : '' }}>
-                                            Range
-                                            Extender</option>
-                                        <option value="Webcam"
-                                            {{ old('kategori', $aset->kategori) == 'Webcam' ? 'selected' : '' }}>Webcam
-                                        </option>
-                                        <option value="Speaker"
-                                            {{ old('kategori', $aset->kategori) == 'Speaker' ? 'selected' : '' }}>Speaker
-                                        </option>
-                                        <option value="Paper Shredder"
-                                            {{ old('kategori', $aset->kategori) == 'Paper Shredder' ? 'selected' : '' }}>
-                                            Paper Shredder
-                                        </option>
-                                        <option value="Lainnya"
-                                            {{ old('kategori', $aset->kategori) == 'Lainnya' ? 'selected' : '' }}>Lainnya
+                                        @foreach ($daftarKategori as $item)
+                                            <option value="{{ $item }}" {{ $nilaiDb == $item ? 'selected' : '' }}>
+                                                {{ $item }}
+                                            </option>
+                                        @endforeach
+
+                                        <option value="Lainnya" {{ $isLainnya || $nilaiDb == 'Lainnya' ? 'selected' : '' }}>
+                                            Lainnya
                                         </option>
                                     </select>
+
+                                    <div class="js-container-lainnya mt-2"
+                                        style="{{ $isLainnya || $nilaiDb == 'Lainnya' ? '' : 'display:none' }}">
+                                        <input type="text" name="kategori_lainnya" class="js-input-lainnya"
+                                            value="{{ $isLainnya ? $nilaiDb : '' }}"
+                                            placeholder="Masukkan kategori lainnya...">
+                                    </div>
+
                                     @error('kategori')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-12 col-lg-3">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
@@ -140,7 +121,7 @@
                                             <label for="tanggal_pembelian">Tanggal Pembelian</label>
                                             <div class="dx-input-wrapper">
                                                 <input type="date" id="tanggal" name="tanggal_pembelian"
-                                                    value="{{ old('tanggal_pembelian', $aset->tanggal_pembelian ? \Carbon\Carbon::parse($aset->tanggal_pembelian)->toDateString() : '') }}"
+                                                    value="{{ old('tanggal_pembelian', \Carbon\Carbon::parse($aset->tanggal_pembelian)->format('Y-m-d')) }}"
                                                     placeholder="Pilih tanggal" />
                                                 <span class="dx-icon">
                                                     <img src="{{ asset('images/icon-calendar.svg') }}" alt="ava calendar"
@@ -154,7 +135,7 @@
                                             <label for="tanggal_garansi">Tanggal Garansi</label>
                                             <div class="dx-input-wrapper">
                                                 <input type="date" id="tanggal" name="tanggal_garansi"
-                                                    value="{{ old('tanggal_garansi', $aset->tanggal_garansi ? \Carbon\Carbon::parse($aset->tanggal_garansi)->toDateString() : '') }}"
+                                                    value="{{ old('tanggal_garansi', \Carbon\Carbon::parse($aset->tanggal_garansi)->format('Y-m-d')) }}"
                                                     placeholder="Pilih tanggal" />
                                                 <span class="dx-icon">
                                                     <img src="{{ asset('images/icon-calendar.svg') }}" alt="ava calendar"
@@ -166,8 +147,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-6 col-lg-2">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
@@ -192,87 +171,81 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="pt_pembeban">PT Pembeban</label>
-                                    <select id="select" name="pt_pembeban">
+                                    @php
+                                        // Daftar PT standar yang kamu miliki
+                                        $pilihanPTPembeban = [
+                                            'PT Armindo Langgeng Sejahtera',
+                                            'PT Bumi Hardana Sakti',
+                                            'PT Cipta Arta Hadikara',
+                                            'PT Global Sekuriti Indonesia',
+                                            'PT Mitrel Berkat Utama',
+                                            'PT Mulia Indonesia Muda',
+                                            'PT Sinar Perdana Teknologi',
+                                            'PT Sada Usaha Niaga',
+                                            'PT Turangga Pranadita',
+                                            'PT Wecanindo Global Jaya',
+                                            'PT Sinar Digital Teknologi',
+                                            'PT Dwireka Cakra Buana',
+                                            'PT Anagata Arsa Utama',
+                                            'PT Kawan Usaha Sejahtera',
+                                            'PT Jaya Selaras Mutu',
+                                            'PT Nawa Sena Utama',
+                                            'PT Dapur Pulau Rasa',
+                                        ];
+
+                                        $nilaiDbPT = old('pt_pembeban', $aset->pt_pembeban);
+                                        // Cek apakah data di DB adalah hasil input manual (tidak ada di daftar standar)
+                                        $isPTLainnya = !empty($nilaiDbPT) && !in_array($nilaiDbPT, $pilihanPTPembeban);
+                                    @endphp
+
+                                    <select id="select_pt" name="pt_pembeban" class="select2-js js-select-single">
                                         <option value="">Pilih Opsi...</option>
-                                        <option value="PT Armindo Langgeng Sejahtera"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Armindo Langgeng Sejahtera' ? 'selected' : '' }}>
-                                            PT Armindo Langgeng Sejahtera</option>
-                                        <option value="PT Bumi Hardana Sakti"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Bumi Hardana Sakti' ? 'selected' : '' }}>
-                                            PT Bumi Hardana Sakti</option>
-                                        <option value="PT Cipta Arta Hadikara"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Cipta Arta Hadikara' ? 'selected' : '' }}>
-                                            PT Cipta Arta Hadikara</option>
-                                        <option value="PT Global Sekuriti Indonesia"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Global Sekuriti Indonesia' ? 'selected' : '' }}>
-                                            PT Global Sekuriti Indonesia</option>
-                                        <option value="PT Mitrel Berkat Utama"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Mitrel Berkat Utama' ? 'selected' : '' }}>
-                                            PT Mitrel Berkat Utama</option>
-                                        <option value="PT Mulia Indonesia Muda"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Mulia Indonesia Muda' ? 'selected' : '' }}>
-                                            PT Mulia Indonesia Muda</option>
-                                        <option value="PT Sinar Perdana Teknologi"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Sinar Perdana Teknologi' ? 'selected' : '' }}>
-                                            PT Sinar Perdana Teknologi</option>
-                                        <option value="PT Sada Usaha Niaga"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Sada Usaha Niaga' ? 'selected' : '' }}>
-                                            PT Sada Usaha Niaga</option>
-                                        <option value="PT Turangga Pranadita"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Turangga Pranadita' ? 'selected' : '' }}>
-                                            PT Turangga Pranadita</option>
-                                        <option value="PT Wecanindo Global Jaya"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Wecanindo Global Jaya' ? 'selected' : '' }}>
-                                            PT Wecanindo Global Jaya</option>
-                                        <option value="PT Sinar Digital Teknologi"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Sinar Digital Teknologi' ? 'selected' : '' }}>
-                                            PT Sinar Digital Teknologi</option>
-                                        <option value="PT Dwireka Cakra Buana"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Dwireka Cakra Buana' ? 'selected' : '' }}>
-                                            PT Dwireka Cakra Buana</option>
-                                        <option value="PT Anagata Arsa Utama"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Anagata Arsa Utama' ? 'selected' : '' }}>
-                                            PT Anagata Arsa Utama</option>
-                                        <option value="PT Kawan Usaha Sejahtera"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Kawan Usaha Sejahtera' ? 'selected' : '' }}>
-                                            PT Kawan Usaha Sejahtera</option>
-                                        <option value="PT Jaya Selaras Mutu"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Jaya Selaras Mutu' ? 'selected' : '' }}>
-                                            PT Jaya Selaras Mutu</option>
-                                        <option value="PT Nawa Sena Utama"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Nawa Sena Utama' ? 'selected' : '' }}>
-                                            PT Nawa Sena Utama</option>
-                                        <option value="PT Dapur Pulau Rasa"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'PT Dapur Pulau Rasa' ? 'selected' : '' }}>
-                                            PT Dapur Pulau Rasa</option>
+                                        @foreach ($pilihanPTPembeban as $pt)
+                                            <option value="{{ $pt }}"
+                                                {{ $nilaiDbPT == $pt ? 'selected' : '' }}>
+                                                {{ $pt }}
+                                            </option>
+                                        @endforeach
+
                                         <option value="Lainnya"
-                                            {{ old('pt_pembeban', $aset->pt_pembeban) == 'Lainnya' ? 'selected' : '' }}>
-                                            Lainnya</option>
+                                            {{ $isPTLainnya || $nilaiDbPT == 'Lainnya' ? 'selected' : '' }}>
+                                            Lainnya
+                                        </option>
                                     </select>
+
+                                    <div class="js-container-lainnya mt-2"
+                                        style="{{ $isPTLainnya || $nilaiDbPT == 'Lainnya' ? '' : 'display:none' }}">
+                                        <input type="text" name="pt_pembeban_lainnya" class="js-input-lainnya"
+                                            value="{{ $isPTLainnya ? $nilaiDbPT : '' }}"
+                                            placeholder="Masukkan Nama PT lainnya...">
+                                    </div>
+
+                                    @error('pt_pembeban')
+                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-4">
+                        <div class="col-6 col-lg-2">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
-                                    <label for="user_aset">User</label>
-                                    <input type="text" id="user_aset" name="user_aset" placeholder="Nama User"
-                                        value="{{ old('user_aset', $aset->user_aset) }}" />
+                                    <label for="grade_barang">Grade Barang</label>
+                                    <select id="select" name="grade_barang">
+                                        <option value="">Pilih Opsi...</option>
+                                        <option value="baru"
+                                            {{ old('grade_barang', $aset->grade_barang) == 'baru' ? 'selected' : '' }}>Baru
+                                        </option>
+                                        <option value="bekas"
+                                            {{ old('grade_barang', $aset->grade_barang) == 'bekas' ? 'selected' : '' }}>
+                                            Bekas</option>
+                                    </select>
+                                    @error('grade_barang')
+                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-lg-6">
-                            <div class="dx-form-control-full">
-                                <div class="dx-form-group">
-                                    <label for="lokasi">Lokasi</label>
-                                    <input type="text" id="lokasi" name="lokasi" placeholder="Lokasi barang"
-                                        value="{{ old('lokasi', $aset->lokasi) }}" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-lg-3">
+                        <div class="col-12 col-lg-2">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="kondisi">Kondisi</label>
@@ -293,38 +266,102 @@
                         <div class="col-6 col-lg-3">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
-                                    <label for="status">Status</label>
-                                    <select id="select" name="status">
-                                        <option value="">Pilih Opsi...</option>
-                                        <option value="tersedia"
-                                            {{ old('status', $aset->status) == 'tersedia' ? 'selected' : '' }}>Tersedia
-                                        </option>
-                                        <option value="dipinjam"
-                                            {{ old('status', $aset->status) == 'dipinjam' ? 'selected' : '' }}>Dipinjam
-                                        </option>
-                                    </select>
-                                    @error('status')
-                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
-                                    @enderror
+                                    <label for="user_aset">User</label>
+                                    <input type="text" class="dx-input-disable" id="user_aset" name="user_aset"
+                                        placeholder="Nama User" value="{{ old('user_aset', $aset->user_aset) }}"
+                                        readonly />
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
+                        <div class="col-6 col-lg-3">
+                            <div class="dx-form-control-full">
+                                <div class="dx-form-group">
+                                    <label for="departemen">Departemen</label>
+                                    <input type="text" class="dx-input-disable" id="departemen" name="departemen"
+                                        placeholder="Departemen" value="{{ old('departemen', $aset->departemen) }}"
+                                        readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <div class="dx-form-control-full">
+                                <div class="dx-form-group">
+                                    <label for="lokasi">Lokasi</label>
+                                    <input type="text" class="dx-input-disable" id="lokasi" name="lokasi"
+                                        placeholder="Lokasi barang" value="{{ old('lokasi', $aset->lokasi) }}"
+                                        readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <div class="dx-form-control-full">
+                                <div class="dx-form-group">
+                                    <label for="status">Status</label>
+                                    <div id="statusWrapper" style="cursor: help;">
+                                        <select id="select" class="dx-select-disable" readonly tabindex="-1">
+                                            <option value="tersedia" {{ $aset->status == 'tersedia' ? 'selected' : '' }}>
+                                                Tersedia</option>
+                                            <option value="dipinjam" {{ $aset->status == 'dipinjam' ? 'selected' : '' }}>
+                                                Dipinjam</option>
+                                            <option value="permanen" {{ $aset->status == 'permanen' ? 'selected' : '' }}>
+                                                Permanen</option>
+                                        </select>
+                                    </div>
+
+                                    <input type="hidden" name="status" value="{{ $aset->status }}">
+
+                                    <div id="msg-lock" class="dx-text-merah dx-text-xs dx-margin-bottom-0"
+                                        style="display: none;">
+                                        <i class="bi bi-lock"></i> Kolom Terkunci. Hubungi Admin untuk perubahan.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-12 col-md-4">
                             <div class="dx-form-control m-0">
                                 <div class="dx-form-group">
-                                    <label for="bukti_tanda_terima" class="form-label">Bukti Tanda Terima</label>
+                                    <label for="upload_bukti_aset">Upload Bukti Aset</label>
 
-                                    @if ($aset->bukti_tanda_terima)
-                                        <div class="mb-2">
-                                            <img src="{{ asset('storage/' . $aset->bukti_tanda_terima) }}"
-                                                alt="Bukti Tanda Terima" class="img-thumbnail" style="max-width: 200px;">
+                                    @if ($aset->upload_bukti_aset)
+                                        @php
+                                            $extension = strtolower(
+                                                pathinfo($aset->upload_bukti_aset, PATHINFO_EXTENSION),
+                                            );
+                                        @endphp
+
+                                        <div class="mb-3">
+                                            @if (in_array($extension, ['jpg', 'jpeg', 'png']))
+                                                <a href="{{ asset('storage/' . $aset->upload_bukti_aset) }}"
+                                                    target="_blank">
+                                                    <img src="{{ asset('storage/' . $aset->upload_bukti_aset) }}"
+                                                        alt="Bukti Aset" class="img-thumbnail"
+                                                        style="max-width: 300px; cursor: pointer;"
+                                                        title="Klik untuk memperbesar">
+                                                </a>
+                                            @elseif ($extension === 'pdf')
+                                                <small class="dx-text-xs dx-font-bold dx-text-abu-abu-gelap">Dokumen
+                                                    PDF</small>
+                                                <a href="{{ asset('storage/' . $aset->upload_bukti_aset) }}"
+                                                    target="_blank" class="dx-badge dx-badge-danger">
+                                                    Lihat Dokumen PDF
+                                                </a>
+                                            @endif
                                         </div>
+                                    @else
+                                        <span class="dx-text-merah dx-text-sm">Tidak ada
+                                            bukti</span>
                                     @endif
 
-                                    <input type="file" id="fileinput" name="bukti_tanda_terima"
+                                    {{-- Input File Baru --}}
+                                    <input type="file" id="fileinput" name="upload_bukti_aset"
                                         accept=".jpg,.jpeg,.png,.pdf" />
+
+                                    <div class="dx-text-xs dx-text-abu-abu-gelap dx-py-1">
+                                        Format yang didukung: JPG, PNG, PDF. Maksimal 2MB.
+                                    </div>
+                                    @error('upload_bukti_aset')
+                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -347,4 +384,8 @@
             </div>
         </div>
     </div>
+    @push('scripts')
+        <script src="{{ asset('js/ubah-aset.js') }}"></script>
+        <script src="{{ asset('js/single-select.js') }}"></script>
+    @endpush
 @endsection

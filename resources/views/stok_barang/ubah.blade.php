@@ -19,8 +19,8 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="kode_barang">Kode Barang</label>
-                                    <input type="text" id="kode_barang" name="kode_barang" placeholder="Kode Barang"
-                                        value="{{ old('kode_barang', $stok->kode_barang) }}" />
+                                    <input type="text" class="dx-font-bold dx-input-disable" id="kode_barang"
+                                        name="kode_barang" value="{{ old('kode_barang', $stok->kode_barang) }}" readonly />
                                     @error('kode_barang')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
@@ -39,16 +39,14 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-6">
+                        <div class="col-12">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="tanggal_pembelian">Tanggal Pembelian</label>
                                     <div class="dx-input-wrapper">
                                         <input type="date" id="tanggal" name="tanggal_pembelian"
                                             placeholder="Pilih tanggal"
-                                            value="{{ old('tanggal_pembelian', $stok->tanggal_pembelian ? \Carbon\Carbon::parse($stok->tanggal_pembelian)->toDateString() : '') }}" />
+                                            value="{{ old('tanggal_pembelian', \Carbon\Carbon::parse($stok->tanggal_pembelian)->format('Y-m-d')) }}" />
                                         <span class="dx-icon">
                                             <img src="{{ asset('images/icon-calendar.svg') }}" alt="ava calendar"
                                                 class="dx-h-6 dx-ml-4"></a>
@@ -57,91 +55,101 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6">
+                        <div class="col-6">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="pt_pembeban">PT Pembeban</label>
-                                    <select id="select" name="pt_pembeban">
+                                    @php
+                                        // Daftar PT standar yang kamu miliki
+                                        $pilihanPTPembeban = [
+                                            'PT Armindo Langgeng Sejahtera',
+                                            'PT Bumi Hardana Sakti',
+                                            'PT Cipta Arta Hadikara',
+                                            'PT Global Sekuriti Indonesia',
+                                            'PT Mitrel Berkat Utama',
+                                            'PT Mulia Indonesia Muda',
+                                            'PT Sinar Perdana Teknologi',
+                                            'PT Sada Usaha Niaga',
+                                            'PT Turangga Pranadita',
+                                            'PT Wecanindo Global Jaya',
+                                            'PT Sinar Digital Teknologi',
+                                            'PT Dwireka Cakra Buana',
+                                            'PT Anagata Arsa Utama',
+                                            'PT Kawan Usaha Sejahtera',
+                                            'PT Jaya Selaras Mutu',
+                                            'PT Nawa Sena Utama',
+                                            'PT Dapur Pulau Rasa',
+                                        ];
+
+                                        $nilaiDbPT = old('pt_pembeban', $stok->pt_pembeban);
+                                        // Cek apakah data di DB adalah hasil input manual (tidak ada di daftar standar)
+                                        $isPTLainnya = !empty($nilaiDbPT) && !in_array($nilaiDbPT, $pilihanPTPembeban);
+                                    @endphp
+
+                                    <select id="select_pt" name="pt_pembeban" class="select2-js js-select-single">
                                         <option value="">Pilih Opsi...</option>
-                                        <option value="PT Armindo Langgeng Sejahtera"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Armindo Langgeng Sejahtera' ? 'selected' : '' }}>
-                                            PT Armindo Langgeng Sejahtera</option>
-                                        <option value="PT Bumi Hardana Sakti"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Bumi Hardana Sakti' ? 'selected' : '' }}>
-                                            PT Bumi Hardana Sakti</option>
-                                        <option value="PT Cipta Arta Hadikara"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Cipta Arta Hadikara' ? 'selected' : '' }}>
-                                            PT Cipta Arta Hadikara</option>
-                                        <option value="PT Global Sekuriti Indonesia"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Global Sekuriti Indonesia' ? 'selected' : '' }}>
-                                            PT Global Sekuriti Indonesia</option>
-                                        <option value="PT Mitrel Berkat Utama"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Mitrel Berkat Utama' ? 'selected' : '' }}>
-                                            PT Mitrel Berkat Utama</option>
-                                        <option value="PT Mulia Indonesia Muda"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Mulia Indonesia Muda' ? 'selected' : '' }}>
-                                            PT Mulia Indonesia Muda</option>
-                                        <option value="PT Sinar Perdana Teknologi"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Sinar Perdana Teknologi' ? 'selected' : '' }}>
-                                            PT Sinar Perdana Teknologi</option>
-                                        <option value="PT Sada Usaha Niaga"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Sada Usaha Niaga' ? 'selected' : '' }}>
-                                            PT Sada Usaha Niaga</option>
-                                        <option value="PT Turangga Pranadita"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Turangga Pranadita' ? 'selected' : '' }}>
-                                            PT Turangga Pranadita</option>
-                                        <option value="PT Wecanindo Global Jaya"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Wecanindo Global Jaya' ? 'selected' : '' }}>
-                                            PT Wecanindo Global Jaya</option>
-                                        <option value="PT Sinar Digital Teknologi"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Sinar Digital Teknologi' ? 'selected' : '' }}>
-                                            PT Sinar Digital Teknologi</option>
-                                        <option value="PT Dwireka Cakra Buana"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Dwireka Cakra Buana' ? 'selected' : '' }}>
-                                            PT Dwireka Cakra Buana</option>
-                                        <option value="PT Anagata Arsa Utama"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Anagata Arsa Utama' ? 'selected' : '' }}>
-                                            PT Anagata Arsa Utama</option>
-                                        <option value="PT Kawan Usaha Sejahtera"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Kawan Usaha Sejahtera' ? 'selected' : '' }}>
-                                            PT Kawan Usaha Sejahtera</option>
-                                        <option value="PT Jaya Selaras Mutu"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Jaya Selaras Mutu' ? 'selected' : '' }}>
-                                            PT Jaya Selaras Mutu</option>
-                                        <option value="PT Nawa Sena Utama"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Nawa Sena Utama' ? 'selected' : '' }}>
-                                            PT Nawa Sena Utama</option>
-                                        <option value="PT Dapur Pulau Rasa"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'PT Dapur Pulau Rasa' ? 'selected' : '' }}>
-                                            PT Dapur Pulau Rasa</option>
+                                        @foreach ($pilihanPTPembeban as $pt)
+                                            <option value="{{ $pt }}" {{ $nilaiDbPT == $pt ? 'selected' : '' }}>
+                                                {{ $pt }}
+                                            </option>
+                                        @endforeach
+
                                         <option value="Lainnya"
-                                            {{ old('pt_pembeban', $stok->pt_pembeban) == 'Lainnya' ? 'selected' : '' }}>
-                                            Lainnya</option>
+                                            {{ $isPTLainnya || $nilaiDbPT == 'Lainnya' ? 'selected' : '' }}>
+                                            Lainnya
+                                        </option>
                                     </select>
+
+                                    <div class="js-container-lainnya mt-2"
+                                        style="{{ $isPTLainnya || $nilaiDbPT == 'Lainnya' ? '' : 'display:none' }}">
+                                        <input type="text" name="pt_pembeban_lainnya" class="js-input-lainnya"
+                                            value="{{ $isPTLainnya ? $nilaiDbPT : '' }}"
+                                            placeholder="Masukkan Nama PT lainnya...">
+                                    </div>
+
                                     @error('pt_pembeban')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
+                        <div class="col-6">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="satuan">Satuan</label>
-                                    <select id="select" name="satuan">
+                                    @php
+                                        $pilihanSatuan = ['Unit', 'Pieces', 'Box', 'Set', 'Meter', 'Roll', 'Pack'];
+
+                                        $nilaiDbSatuan = old('satuan', $stok->satuan);
+                                        $isSatuanLainnya =
+                                            !empty($nilaiDbSatuan) && !in_array($nilaiDbSatuan, $pilihanSatuan);
+                                    @endphp
+
+                                    <select id="select_satuan" name="satuan" class="select2-js js-select-single">
                                         <option value="">Pilih Opsi...</option>
-                                        <option value="Unit"
-                                            {{ old('satuan', $stok->satuan) == 'Unit' ? 'selected' : '' }}>Unit</option>
-                                        <option value="Pcs"
-                                            {{ old('satuan', $stok->satuan) == 'Pcs' ? 'selected' : '' }}>Pcs</option>
-                                        <option value="Box"
-                                            {{ old('satuan', $stok->satuan) == 'Box' ? 'selected' : '' }}>Box</option>
+                                        @foreach ($pilihanSatuan as $st)
+                                            <option value="{{ $st }}"
+                                                {{ $nilaiDbSatuan == $st ? 'selected' : '' }}>
+                                                {{ $st }}
+                                            </option>
+                                        @endforeach
+
                                         <option value="Lainnya"
-                                            {{ old('satuan', $stok->satuan) == 'Lainnya' ? 'selected' : '' }}>Lainnya
+                                            {{ $isSatuanLainnya || $nilaiDbSatuan == 'Lainnya' ? 'selected' : '' }}>
+                                            Lainnya
                                         </option>
                                     </select>
+
+                                    <div class="js-container-lainnya mt-2"
+                                        style="{{ $isSatuanLainnya || $nilaiDbSatuan == 'Lainnya' ? '' : 'display:none' }}">
+                                        <input type="text" name="satuan_lainnya" class="js-input-lainnya"
+                                            value="{{ $isSatuanLainnya ? $nilaiDbSatuan : '' }}"
+                                            placeholder="Masukkan Satuan lainnya...">
+                                    </div>
+
+                                    @error('satuan')
+                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -149,7 +157,7 @@
 
                     <hr class="my-4">
 
-                    <div class="row">
+                    <div class="row mb-4">
                         <div class="col-6">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
@@ -176,9 +184,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col">
+                        <div class="col-12">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="harga">Harga Total</label>
@@ -198,8 +204,8 @@
             </div>
         </div>
     </div>
+    @push('scripts')
+        <script src="{{ asset('js/stok-total-harga.js') }}"></script>
+        <script src="{{ asset('js/single-select.js') }}"></script>
+    @endpush
 @endsection
-
-@push('scripts')
-    <script src="{{ asset('js/stok-total-harga.js') }}"></script>
-@endpush

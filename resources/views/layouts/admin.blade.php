@@ -24,6 +24,9 @@
 
     <!-- Link flatpickr -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- Link Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -59,6 +62,10 @@
     <script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js"
         data-cf-settings="65818a07c709d4a0ee7047e0-|49" defer=""></script>
 
+    <!-- JS Select2 and jQuery untuk Select2 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
     <!-- Javascript Customs -->
     @stack('scripts')
     <script type="text/javascript" src="{{ asset('js/admin.js') }}"></script>
@@ -67,7 +74,10 @@
     <script>
         flatpickr("#tanggal", {
             disableMobile: "true",
-            dateFormat: "d-m-Y"
+            dateFormat: "Y-m-d", // Format yang dikirim ke database
+            altInput: true, // Menampilkan input bayangan untuk user
+            altFormat: "d-m-Y", // Format yang dilihat user (Indonesia)
+            altInputClass: "flatpicker-input active",
         });
     </script>
 

@@ -51,7 +51,7 @@
 
                         <div class="d-flex gap-2 justify-content-center">
                             <button type="submit" class="dx-btn dx-btn-primary w-25">Update</button>
-                            <a href="{{ route('users.index', $user->id) }}" class="dx-btn dx-btn-secondary w-25">Batal</a>
+                            <a href="{{ route('users.index') }}" class="dx-btn dx-btn-secondary w-25">Batal</a>
                         </div>
                     </div>
                 </form>

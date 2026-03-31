@@ -3,8 +3,12 @@
         ->get()
         ->keyBy('module');
     $isInventoriActive =
-        request()->routeIs('aset.*') || request()->routeIs('peminjaman.*') || request()->routeIs('pengembalian.*');
-    $isStokActive = request()->routeIs('stok.*') || request()->routeIs('transaksi.*');
+        request()->routeIs('aset.*') ||
+        request()->routeIs('peminjaman.*') ||
+        request()->routeIs('pengembalian.*') ||
+        request()->routeIs('report.peminjaman-pengembalian*');
+    $isStokActive =
+        request()->routeIs('stok.*') || request()->routeIs('transaksi.*') || request()->routeIs('report.transaksi*');
 @endphp
 
 <!-- Sidebar atau Navigasi-->
@@ -47,8 +51,22 @@
                             <a href="{{ route('aset.index') }}"
                                 class="dx-sub-link {{ request()->routeIs('aset.*') ? 'active' : '' }}">Data Master</a>
                         </li>
-                        <li><a href="#" class="dx-sub-link">Peminjaman</a></li>
-                        <li><a href="#" class="dx-sub-link">Pengembalian</a></li>
+                        @if ($permissions['Peminjaman']?->all)
+                            <li>
+                                <a href="{{ route('peminjaman.index') }}"
+                                    class="dx-sub-link {{ request()->routeIs('peminjaman.*') ? 'active' : '' }}">Peminjaman</a>
+                            </li>
+                        @endif
+                        @if ($permissions['Pengembalian']?->all)
+                            <li><a href="{{ route('pengembalian.index') }}"
+                                    class="dx-sub-link {{ request()->routeIs('pengembalian.*') ? 'active' : '' }}">Pengembalian</a>
+                            </li>
+                        @endif
+                        @if ($permissions['Report Peminjaman Pengembalian']?->all)
+                            <li><a href="{{ route('report.peminjaman-pengembalian') }}"
+                                    class="dx-sub-link {{ request()->routeIs('report.peminjaman-pengembalian*') ? 'active' : '' }}">Report</a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </li>
@@ -70,10 +88,16 @@
                             <a href="{{ route('stok.index') }}"
                                 class="dx-sub-link {{ request()->routeIs('stok.*') ? 'active' : '' }}">Data Master</a>
                         </li>
-                        <li><a href="{{ route('transaksi.index') }}"
-                                class="dx-sub-link {{ request()->routeIs('transaksi.*') ? 'active' : '' }}">Transaksi</a>
-                        </li>
-                        <li><a href="#" class="dx-sub-link">Report</a></li>
+                        @if ($permissions['Transaksi']?->all)
+                            <li><a href="{{ route('transaksi.index') }}"
+                                    class="dx-sub-link {{ request()->routeIs('transaksi.*') ? 'active' : '' }}">Transaksi</a>
+                            </li>
+                        @endif
+                        @if ($permissions['Report Transaksi']?->all)
+                            <li><a href="{{ route('report.transaksi') }}"
+                                    class="dx-sub-link {{ request()->routeIs('report.transaksi*') ? 'active' : '' }}">Report</a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </li>
@@ -81,7 +105,7 @@
     </ul>
 </aside>
 
-<!-- Navigasi untuk Hp -->
+<!-- Navigasi Mobile Phone -->
 <nav class="position-fixed bottom-0 w-100 bg-white dx-px-4 dx-z-50 dx-sidebar-ht">
     <ul class="h-100 d-flex justify-content-between align-items-center mb-0 list-unstyled">
         <li>
@@ -112,8 +136,18 @@
                 <div class="dx-mobile-dropdown">
                     <a href="{{ route('aset.index') }}"
                         class="{{ request()->routeIs('aset.*') ? 'active' : '' }}">Data Master</a>
-                    <a href="#">Peminjaman</a>
-                    <a href="#">Pengembalian</a>
+                    @if ($permissions['Peminjaman']?->all)
+                        <a href="{{ route('peminjaman.index') }}"
+                            class="{{ request()->routeIs('peminjaman.*') ? 'active' : '' }}">Peminjaman</a>
+                    @endif
+                    @if ($permissions['Pengembalian']?->all)
+                        <a href="{{ route('pengembalian.index') }}"
+                            class="{{ request()->routeIs('pengembalian.*') ? 'active' : '' }}">Pengembalian</a>
+                    @endif
+                    @if ($permissions['Report Peminjaman Pengembalian']?->all)
+                        <a href="{{ route('report.peminjaman-pengembalian') }}"
+                            class="{{ request()->routeIs('report.peminjaman-pengembalian*') ? 'active' : '' }}">Report</a>
+                    @endif
                 </div>
             </li>
         @endif
@@ -127,8 +161,14 @@
                 <div class="dx-mobile-dropdown dx-dropdown-right">
                     <a href="{{ route('stok.index') }}"
                         class="{{ request()->routeIs('stok.*') ? 'active' : '' }}">Data Master</a>
-                    <a href="#">Transaksi</a>
-                    <a href="#">Report</a>
+                    @if ($permissions['Transaksi']?->all)
+                        <a href="{{ route('transaksi.index') }}"
+                            class="{{ request()->routeIs('transaksi.*') ? 'active' : '' }}">Transaksi</a>
+                    @endif
+                    @if ($permissions['Report Transaksi']?->all)
+                        <a href="{{ route('report.transaksi') }}"
+                            class="{{ request()->routeIs('report.transaksi*') ? 'active' : '' }}">Report</a>
+                    @endif
                 </div>
             </li>
         @endif

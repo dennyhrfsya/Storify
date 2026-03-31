@@ -32,7 +32,7 @@ class AsetController extends Controller
         }
 
         // Eksekusi query dengan pagination, tampilkan 5 data per halaman
-        $asets = $query->paginate(5);
+        $asets = $query->paginate(10)->withQueryString();
 
         // Kirim data hasil query ke view 'aset.index'
         return view('aset.index', compact('asets'));
@@ -48,6 +48,21 @@ class AsetController extends Controller
     {
         // dd($request->all());
 
+        // 1. Logika Penggabungan Input Manual "Lainnya"
+        // 1. Untuk Kategori
+        if ($request->kategori === 'Lainnya') {
+            $request->merge([
+                'kategori' => trim($request->kategori_lainnya)
+            ]);
+        }
+
+        // 2. Untuk PT Pembeban
+        if ($request->pt_pembeban === 'Lainnya') {
+            $request->merge([
+                'pt_pembeban' => trim($request->pt_pembeban_lainnya)
+            ]);
+        }
+
         // Validasi data yang dikirim dari form
         $validated = $request->validate([
             'kode_barang' => 'required|string|max:50|unique:aset,kode_barang', // wajib unik
@@ -61,23 +76,27 @@ class AsetController extends Controller
             'harga' => 'nullable|numeric|min:0',
             'pt_pembeban' => 'required|string|max:150',
             'user_aset' => 'nullable|string|max:150',
+            'departemen' => 'nullable|string|max:255',
             'lokasi' => 'nullable|string|max:255',
+            'grade_barang' => 'required|string|max:100',
             'kondisi' => 'required|in:baik,rusak',
             'keterangan' => 'nullable|string',
             'status' => 'required|in:tersedia,dipinjam',
-            'bukti_tanda_terima' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'upload_bukti_aset' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ],[
             // Pesan error custom
-            'kode_barang.unique' => 'Kode barang sudah ada, gunakan kode lain.'
+            'kode_barang.unique' => 'Kode barang sudah ada, gunakan kode lain.',
+            'upload_bukti_aset.mimes' => 'Format file harus berupa JPEG, PNG, JPG, atau PDF.',
+            'upload_bukti_aset.max' => 'Ukuran file maksimal adalah 2MB.',
         ]);
 
         // Jika ada file bukti tanda terima diupload
-        if ($request->hasFile('bukti_tanda_terima')) {
-            // Simpan file ke folder 'bukti_tanda_terima' di storage/public
-            $path = $request->file('bukti_tanda_terima')->store('bukti_tanda_terima', 'public');
+        if ($request->hasFile('upload_bukti_aset')) {
+            // Simpan file ke folder 'upload_bukti_aset' di storage/public
+            $path = $request->file('upload_bukti_aset')->store('upload_bukti_aset', 'public');
 
             // Masukkan path file ke dalam data yang divalidasi
-            $validated['bukti_tanda_terima'] = $path;
+            $validated['upload_bukti_aset'] = $path;
         }
 
         // Simpan data aset baru ke database
@@ -89,7 +108,7 @@ class AsetController extends Controller
 
         // Redirect ke halaman index aset dengan pesan sukses
         return redirect()->route('aset.index')
-                        ->with('success', 'Aset baru berhasil di <strong>Tambah</strong>');
+                        ->with('success', 'Aset baru berhasil <strong>Ditambah</strong>');
     }
 
     public function detail(string $id)
@@ -148,6 +167,14 @@ class AsetController extends Controller
         // Cari data aset berdasarkan ID, jika tidak ditemukan akan throw 404
         $aset = Aset::findOrFail($id);
 
+        if ($request->kategori === 'Lainnya') {
+        $request->merge(['kategori' => trim($request->kategori_lainnya)]);
+        }
+
+        if ($request->pt_pembeban === 'Lainnya') {
+            $request->merge(['pt_pembeban' => trim($request->pt_pembeban_lainnya)]);
+        }
+
         // Validasi data yang dikirim dari form edit
         $validated = $request->validate([
             'kode_barang' => 'required|string|max:50|unique:aset,kode_barang,' . $id, // wajib unik, kecuali untuk aset yang sedang diupdate
@@ -161,23 +188,30 @@ class AsetController extends Controller
             'harga' => 'nullable|numeric',
             'pt_pembeban' => 'nullable|string|max:150',
             'user_aset' => 'nullable|string|max:150',
+            'departemen' => 'nullable|string|max:255',
             'lokasi' => 'nullable|string|max:255',
+            'grade_barang' => 'required|string|max:100',
             'kondisi' => 'required|in:baik,rusak',
             'keterangan' => 'nullable|string',
-            'status' => 'required|in:tersedia,dipinjam',
-            'bukti_tanda_terima' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'status' => 'required|in:tersedia,dipinjam,permanen',
+            'upload_bukti_aset' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ],[
             // Pesan error custom
             'kode_barang.unique' => 'Kode barang sudah ada, gunakan kode lain.',
+            'upload_bukti_aset.mimes' => 'Format file harus berupa JPEG, PNG, JPG, atau PDF.',
+            'upload_bukti_aset.max' => 'Ukuran file maksimal adalah 2MB.',
         ]);
 
         // Jika ada file bukti tanda terima diupload
-        if ($request->hasFile('bukti_tanda_terima')) {
+        if ($request->hasFile('upload_bukti_aset')) {
+            if ($aset->upload_bukti_aset && Storage::disk('public')->exists($aset->upload_bukti_aset)) {
+                Storage::disk('public')->delete($aset->upload_bukti_aset);
+            }
             // Simpan file ke folder 'bukti' di storage/public
-            $path = $request->file('bukti_tanda_terima')->store('bukti_tanda_terima', 'public');
+            $path = $request->file('upload_bukti_aset')->store('upload_bukti_aset', 'public');
 
             // Masukkan path file ke dalam data yang divalidasi
-            $validated['bukti_tanda_terima'] = $path;
+            $validated['upload_bukti_aset'] = $path;
         }
 
         // Update data aset dengan data yang sudah divalidasi
@@ -185,7 +219,7 @@ class AsetController extends Controller
 
         // Redirect ke halaman index aset dengan pesan sukses
         return redirect()->route('aset.index', $aset->id)
-                        ->with('success', 'Data aset berhasil di <strong>Ubah</strong>');
+                        ->with('success', 'Data aset berhasil <strong>Diubah</strong>');
     }
 
     public function hapus(string $id)
@@ -193,15 +227,15 @@ class AsetController extends Controller
         // Cari data aset berdasarkan ID, jika tidak ditemukan akan throw 404
         $aset = Aset::findOrFail($id);
 
-        // Jika aset memiliki file bukti tanda terima, hapus dari storage
-        if ($aset->bukti_tanda_terima) {
-            Storage::disk('public')->delete($aset->bukti_tanda_terima);
+        // Jika aset memiliki file upload_bukti_aset, hapus dari storage
+        if ($aset->upload_bukti_aset) {
+            Storage::disk('public')->delete($aset->upload_bukti_aset);
         }
 
         // Hapus data aset dari database
         $aset->delete();
 
         // Redirect kembali ke halaman sebelumnya dengan pesan sukses
-        return redirect()->back()->with('success', 'Data aset berhasil di <strong>Hapus</strong>');
+        return redirect()->back()->with('success', 'Data aset berhasil <strong>Dihapus</strong>');
     }
 }

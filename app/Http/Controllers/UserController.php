@@ -20,7 +20,7 @@ class UserController extends Controller
             });
         }
 
-        $users = $query->paginate(5);
+        $users = $query->paginate(5)->withQueryString();
 
         return view('users.index', compact('users'));
     }
@@ -39,18 +39,15 @@ class UserController extends Controller
         ],
         [
             'name.required' => 'Nama wajib diisi.',
-        ]
-        );
-
-        // Simpan user baru ke database
-        User::create([
-            'name'     => $validated['name'],     // Nama user dari hasil validasi
-            'email'    => $validated['email'],    // Email user dari hasil validasi
-            'password' => bcrypt($validated['password']), // Password di-hash dengan bcrypt agar aman
-            'role'     => 'user',                 // Set default role sebagai 'user'
         ]);
 
-        // dd($data);
+        User::create([
+            'name'     => $validated['name'],
+            'email'    => $validated['email'],
+            'password' => bcrypt($validated['password']),
+            'role'     => 'user',
+        ]);
+
         return redirect()->route('users.index')
                          ->with('success', 'User baru berhasil di <strong>Tambah</strong>');
     }
@@ -72,17 +69,15 @@ class UserController extends Controller
             'role'     => 'required|string',
         ]);
 
-        // Update field dasar user dari hasil validasi
-        $user->name  = $validated['name'];   // Nama user
-        $user->email = $validated['email'];  // Email user
-        $user->role  = $validated['role'];   // Role user (misalnya admin/user)
+        $user->name  = $validated['name'];
+        $user->email = $validated['email'];
+        $user->role  = $validated['role'];
 
         // Jika password diisi (tidak kosong), update password dengan hash bcrypt
         if (!empty($validated['password'])) {
             $user->password = bcrypt($validated['password']);
         }
 
-        // Simpan perubahan ke database
         $user->save();
 
         return redirect()->route('users.index')

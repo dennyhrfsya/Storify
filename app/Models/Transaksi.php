@@ -17,15 +17,16 @@ class Transaksi extends Model
         'nama_user',
         'departemen',
         'jumlah',
+        'stok_awal',
+        'stok_akhir',
         'status',
-        'stok_snapshot',
-        'tanggal_transaksi'
+        'tanggal_transaksi',
+        'bukti_transaksi'
     ];
 
     protected $casts = [
         'tanggal_transaksi' => 'datetime',
-        'jumlah' => 'integer',
-        'stok_snapshot' => 'integer',
+        'jumlah' => 'integer'
     ];
 
     /**

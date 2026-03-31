@@ -1,8 +1,8 @@
-{{-- @php
+@php
     $perm = \App\Models\Permission::where('role', Auth::user()->role)
-        ->where('module', 'Stok')
+        ->where('module', 'Transaksi')
         ->first();
-@endphp --}}
+@endphp
 @extends('layouts.admin')
 @section('title', 'Transaksi')
 
@@ -16,7 +16,7 @@
                     <div id="welcomeNotice" class="dx-notice dx-notice-success">
                         <div class="dx-notice-title">Sukses !</div>
                         <div class="dx-notice-icon">
-                            <img src="images/icon-success.png" alt="sukses" class="img-fluid">
+                            <img src="{{ asset('images/icon-success.png') }}" alt="Sukses" class="img-fluid">
                         </div>
                         <div class="row dx-notice-body">
                             <div class="dx-notice-body-text">
@@ -27,19 +27,21 @@
                 @endif
 
                 <h3 class="dx-table-title dx-with-border dx-table-text-left">Transaksi</h3>
-                <p>Halaman untuk data <strong>Riwayat Transaksi Stok</strong></p>
+                <p>Halaman untuk data <strong>Transaksi</strong></p>
 
                 <div class="row mb-2">
                     <div class="col-4 col-md-2 order-1">
-                        {{-- @if ($perm && $perm->tambah)
-                            <a href="{{ route('stok.tambah') }}" class="dx-btn dx-btn-primary">Tambah</a>
-                        @endif --}}
+                        @if ($perm && $perm->tambah)
+                            <a href="{{ route('transaksi.tambah') }}" class="dx-btn dx-btn-primary">Tambah</a>
+                        @endif
                     </div>
                     <div class="col-8 col-md-5 order-2 ms-auto">
-                        <form method="GET" action="#" class="d-flex justify-content-end align-items-center">
+                        <form method="GET" action="{{ route('transaksi.index') }}"
+                            class="d-flex justify-content-end align-items-center">
                             <div class="dx-form-wrapper w-50 me-2">
                                 <input type="text" class="dx-form-input-src" name="search"
-                                    placeholder="Ketik di sini..." aria-label="Search" value="{{ request('search') }}">
+                                    placeholder="Ketik kode, nama barang, atau status..." aria-label="Search"
+                                    value="{{ request('search') }}">
                             </div>
                             <button type="submit" class="dx-btn dx-btn-secondary dx-src-btn">
                                 Cari
@@ -59,39 +61,77 @@
                                     <th scope="col" class="align-middle dx-sortable">User</th>
                                     <th scope="col" class="align-middle">Jumlah</th>
                                     <th scope="col" class="align-middle">Status</th>
-                                    <th scope="col" class="align-middle">Stok Awal / Stok saat itu</th>
-                                    <th scope="col" class="align-middle">Tanggal</th>
+                                    <th scope="col" class="align-middle">Stok Awal</th>
+                                    <th scope="col" class="align-middle">Stok Akhir</th>
+                                    <th scope="col" class="align-middle">Tanggal Transaksi</th>
+                                    <th scope="col" class="align-middle">Bukti</th>
                                     <th scope="col" class="align-middle">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($transaksi as $item)
+                                @forelse($transaksis as $transaksi)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->kode_transaksi }}</td>
-                                        <td>{{ $item->stokBarang->nama_barang }}</td>
-                                        <td><strong>{{ $item->nama_user }}</strong> {{ $item->departemen }} </td>
-                                        <td><strong>{{ $item->jumlah }}</strong> {{ $item->stokBarang->satuan }}
+                                        <td>{{ $transaksi->kode_transaksi }}</td>
+                                        <td>{{ $transaksi->stokBarang->nama_barang }}</td>
+                                        <td><strong>{{ $transaksi->nama_user }}</strong><br>
+                                            {{ $transaksi->departemen }} </td>
+                                        <td><strong>{{ $transaksi->jumlah }}</strong> {{ $transaksi->stokBarang->satuan }}
                                         </td>
                                         <td>
-                                            <span
-                                                class="dx-badge dx-no-cursor {{ $item->status == 'dipinjamkan' ? 'dx-badge-warning' : ($item->status == 'diberikan' ? 'dx-badge-success' : 'dx-badge-danger') }}">
-                                                {{ ucfirst($item->status) }}
+                                            @php
+                                                $badgeClass = match (Str::lower($transaksi->status)) {
+                                                    'dipinjamkan' => 'dx-badge-warning',
+                                                    'diberikan' => 'dx-badge-success',
+                                                    default => 'dx-badge-danger',
+                                                };
+                                            @endphp
+
+                                            <span class="dx-badge dx-no-cursor {{ $badgeClass }}">
+                                                {{ ucfirst($transaksi->status) }}
                                             </span>
                                         </td>
-                                        <td><small class="text-muted">{{ $item->stok_snapshot }}</small></td>
-                                        <td>{{ $item->tanggal_transaksi->format('d-m-Y H:i') }}</td>
+                                        <td><small class="text-muted">{{ $transaksi->stok_awal }}</small></td>
+                                        <td><small class="text-muted">{{ $transaksi->stok_akhir }}</small></td>
+                                        <td>{{ $transaksi->tanggal_transaksi ? $transaksi->tanggal_transaksi->format('d-m-Y') : '-' }}
+                                        </td>
                                         <td>
-                                            {{-- @if ($perm && $perm->ubah) --}}
-                                            <a href="#" class="dx-badge dx-badge-primary">Ubah</a>
-                                            {{-- @endif --}}
-                                            {{-- @if ($perm && $perm->hapus) --}}
-                                            <a href="#deleteStokModal" data-bs-toggle="modal"
-                                                data-bs-target="#deleteStokModal" class="dx-badge dx-badge-danger">Hapus</a>
-                                            {{-- @endif --}}
-                                            {{-- @include('stok_barang.partials.delete-modal-stok', [
-                                                'stok' => $stok,
-                                            ]) --}}
+                                            @if ($transaksi->bukti_transaksi)
+                                                @php
+                                                    $ext = pathinfo($transaksi->bukti_transaksi, PATHINFO_EXTENSION);
+                                                @endphp
+
+                                                @if ($ext == 'pdf')
+                                                    <a href="{{ asset('storage/' . $transaksi->bukti_transaksi) }}"
+                                                        target="_blank" class="dx-text-sm dx-text-merah">
+                                                        <i class="bi bi-file-earmark"></i> PDF
+                                                    </a>
+                                                @else
+                                                    <a href="{{ asset('storage/' . $transaksi->bukti_transaksi) }}"
+                                                        target="_blank">
+                                                        <img src="{{ asset('storage/' . $transaksi->bukti_transaksi) }}"
+                                                            class="rounded-sm object-fit-cover dx-shadow"
+                                                            style="width: 40px; height:40px; cursor:pointer;"
+                                                            title="Klik untuk memperbesar">
+                                                    </a>
+                                                @endif
+                                            @else
+                                                <span>Tidak ada bukti</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($perm && $perm->ubah)
+                                                <a href="{{ route('transaksi.ubah', $transaksi->id) }}"
+                                                    class="dx-badge dx-badge-primary">Ubah</a>
+                                            @endif
+                                            @if ($perm && $perm->hapus)
+                                                <a href="#deleteTransaksiModal{{ $transaksi->id }}" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteTransaksiModal{{ $transaksi->id }}"
+                                                    class="dx-badge dx-badge-danger">Hapus</a>
+                                            @endif
+                                            @include('transaksi.partials.delete-modal-transaksi', [
+                                                'transaksi' => $transaksi,
+                                            ])
                                         </td>
                                     </tr>
                                 @empty
@@ -117,12 +157,17 @@
                         <div class="dx-pagination-wrapper d-flex justify-content-between align-items-center px-2">
                             <div class="dx-pagination-info dx-text-abu-abu-gelap">
                                 <small style="letter-spacing: 0.5px;">Menampilkan
-                                    {{-- <strong>{{ $transaksis->firstItem() }} - {{ $transaksis->lastItem() }}</strong>
-                                    dari <strong>{{ $transaksis->total() }}</strong>  --}}
+                                    <strong>{{ $transaksis->firstItem() }} - {{ $transaksis->lastItem() }}</strong>
+                                    dari <strong>{{ $transaksis->total() }}</strong>
                                     data</small>
+                                <small style="letter-spacing: 0.5px">
+                                    @if (request('search'))
+                                        (Hasil cari: "{{ request('search') }}")
+                                    @endif
+                                </small>
                             </div>
 
-                            {{-- {{ $transaksis->links('stok_barang.partials.pagination') }} --}}
+                            {{ $transaksis->links('transaksi.partials.pagination') }}
 
                         </div>
                     </div>

@@ -32,7 +32,7 @@
         data-cf-settings="5e21a29fae5ef848579f15e8-|49" defer=""></script>
 
     <!-- Javascript Customs -->
-    <script type="text/javascript" src="{{ asset('js/javascript-icon-password.js') }}"></script>
+    @stack('scripts')
 
 </body>
 

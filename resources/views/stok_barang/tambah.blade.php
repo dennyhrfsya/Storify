@@ -18,8 +18,8 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="kode_barang">Kode Barang</label>
-                                    <input type="text" id="kode_barang" name="kode_barang" placeholder="Kode Barang"
-                                        value="" />
+                                    <input type="text" id="kode_barang" class="dx-font-bold dx-input-disable"
+                                        value="{{ $kodeStokOtomatis }}" readonly />
                                     @error('kode_barang')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
@@ -38,15 +38,13 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-6">
+                        <div class="col-12">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="tanggal_pembelian">Tanggal Pembelian</label>
                                     <div class="dx-input-wrapper">
                                         <input type="date" id="tanggal" name="tanggal_pembelian"
-                                            placeholder="Pilih tanggal" />
+                                            value="{{ old('tanggal_pembelian') }}" placeholder="Pilih tanggal" />
                                         <span class="dx-icon">
                                             <img src="{{ asset('images/icon-calendar.svg') }}" alt="ava calendar"
                                                 class="dx-h-6 dx-ml-4"></a>
@@ -55,53 +53,93 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6">
+                        <div class="col-6">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="pt_pembeban">PT Pembeban</label>
-                                    <select id="select" name="pt_pembeban">
+                                    @php
+                                        $pilihanPTPembeban = [
+                                            'PT Armindo Langgeng Sejahtera',
+                                            'PT Bumi Hardana Sakti',
+                                            'PT Cipta Arta Hadikara',
+                                            'PT Global Sekuriti Indonesia',
+                                            'PT Mitrel Berkat Utama',
+                                            'PT Mulia Indonesia Muda',
+                                            'PT Sinar Perdana Teknologi',
+                                            'PT Sada Usaha Niaga',
+                                            'PT Turangga Pranadita',
+                                            'PT Wecanindo Global Jaya',
+                                            'PT Sinar Digital Teknologi',
+                                            'PT Dwireka Cakra Buana',
+                                            'PT Anagata Arsa Utama',
+                                            'PT Kawan Usaha Sejahtera',
+                                            'PT Jaya Selaras Mutu',
+                                            'PT Nawa Sena Utama',
+                                            'PT Dapur Pulau Rasa',
+                                        ];
+
+                                        $oldPT = old('pt_pembeban');
+
+                                        $isLainnya =
+                                            $oldPT == 'Lainnya' ||
+                                            (!empty($oldPT) && !in_array($oldPT, $pilihanPTPembeban));
+                                    @endphp
+
+                                    <select class="select2-js js-select-single" name="pt_pembeban">
                                         <option value="">Pilih Opsi...</option>
-                                        <option value="PT Armindo Langgeng Sejahtera">PT Armindo Langgeng Sejahtera
-                                        </option>
-                                        <option value="PT Bumi Hardana Sakti">PT Bumi Hardana Sakti</option>
-                                        <option value="PT Cipta Arta Hadikara">PT Cipta Arta Hadikara</option>
-                                        <option value="PT Global Sekuriti Indonesia">PT Global Sekuriti Indonesia
-                                        </option>
-                                        <option value="PT Mitrel Berkat Utama">PT Mitrel Berkat Utama</option>
-                                        <option value="PT Mulia Indonesia Muda">PT Mulia Indonesia Muda</option>
-                                        <option value="PT Sinar Perdana Teknologi">PT Sinar Perdana Teknologi</option>
-                                        <option value="PT Sada Usaha Niaga">PT Sada Usaha Niaga</option>
-                                        <option value="PT Turangga Pranadita">PT Turangga Pranadita</option>
-                                        <option value="PT Wecanindo Global Jaya">PT Wecanindo Global Jaya</option>
-                                        <option value="PT Sinar Digital Teknologi">PT Sinar Digital Teknologi</option>
-                                        <option value="PT Dwireka Cakra Buana">PT Dwireka Cakra Buana</option>
-                                        <option value="PT Anagata Arsa Utama">PT Anagata Arsa Utama</option>
-                                        <option value="PT Kawan Usaha Sejahtera">PT Kawan Usaha Sejahtera</option>
-                                        <option value="PT Jaya Selaras Mutu">PT Jaya Selaras Mutu</option>
-                                        <option value="PT Nawa Sena Utama">PT Nawa Sena Utama</option>
-                                        <option value="PT Dapur Pulau Rasa">PT Dapur Pulau Rasa</option>
-                                        <option value="Lainnya">Lainnya</option>
+                                        @foreach ($pilihanPTPembeban as $pt)
+                                            <option value="{{ $pt }}" {{ $oldPT == $pt ? 'selected' : '' }}>
+                                                {{ $pt }}
+                                            </option>
+                                        @endforeach
+                                        <option value="Lainnya" {{ $isLainnya ? 'selected' : '' }}>Lainnya</option>
                                     </select>
+
+                                    <div class="js-container-lainnya mt-2"
+                                        style="{{ $isLainnya ? '' : 'display: none;' }}">
+                                        <input type="text" name="pt_pembeban_lainnya" class="dx-input js-input-lainnya"
+                                            value="{{ !in_array($oldPT, $pilihanPTPembeban) ? $oldPT : '' }}"
+                                            placeholder="Masukkan Nama PT lainnya...">
+                                    </div>
+
                                     @error('pt_pembeban')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
+                        <div class="col-6">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="satuan">Satuan</label>
-                                    <select id="select" name="satuan">
+                                    @php
+                                        $pilihanSatuan = ['Unit', 'Pieces', 'Box', 'Set', 'Meter', 'Roll', 'Pack'];
+
+                                        $oldSatuan = old('satuan');
+
+                                        $isLainnya =
+                                            $oldSatuan == 'Lainnya' ||
+                                            (!empty($oldSatuan) && !in_array($oldSatuan, $pilihanSatuan));
+                                    @endphp
+
+                                    <select class="select2-js js-select-single" name="satuan">
                                         <option value="">Pilih Opsi...</option>
-                                        <option value="Unit">Unit</option>
-                                        <option value="Pcs">Pcs</option>
-                                        <option value="Box">Box</option>
-                                        <option value="Lainnya">Lainnya</option>
+                                        @foreach ($pilihanSatuan as $st)
+                                            <option value="{{ $st }}" {{ $oldSatuan == $st ? 'selected' : '' }}>
+                                                {{ $st }}
+                                            </option>
+                                        @endforeach
+                                        <option value="Lainnya" {{ $isLainnya ? 'selected' : '' }}>Lainnya</option>
                                     </select>
-                                    @error('kategori')
+
+                                    <div class="js-container-lainnya mt-2"
+                                        style="{{ $isLainnya ? '' : 'display: none;' }}">
+                                        <input type="text" name="satuan_lainnya" class="dx-input js-input-lainnya"
+                                            value="{{ !in_array($oldSatuan, $pilihanSatuan) ? $oldSatuan : '' }}"
+                                            placeholder="Masukkan Satuan lainnya...">
+                                    </div>
+
+                                    @error('satuan')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -111,7 +149,7 @@
 
                     <hr class="my-4">
 
-                    <div class="row">
+                    <div class="row mb-4">
                         <div class="col-6">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
@@ -135,9 +173,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col">
+                        <div class="col-12">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="harga">Harga Total</label>
@@ -157,8 +193,8 @@
             </div>
         </div>
     </div>
+    @push('scripts')
+        <script src="{{ asset('js/stok-total-harga.js') }}"></script>
+        <script src="{{ asset('js/single-select.js') }}"></script>
+    @endpush
 @endsection
-
-@push('scripts')
-    <script src="{{ asset('js/stok-total-harga.js') }}"></script>
-@endpush

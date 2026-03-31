@@ -16,7 +16,7 @@
                     <div id="welcomeNotice" class="dx-notice dx-notice-success">
                         <div class="dx-notice-title">Sukses !</div>
                         <div class="dx-notice-icon">
-                            <img src="images/icon-success.png" alt="sukses" class="img-fluid">
+                            <img src="{{ asset('images/icon-success.png') }}" alt="Sukses" class="img-fluid">
                         </div>
                         <div class="row dx-notice-body">
                             <div class="dx-notice-body-text">
@@ -29,21 +29,27 @@
                 <h3 class="dx-table-title dx-with-border dx-table-text-left">Stok Barang</h3>
                 <p>Halaman untuk data <strong>Stok</strong></p>
 
-                <div class="row mb-2">
-                    <div class="col-4 col-md-2 order-1">
+                <div class="row gap-2">
+                    <div class="col-12 col-md-5 order-1">
                         @if ($perm && $perm->tambah)
                             <a href="{{ route('stok.tambah') }}" class="dx-btn dx-btn-primary">Tambah</a>
                         @endif
                     </div>
-                    <div class="col-8 col-md-5 order-2 ms-auto">
-                        <form method="GET" action="#" class="d-flex justify-content-end align-items-center">
-                            <div class="dx-form-wrapper w-50 me-2">
+                    <div class="col-12 col-md-5 order-2 ms-auto">
+                        <form method="GET" action="{{ route('stok.index') }}"
+                            class="d-flex justify-content-end align-items-center gap-2">
+                            <div class="dx-form-wrapper w-100">
                                 <input type="text" class="dx-form-input-src" name="search"
-                                    placeholder="Ketik di sini..." aria-label="Search" value="{{ request('search') }}">
+                                    placeholder="Ketik kode atau nama barang..." aria-label="Search"
+                                    value="{{ request('search') }}">
                             </div>
                             <button type="submit" class="dx-btn dx-btn-secondary dx-src-btn">
                                 Cari
                             </button>
+                            @if (request('search'))
+                                <a href="{{ route('stok.index') }}"
+                                    class="dx-btn dx-btn-primary dx-src-btn text-decoration-none">Reset</a>
+                            @endif
                         </form>
                     </div>
                 </div>
@@ -87,15 +93,15 @@
                                         <td>Rp {{ number_format($stok->harga_satuan, 0, ',', '.') }}</td>
                                         <td>Rp {{ number_format($stok->harga_total, 0, ',', '.') }}</td>
                                         <td>
-                                            {{-- @if ($perm && $perm->ubah) --}}
-                                            <a href="{{ route('stok.ubah', $stok->id) }}"
-                                                class="dx-badge dx-badge-primary">Ubah</a>
-                                            {{-- @endif --}}
-                                            {{-- @if ($perm && $perm->hapus) --}}
-                                            <a href="#deleteStokModal{{ $stok->id }}" data-bs-toggle="modal"
-                                                data-bs-target="#deleteStokModal{{ $stok->id }}"
-                                                class="dx-badge dx-badge-danger">Hapus</a>
-                                            {{-- @endif --}}
+                                            @if ($perm && $perm->ubah)
+                                                <a href="{{ route('stok.ubah', $stok->id) }}"
+                                                    class="dx-badge dx-badge-primary">Ubah</a>
+                                            @endif
+                                            @if ($perm && $perm->hapus)
+                                                <a href="#deleteStokModal{{ $stok->id }}" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteStokModal{{ $stok->id }}"
+                                                    class="dx-badge dx-badge-danger">Hapus</a>
+                                            @endif
                                             @include('stok_barang.partials.delete-modal-stok', [
                                                 'stok' => $stok,
                                             ])
@@ -103,7 +109,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="17">
+                                        <td colspan="10">
                                             <div class="dx-empty-batch text-center">
                                                 <div class="dx-empty-batch-image">
                                                     <img src="{{ asset('images/speech-bubble.png') }}" alt="empty-batch"
@@ -126,6 +132,11 @@
                                 <small style="letter-spacing: 0.5px;">Menampilkan
                                     <strong>{{ $stoks->firstItem() }} - {{ $stoks->lastItem() }}</strong>
                                     dari <strong>{{ $stoks->total() }}</strong> data</small>
+                                <small style="letter-spacing: 0.5px">
+                                    @if (request('search'))
+                                        (Hasil cari: "{{ request('search') }}")
+                                    @endif
+                                </small>
                             </div>
 
                             {{ $stoks->links('stok_barang.partials.pagination') }}

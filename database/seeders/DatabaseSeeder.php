@@ -20,16 +20,12 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        // //* Users
-        // $this->call(UserSeeder::class);
-        // //* Permission
-        $this->call(PermissionSeeder::class);
-        // //* Aset
-        // $this->call(AsetSeeder::class);
-        //* Stok Barang
-        // $this->call([
-        //     StokBarangSeeder::class,
-        //     TransaksiSeeder::class,
-        // ]);
+        $this->call(
+                // UserSeeder::class,
+                // PermissionSeeder::class,
+                AsetSeeder::class,
+                // StokBarangSeeder::class,
+                // TransaksiSeeder::class,
+                );
     }
 }

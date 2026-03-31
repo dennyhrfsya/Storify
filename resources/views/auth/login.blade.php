@@ -62,4 +62,7 @@
         </div>
 
     </div>
+    @push('scripts')
+        <script src="{{ asset('js/javascript-icon-password.js') }}"></script>
+    @endpush
 @endsection

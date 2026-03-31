@@ -9,7 +9,8 @@ class PermissionController extends Controller
 {
     public function index()
     {
-        $permissions = Permission::all();
+        $permissions = Permission::orderByRaw("FIELD(role, 'admin', 'user') ASC")
+                              ->get();
         return view('users.hak-akses', compact('permissions'));
     }
 

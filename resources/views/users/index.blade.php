@@ -17,7 +17,7 @@
                     <div id="welcomeNotice" class="dx-notice dx-notice-success">
                         <div class="dx-notice-title">Sukses !</div>
                         <div class="dx-notice-icon">
-                            <img src="images/icon-success.png" alt="sukses" class="img-fluid">
+                            <img src="{{ asset('images/icon-success.png') }}" alt="Sukses" class="img-fluid">
                         </div>
                         <div class="row dx-notice-body">
                             <div class="dx-notice-body-text">
@@ -30,23 +30,28 @@
                 <h3 class="dx-table-title dx-with-border dx-table-text-left">Users</h3>
                 <p>Halaman untuk data <strong>User</strong></p>
 
-                <div class="row mb-2">
-                    <div class="col-4 col-md-5 order-1">
+                <div class="row gap-2">
+                    <div class="col-12 col-md-5 order-1 d-flex gap-2">
                         @if ($perm && $perm->tambah)
                             <a href="{{ route('users.tambah') }}" class="dx-btn dx-btn-primary">Tambah</a>
                         @endif
                         <a href="{{ route('users.hak-akses') }}" class="dx-btn dx-btn-warning">Hak Akses</a>
                     </div>
-                    <div class="col-8 col-md-5 order-2 ms-auto">
+                    <div class="col-12 col-md-5 order-2 ms-auto">
                         <form method="GET" action="{{ route('users.index') }}"
-                            class="d-flex justify-content-end align-items-center">
-                            <div class="dx-form-wrapper w-50 me-2">
+                            class="d-flex justify-content-end align-items-center gap-2">
+                            <div class="dx-form-wrapper w-100">
                                 <input type="text" class="dx-form-input-src" name="search"
-                                    placeholder="Ketik di sini..." aria-label="Search" value="{{ request('search') }}">
+                                    placeholder="Ketik nama atau role..." aria-label="Search"
+                                    value="{{ request('search') }}">
                             </div>
                             <button type="submit" class="dx-btn dx-btn-secondary dx-src-btn">
                                 Cari
                             </button>
+                            @if (request('search'))
+                                <a href="{{ route('users.index') }}"
+                                    class="dx-btn dx-btn-primary dx-src-btn text-decoration-none">Reset</a>
+                            @endif
                         </form>
                     </div>
                 </div>
@@ -111,6 +116,11 @@
                                 <small style="letter-spacing: 0.5px;">Menampilkan
                                     <strong>{{ $users->firstItem() }} - {{ $users->lastItem() }}</strong>
                                     dari <strong>{{ $users->total() }}</strong> data</small>
+                                <small style="letter-spacing: 0.5px">
+                                    @if (request('search'))
+                                        (Hasil cari: "{{ request('search') }}")
+                                    @endif
+                                </small>
                             </div>
 
                             {{ $users->links('users.partials.pagination') }}

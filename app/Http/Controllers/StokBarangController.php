@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\StokBarang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StokBarangController extends Controller
 {
@@ -20,48 +21,74 @@ class StokBarangController extends Controller
             });
         }
 
-        $stoks = $query->paginate(5);
+        $stoks = $query->paginate(10)->withQueryString();
         return view('stok_barang.index', compact('stoks'));
     }
 
     public function tambah()
     {
-        return view('stok_barang.tambah');
+        $lastId = StokBarang::max('id') ?? 0;
+        $kodeStokOtomatis = 'BRG-' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT);
+
+        return view('stok_barang.tambah', compact('kodeStokOtomatis'));
     }
 
     public function simpan(Request $request)
     {
+        if ($request->pt_pembeban === 'Lainnya') {
+            $request->merge([
+                'pt_pembeban' => trim($request->pt_pembeban_lainnya)
+            ]);
+        }
+
+        if ($request->satuan === 'Lainnya') {
+            $request->merge([
+                'satuan' => trim($request->satuan_lainnya)
+            ]);
+        }
+
         $request->validate([
-            'kode_barang'       => 'required|unique:stok_barang,kode_barang|max:50',
+            // 'kode_barang'       => 'required|unique:stok_barang,kode_barang|max:50',
             'nama_barang'       => 'required|string|max:255',
             'tanggal_pembelian' => 'required|date',
             'pt_pembeban'       => 'required|string|max:100',
             'satuan'            => 'required|string|max:20',
             'stok_saat_ini'     => 'required|numeric|min:0',
             'harga_satuan'      => 'required|numeric|min:0',
-        ], [
-            'kode_barang.unique' => 'Kode barang sudah ada, gunakan kode lain.',
-        ]);
+        ]
+        // ,[   'kode_barang.unique' => 'Kode barang sudah ada, gunakan kode lain.', ]
+        );
 
-        // 2. Hitung Harga Total (Safety Check di Server)
-        // Kita ambil harga_satuan murni dari request (yang dikirim lewat hidden field)
-        $stok = $request->stok_saat_ini;
-        $hargaSatuan = $request->harga_satuan;
-        $hargaTotal = $stok * $hargaSatuan;
+        try {
+            return DB::transaction(function () use ($request) {
 
-        StokBarang::create([
-            'kode_barang'       => $request->kode_barang,
-            'nama_barang'       => $request->nama_barang,
-            'tanggal_pembelian' => $request->tanggal_pembelian,
-            'pt_pembeban'       => $request->pt_pembeban,
-            'satuan'            => $request->satuan,
-            'stok_saat_ini'     => $stok,
-            'harga_satuan'      => $hargaSatuan,
-            'harga_total'       => $hargaTotal, // Hasil hitungan server
-        ]);
+            $lastId = StokBarang::max('id') ?? 0;
+            $kodeStokOtomatis = 'BRG-' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT);
 
-        return redirect()->route('stok.index')
+            // 1. Hitung Harga Total
+            $stok = $request->stok_saat_ini;
+            $hargaSatuan = $request->harga_satuan;
+            $hargaTotal = $stok * $hargaSatuan;
+
+            // 2. Simpan ke Database
+            StokBarang::create([
+                'kode_barang'       => $kodeStokOtomatis, // Hasil generate otomatis
+                'nama_barang'       => $request->nama_barang,
+                'tanggal_pembelian' => $request->tanggal_pembelian,
+                'pt_pembeban'       => $request->pt_pembeban,
+                'satuan'            => $request->satuan,
+                'stok_saat_ini'     => $stok,
+                'harga_satuan'      => $hargaSatuan,
+                'harga_total'       => $hargaTotal,
+            ]);
+
+            return redirect()->route('stok.index')
                          ->with('success', 'Stok baru berhasil di <strong>Tambah</strong>');
+            });
+
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal menambah stok: ' . $e->getMessage());
+        }
     }
 
     public function ubah($id)
@@ -74,6 +101,16 @@ class StokBarangController extends Controller
     {
         $stok = StokBarang::findOrFail($id);
 
+        if ($request->pt_pembeban === 'Lainnya') {
+            $request->merge(['pt_pembeban' => trim($request->pt_pembeban_lainnya)]);
+        }
+
+        if ($request->satuan === 'Lainnya') {
+            $request->merge([
+                'satuan' => trim($request->satuan_lainnya)
+            ]);
+        }
+
         $request->validate([
             'kode_barang'       => 'required|max:50|unique:stok_barang,kode_barang,' . $id,
             'nama_barang'       => 'required|string|max:255',
@@ -83,15 +120,28 @@ class StokBarangController extends Controller
             'kode_barang.unique' => 'Kode barang sudah ada, gunakan kode lain.',
         ]);
 
-        // Kalkulasi Ulang
-        $total = $request->stok_saat_ini * $request->harga_satuan;
+        try {
+            return DB::transaction(function () use ($request, $stok) {
+                // Kalkulasi Ulang
+                $total = $request->stok_saat_ini * $request->harga_satuan;
 
-        $stok->update(array_merge($request->all(), [
-            'harga_total' => $total
-        ]));
+                $stok->update([
+                    'kode_barang'       => $request->kode_barang,
+                    'nama_barang'       => $request->nama_barang,
+                    'tanggal_pembelian' => $request->tanggal_pembelian,
+                    'pt_pembeban'       => $request->pt_pembeban,
+                    'satuan'            => $request->satuan,
+                    'stok_saat_ini'     => $request->stok_saat_ini,
+                    'harga_satuan'      => $request->harga_satuan,
+                    'harga_total'       => $total,
+                ]);
 
-        return redirect()->route('stok.index')
-                        ->with('success', 'Data stok berhasil di <strong>Ubah</strong>');
+                return redirect()->route('stok.index')
+                                ->with('success', 'Data stok berhasil di <strong>Ubah</strong>');
+            });
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal mengubah data: ' . $e->getMessage());
+        }
     }
 
     public function hapus($id)

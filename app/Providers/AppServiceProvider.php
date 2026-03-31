@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
+use App\Actions\Fortify\CustomLoginResponse;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Contracts\LoginResponse;
-use App\Actions\Fortify\CustomLoginResponse;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Paginator::useBootstrapFive();
     }
 }

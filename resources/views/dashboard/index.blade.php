@@ -9,7 +9,7 @@
         @if (session('status'))
             <div id="welcomeNotice" class="dx-notice dx-notice-information">
                 <div class="dx-notice-icon">
-                    <img src="{{ asset('images/icon-admin.png') }}" alt="notif" class="img-fluid">
+                    <img src="{{ asset('images/icon-admin.png') }}" alt="Notif" class="img-fluid">
                 </div>
                 <div class="row dx-notice-body">
                     <div class="dx-notice-body-text">
@@ -23,7 +23,7 @@
         <div class="dx-grid dx-mb-12">
             <div class="dx-box-content dx-bg-putih card-body p-3">
                 <div class="dx-box-title">
-                    <h5 class="dx-text-sm dx-font-bold">Total</h5>
+                    <h5 class="dx-text-sm dx-font-bold">User</h5>
                     <p class="dx-box-text display-4 dx-text-hijau counter" id="total" data-target="{{ $totalUsers }}">
                         0
                     </p>
@@ -34,7 +34,7 @@
             </div>
             <div class="col dx-box-content dx-bg-putih card-body p-3">
                 <div class="dx-box-title">
-                    <h5 class="dx-text-sm dx-font-bold">Total</h5>
+                    <h5 class="dx-text-sm dx-font-bold">Aset</h5>
                     <p class="dx-box-text display-4 dx-text-merah counter" id="total" data-target="{{ $totalAsets }}">
                         0
                     </p>
@@ -45,8 +45,9 @@
             </div>
             <div class="col dx-box-content dx-bg-putih card-body p-3">
                 <div class="dx-box-title">
-                    <h5 class="dx-text-sm dx-font-bold">Total</h5>
-                    <p class="dx-box-text display-4 dx-text-kuning counter" id="total" data-target="30">
+                    <h5 class="dx-text-sm dx-font-bold">Peminjaman</h5>
+                    <p class="dx-box-text display-4 dx-text-kuning counter" id="total"
+                        data-target="{{ $totalPeminjamans }}">
                         0</p>
                 </div>
                 <div class="dx-box-section">
@@ -55,8 +56,9 @@
             </div>
             <div class="col dx-box-content dx-bg-putih card-body p-3">
                 <div class="dx-box-title">
-                    <h5 class="dx-text-sm dx-font-bold">Total</h5>
-                    <p class="dx-box-text display-4 dx-text-biru counter" id="total" data-target="10">0
+                    <h5 class="dx-text-sm dx-font-bold">Pengembalian</h5>
+                    <p class="dx-box-text display-4 dx-text-biru counter" id="total"
+                        data-target="{{ $totalPengembalians }}">0
                     </p>
                 </div>
                 <div class="dx-box-section">
