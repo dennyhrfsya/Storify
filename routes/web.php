@@ -89,6 +89,5 @@ Route::middleware('auth')->group(function () {
     Route::fallback(function () {
         return response()->view('errors.404', [], 404);
     });
-    //* Tes repo dong 123
 });
 
