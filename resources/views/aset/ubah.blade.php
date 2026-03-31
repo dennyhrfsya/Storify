@@ -226,7 +226,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6 col-lg-2">
+                        <div class="col-12 col-lg-2">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="grade_barang">Grade Barang</label>
