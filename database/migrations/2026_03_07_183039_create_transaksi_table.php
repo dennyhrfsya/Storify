@@ -19,10 +19,6 @@ return new class extends Migration
             $table->string('departemen');
             $table->integer('jumlah');
             $table->enum('status', ['dipinjamkan', 'dibatalkan', 'diberikan']);
-
-            // Kolom kunci untuk laporan "Stok Sebelumnya & Sesudah"
-            $table->integer('stok_snapshot');
-
             $table->timestamp('tanggal_transaksi')->useCurrent();
             $table->timestamps();
         });

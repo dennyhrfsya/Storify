@@ -29,9 +29,9 @@ return new class extends Migration
             $table->string('user_aset', 150)->nullable();   // Nama user pemilik aset, maksimal 150 karakter
             $table->string('lokasi', 255)->nullable(); // Lokasi barang, boleh kosong
 
-            $table->enum('kondisi', ['Baik', 'Rusak']); // Kondisi barang, hanya bisa 'baik' atau 'rusak'
+            $table->enum('kondisi', ['baik', 'rusak']); // Kondisi barang, hanya bisa 'baik' atau 'rusak'
             $table->text('keterangan')->nullable();     // Keterangan tambahan, boleh kosong
-            $table->enum('status', ['Tersedia', 'Dipinjam']); // Status barang, hanya bisa 'tersedia' atau 'dipinjam'
+            $table->enum('status', ['tersedia', 'dipinjam', 'permanen']); // Status barang, hanya bisa 'tersedia' atau 'dipinjam'
 
             $table->string('upload_bukti_aset', 255)->nullable(); // Path file bukti tanda terima, boleh kosong
 
