@@ -12,6 +12,13 @@ class ReportTransaksiController extends Controller
 {
    public function index(Request $request)
     {
+        $request->validate([
+        'dari_tanggal'   => 'nullable|date',
+        'sampai_tanggal' => 'nullable|date|after_or_equal:dari_tanggal',
+        ], [
+            'sampai_tanggal.after_or_equal' => 'Tanggal akhir tidak boleh lebih kecil dari Tanggal mulai',
+        ]);
+
         $search = $request->query('search');
         $dari_tanggal = $request->input('dari_tanggal');
         $sampai_tanggal = $request->input('sampai_tanggal');
