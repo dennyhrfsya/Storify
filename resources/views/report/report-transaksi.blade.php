@@ -12,6 +12,20 @@
         <div class="row mx-auto">
             <div class="col">
 
+                @error('sampai_tanggal')
+                    <div id="welcomeNotice" class="dx-notice dx-notice-error">
+                        <div class="dx-notice-title">Gagal !</div>
+                        <div class="dx-notice-icon">
+                            <img src="{{ asset('images/icon-danger.png') }}" alt="Gagal" class="img-fluid">
+                        </div>
+                        <div class="row dx-notice-body">
+                            <div class="dx-notice-body-text">
+                                <p class="dx-text-merah dx-text-sm dx-margin-bottom-0">{{ $message }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @enderror
+
                 <h3 class="dx-table-title dx-with-border dx-table-text-left">Report</h3>
                 <p>Halaman untuk data <strong>Riwayat Transaksi</strong></p>
 
