@@ -49,6 +49,10 @@
                                     <input type="text" id="stok_awal_display" class="dx-input-disable" readonly
                                         placeholder="Pilih barang dahulu...">
                                     <input type="hidden" name="stok_awal" id="stok_awal_hidden">
+
+                                    <small id="error-stok-awal" class="dx-text-merah dx-text-xs mt-1" style="display:none;">
+                                        Data stok awal belum terisi. Silakan pilih barang.
+                                    </small>
                                 </div>
                             </div>
                         </div>
