@@ -40,7 +40,7 @@
                             class="d-flex justify-content-end align-items-center gap-2">
                             <div class="dx-form-wrapper w-100">
                                 <input type="text" class="dx-form-input-src" name="search"
-                                    placeholder="Ketik kode atau nama barang..." aria-label="Search"
+                                    placeholder="Ketik kode, nama barang, atau status..." aria-label="Search"
                                     value="{{ request('search') }}">
                             </div>
                             <button type="submit" class="dx-btn dx-btn-secondary dx-src-btn">
