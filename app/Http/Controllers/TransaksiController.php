@@ -34,7 +34,7 @@ class TransaksiController extends Controller
 
     public function tambah()
     {
-        $stokBarang = StokBarang::all();
+        $stokBarang = StokBarang::where('stok_saat_ini', '>', 0)->get();
 
         $lastId = Transaksi::max('id') ?? 0;
         $kodeTrOtomatis = 'TR' . date('Ymd') . '' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT);

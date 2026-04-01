@@ -82,12 +82,18 @@
                                         <td>{{ $stok->pt_pembeban }}</td>
                                         <td>{{ $stok->satuan }}</td>
                                         <td>
-                                            @if ($stok->stok_saat_ini <= 5)
-                                                <span class="dx-badge dx-no-cursor dx-badge-warning">Low :
-                                                    {{ $stok->stok_saat_ini }}</span>
+                                            @if ($stok->stok_saat_ini <= 0)
+                                                <span class="dx-badge dx-no-cursor dx-badge-danger">
+                                                    Habis : {{ $stok->stok_saat_ini }}
+                                                </span>
+                                            @elseif ($stok->stok_saat_ini <= 5)
+                                                <span class="dx-badge dx-no-cursor dx-badge-warning">
+                                                    Low : {{ $stok->stok_saat_ini }}
+                                                </span>
                                             @else
-                                                <span
-                                                    class="dx-badge dx-no-cursor dx-badge-success">{{ $stok->stok_saat_ini }}</span>
+                                                <span class="dx-badge dx-no-cursor dx-badge-success">
+                                                    {{ $stok->stok_saat_ini }}
+                                                </span>
                                             @endif
                                         </td>
                                         <td>Rp {{ number_format($stok->harga_satuan, 0, ',', '.') }}</td>
