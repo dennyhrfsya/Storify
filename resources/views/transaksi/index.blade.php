@@ -30,17 +30,17 @@
                 <p>Halaman untuk data <strong>Transaksi</strong></p>
 
                 <div class="row gap-2">
-                    <div class="col-4 col-md-2 order-1">
+                    <div class="col-12 col-md-5 order-1">
                         @if ($perm && $perm->tambah)
                             <a href="{{ route('transaksi.tambah') }}" class="dx-btn dx-btn-primary">Tambah</a>
                         @endif
                     </div>
-                    <div class="col-8 col-md-5 order-2 ms-auto">
+                    <div class="col-12 col-md-5 order-2 ms-auto">
                         <form method="GET" action="{{ route('transaksi.index') }}"
                             class="d-flex justify-content-end align-items-center gap-2">
                             <div class="dx-form-wrapper w-100">
                                 <input type="text" class="dx-form-input-src" name="search"
-                                    placeholder="Ketik kode, nama barang, atau status..." aria-label="Search"
+                                    placeholder="Ketik kode atau nama barang..." aria-label="Search"
                                     value="{{ request('search') }}">
                             </div>
                             <button type="submit" class="dx-btn dx-btn-secondary dx-src-btn">
