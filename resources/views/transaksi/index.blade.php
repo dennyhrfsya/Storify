@@ -29,7 +29,7 @@
                 <h3 class="dx-table-title dx-with-border dx-table-text-left">Transaksi</h3>
                 <p>Halaman untuk data <strong>Transaksi</strong></p>
 
-                <div class="row mb-2">
+                <div class="row gap-2">
                     <div class="col-4 col-md-2 order-1">
                         @if ($perm && $perm->tambah)
                             <a href="{{ route('transaksi.tambah') }}" class="dx-btn dx-btn-primary">Tambah</a>
@@ -37,8 +37,8 @@
                     </div>
                     <div class="col-8 col-md-5 order-2 ms-auto">
                         <form method="GET" action="{{ route('transaksi.index') }}"
-                            class="d-flex justify-content-end align-items-center">
-                            <div class="dx-form-wrapper w-50 me-2">
+                            class="d-flex justify-content-end align-items-center gap-2">
+                            <div class="dx-form-wrapper w-100">
                                 <input type="text" class="dx-form-input-src" name="search"
                                     placeholder="Ketik kode, nama barang, atau status..." aria-label="Search"
                                     value="{{ request('search') }}">
@@ -46,6 +46,10 @@
                             <button type="submit" class="dx-btn dx-btn-secondary dx-src-btn">
                                 Cari
                             </button>
+                            @if (request('search'))
+                                <a href="{{ route('transaksi.index') }}"
+                                    class="dx-btn dx-btn-primary dx-src-btn text-decoration-none">Reset</a>
+                            @endif
                         </form>
                     </div>
                 </div>
