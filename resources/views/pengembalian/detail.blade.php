@@ -73,7 +73,7 @@
                                                     <a href="{{ asset('storage/' . $pengembalian->foto_pengembalian) }}"
                                                         target="_blank">
                                                         <img src="{{ asset('storage/' . $pengembalian->foto_pengembalian) }}"
-                                                            alt="Upload Bukti Aset" class="img-thumbnail mb-2"
+                                                            alt="Upload Bukti Kembali" class="img-thumbnail mb-2"
                                                             style="max-width: 300px; cursor: pointer;"
                                                             title="Klik untuk memperbesar">
                                                     </a>
