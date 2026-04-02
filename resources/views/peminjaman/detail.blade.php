@@ -82,7 +82,7 @@
                                                     <a href="{{ asset('storage/' . $peminjaman->foto_peminjaman) }}"
                                                         target="_blank">
                                                         <img src="{{ asset('storage/' . $peminjaman->foto_peminjaman) }}"
-                                                            alt="Upload Bukti Aset" class="img-thumbnail mb-2"
+                                                            alt="Upload Bukti Pinjam" class="img-thumbnail mb-2"
                                                             style="max-width: 300px; cursor: pointer;"
                                                             title="Klik untuk memperbesar">
                                                     </a>
