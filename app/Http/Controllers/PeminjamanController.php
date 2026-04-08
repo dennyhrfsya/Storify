@@ -57,10 +57,22 @@ class PeminjamanController extends Controller
             'lokasi' => 'required|string',
             'tanggal_peminjaman' => 'required|date',
             'status' => 'required|in:dipinjam,permanen',
-            'foto_peminjaman' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'foto_peminjaman' => [
+                'nullable', 'file', 'mimes:jpg,jpeg,png,pdf',
+                function ($attribute, $value, $fail) {
+                    $extension = strtolower($value->getClientOriginalExtension());
+                    $size = $value->getSize() / 1024;
+
+                    if ($extension === 'pdf' && $size > 2048) {
+                        $fail('Untuk file PDF, ukuran maksimal adalah 2MB.');
+                    }
+                    if (in_array($extension, ['jpg', 'jpeg', 'png']) && $size > 10240) {
+                        $fail('Ukuran gambar maksimal 10MB untuk dikompres.');
+                    }
+                }
+            ],
         ],[
             'foto_peminjaman.mimes' => 'Format file harus berupa JPEG, PNG, JPG, atau PDF.',
-            'foto_peminjaman.max' => 'Ukuran file maksimal adalah 2MB.',
         ]);
 
         // 2. Gunakan Transaction agar jika satu gagal, semua batal (Data Aman)
@@ -72,14 +84,52 @@ class PeminjamanController extends Controller
                 return redirect()->back()->with('error', 'Maaf, aset baru saja dipinjam orang lain');
             }
 
-            // 3. Handle Upload Foto
-            $fotoPath = null;
+            // LOGIKA BARU: Jika barang rusak DAN user belum mencentang konfirmasi
+            if ($aset->kondisi === 'rusak' && !$request->has('konfirmasi_rusak')) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', '
+                        Kondisi aset ini sedang <strong>RUSAK</strong>. Apakah Anda yakin ingin tetap melanjutkan peminjaman?
+                        <div class="mt-3">
+                            <div class="position-relative dx-checkbox">
+                                <input id="konfirmasi-rusak-check" type="checkbox" name="konfirmasi_rusak"
+                                    onchange="document.getElementById(\'btn-submit-pmj\').disabled = !this.checked">
+                                <label for="konfirmasi-rusak-check">
+                                    Ya, saya menyadari kondisi aset rusak dan tetap ingin meminjam.
+                                </label>
+                            </div>
+                        </div>
+                    ');
+            }
+
+            // 3. Handle Upload & Kompresi Foto
+            $filePath = null;
             if ($request->hasFile('foto_peminjaman')) {
-                $fotoPath = $request->file('foto_peminjaman')->store('peminjaman', 'public');
+                $file = $request->file('foto_peminjaman');
+                $extension = strtolower($file->getClientOriginalExtension());
+                $today = now()->format('Ymd');
+                $filename = $today . '_' . $request->kode_peminjaman . '.' . $extension;
+
+                // Logika: Jika Gambar dan ukuran > 2MB, maka kompres
+                if (in_array($extension, ['jpg', 'jpeg', 'png']) && $file->getSize() > 2048 * 1024) {
+
+                    $destinationPath = storage_path('app/public/peminjaman/' . $filename);
+
+                    // Pastikan folder tujuan ada
+                    if (!file_exists(storage_path('app/public/peminjaman'))) {
+                        mkdir(storage_path('app/public/peminjaman'), 0755, true);
+                    }
+
+                    $this->compressImage($file->getRealPath(), $destinationPath, $extension);
+                    $filePath = 'peminjaman/' . $filename;
+                } else {
+                    // Jika PDF atau gambar sudah kecil (< 2MB), simpan normal
+                    $filePath = $file->storeAs('peminjaman', $filename, 'public');
+                }
             }
 
             // 4. Buat Record Peminjaman
-            $peminjaman = Peminjaman::create([
+            Peminjaman::create([
                 'kode_peminjaman' => $request->kode_peminjaman, // Dari input readonly di view
                 'id_aset' => $request->id_aset,
                 'user_aset' => $request->user_aset,
@@ -87,7 +137,7 @@ class PeminjamanController extends Controller
                 'departemen' => $request->departemen,
                 'lokasi' => $request->lokasi,
                 'tanggal_peminjaman' => $request->tanggal_peminjaman,
-                'foto_peminjaman' => $fotoPath,
+                'foto_peminjaman' => $filePath,
                 'status' => $request->status,
             ]);
 
@@ -112,5 +162,38 @@ class PeminjamanController extends Controller
                     ->firstOrFail();
 
         return view('peminjaman.detail', compact('peminjaman'));
+    }
+
+
+    /**
+     * Helper: Kompresi Gambar PHP 8+
+     */
+    private function compressImage($source, $destination, $extension)
+    {
+        $info = getimagesize($source);
+        $image = null;
+
+        if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
+            $image = imagecreatefromjpeg($source);
+        } elseif ($info['mime'] == 'image/png') {
+            $image = imagecreatefrompng($source);
+
+            // Membuat canvas baru dengan ukuran yang sama
+            $bg = imagecreatetruecolor(imagesx($image), imagesy($image));
+
+            // Memberi warna latar belakang putih (mencegah bagian transparan jadi hitam)
+            imagefill($bg, 0, 0, imagecolorallocate($bg, 255, 255, 255));
+
+            // Copy gambar asli ke canvas baru (menggunakan variabel $bg yang benar)
+            imagecopy($bg, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+
+            // Simpan hasilnya ke variabel $image untuk diproses imagejpeg
+            $image = $bg;
+        }
+
+        if ($image) {
+            // Simpan dengan kualitas 60 (Output otomatis menjadi format .jpg)
+            imagejpeg($image, $destination, 60);
+        }
     }
 }

@@ -294,10 +294,10 @@
                             <div class="dx-form-control m-0">
                                 <div class="dx-form-group">
                                     <label for="upload_bukti_aset">Upload Bukti Aset</label>
-                                    <input type="file" id="fileinput" name="upload_bukti_aset"
+                                    <input type="file" id="upload_bukti_aset" name="upload_bukti_aset"
                                         accept=".jpg,.jpeg,.png,.pdf" />
                                     <div class="dx-text-xs dx-text-abu-abu-gelap dx-py-1">
-                                        Format yang didukung: JPG, PNG, PDF. Maksimal 2MB.
+                                        Format: JPG, PNG (Maks 10MB) atau PDF (Maks 2MB).
                                     </div>
                                     @error('upload_bukti_aset')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>

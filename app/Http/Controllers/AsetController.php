@@ -82,21 +82,49 @@ class AsetController extends Controller
             'kondisi' => 'required|in:baik,rusak',
             'keterangan' => 'nullable|string',
             'status' => 'required|in:tersedia,dipinjam',
-            'upload_bukti_aset' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'upload_bukti_aset' => [
+                'nullable', 'file', 'mimes:jpg,jpeg,png,pdf',
+                function ($attribute, $value, $fail) {
+                    $extension = strtolower($value->getClientOriginalExtension());
+                    $size = $value->getSize() / 1024;
+
+                    if ($extension === 'pdf' && $size > 2048) {
+                        $fail('Untuk file PDF, ukuran maksimal adalah 2MB.');
+                    }
+                    if (in_array($extension, ['jpg', 'jpeg', 'png']) && $size > 10240) {
+                        $fail('Ukuran gambar maksimal 10MB untuk dikompres.');
+                    }
+                }
+            ],
         ],[
             // Pesan error custom
             'kode_barang.unique' => 'Kode barang sudah ada, gunakan kode lain.',
             'upload_bukti_aset.mimes' => 'Format file harus berupa JPEG, PNG, JPG, atau PDF.',
-            'upload_bukti_aset.max' => 'Ukuran file maksimal adalah 2MB.',
         ]);
 
         // Jika ada file bukti tanda terima diupload
         if ($request->hasFile('upload_bukti_aset')) {
-            // Simpan file ke folder 'upload_bukti_aset' di storage/public
-            $path = $request->file('upload_bukti_aset')->store('upload_bukti_aset', 'public');
+            $file = $request->file('upload_bukti_aset');
+            $extension = strtolower($file->getClientOriginalExtension());
+            $today = now()->format('Ymd');
 
-            // Masukkan path file ke dalam data yang divalidasi
-            $validated['upload_bukti_aset'] = $path;
+            $filename = $today . '_' . $request->kode_barang . '.' . $extension;
+
+            if (in_array($extension, ['jpg', 'jpeg', 'png']) && $file->getSize() > 2048 * 1024) {
+                // Jalankan Kompresi
+                $destinationPath = storage_path('app/public/upload_bukti_aset/' . $filename);
+
+                if (!file_exists(storage_path('app/public/upload_bukti_aset'))) {
+                    mkdir(storage_path('app/public/upload_bukti_aset'), 0755, true);
+                }
+
+                $this->compressImage($file->getRealPath(), $destinationPath, $extension);
+                $validated['upload_bukti_aset'] = 'upload_bukti_aset/' . $filename;
+            } else {
+                // Simpan Normal (PDF atau Gambar < 2MB)
+                $path = $file->storeAs('upload_bukti_aset', $filename, 'public');
+                $validated['upload_bukti_aset'] = $path;
+            }
         }
 
         // Simpan data aset baru ke database
@@ -194,24 +222,55 @@ class AsetController extends Controller
             'kondisi' => 'required|in:baik,rusak',
             'keterangan' => 'nullable|string',
             'status' => 'required|in:tersedia,dipinjam,permanen',
-            'upload_bukti_aset' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'upload_bukti_aset' => [
+                'nullable', 'file', 'mimes:jpg,jpeg,png,pdf',
+                function ($attribute, $value, $fail) {
+                    $extension = strtolower($value->getClientOriginalExtension());
+                    $size = $value->getSize() / 1024;
+
+                    if ($extension === 'pdf' && $size > 2048) {
+                        $fail('Untuk file PDF, ukuran maksimal adalah 2MB.');
+                    }
+                    if (in_array($extension, ['jpg', 'jpeg', 'png']) && $size > 10240) {
+                        $fail('Ukuran gambar maksimal 10MB untuk dikompres.');
+                    }
+                }
+            ],
         ],[
             // Pesan error custom
             'kode_barang.unique' => 'Kode barang sudah ada, gunakan kode lain.',
             'upload_bukti_aset.mimes' => 'Format file harus berupa JPEG, PNG, JPG, atau PDF.',
-            'upload_bukti_aset.max' => 'Ukuran file maksimal adalah 2MB.',
         ]);
 
         // Jika ada file bukti tanda terima diupload
         if ($request->hasFile('upload_bukti_aset')) {
+            // Hapus file lama jika ada
             if ($aset->upload_bukti_aset && Storage::disk('public')->exists($aset->upload_bukti_aset)) {
                 Storage::disk('public')->delete($aset->upload_bukti_aset);
             }
-            // Simpan file ke folder 'bukti' di storage/public
-            $path = $request->file('upload_bukti_aset')->store('upload_bukti_aset', 'public');
 
-            // Masukkan path file ke dalam data yang divalidasi
-            $validated['upload_bukti_aset'] = $path;
+            $file = $request->file('upload_bukti_aset');
+            $extension = strtolower($file->getClientOriginalExtension());
+            $today = now()->format('Ymd');
+
+            // Nama file tetap konsisten menggunakan kode_barang
+            $filename = $today . '_' . $request->kode_barang . '.' . $extension;
+
+            if (in_array($extension, ['jpg', 'jpeg', 'png']) && $file->getSize() > 2048 * 1024) {
+                // Kompres Gambar Baru
+                $destinationPath = storage_path('app/public/upload_bukti_aset/' . $filename);
+
+                if (!file_exists(storage_path('app/public/upload_bukti_aset'))) {
+                    mkdir(storage_path('app/public/upload_bukti_aset'), 0755, true);
+                }
+
+                $this->compressImage($file->getRealPath(), $destinationPath, $extension);
+                $validated['upload_bukti_aset'] = 'upload_bukti_aset/' . $filename;
+            } else {
+                // Simpan Normal (PDF atau Gambar Kecil)
+                $path = $file->storeAs('upload_bukti_aset', $filename, 'public');
+                $validated['upload_bukti_aset'] = $path;
+            }
         }
 
         // Update data aset dengan data yang sudah divalidasi
@@ -224,18 +283,47 @@ class AsetController extends Controller
 
     public function hapus(string $id)
     {
-        // Cari data aset berdasarkan ID, jika tidak ditemukan akan throw 404
-        $aset = Aset::findOrFail($id);
+        // 1. Cari aset beserta hitung jumlah relasinya di tabel peminjaman
+        // Pastikan nama relasi di model Aset adalah 'peminjaman'
+        $aset = Aset::withCount('peminjaman')->findOrFail($id);
 
-        // Jika aset memiliki file upload_bukti_aset, hapus dari storage
-        if ($aset->upload_bukti_aset) {
-            Storage::disk('public')->delete($aset->upload_bukti_aset);
+        // 2. CEK RELASI: Jika aset ini punya riwayat di tabel peminjaman
+        if ($aset->peminjaman_count > 0) {
+            return redirect()->back()->with('error',
+                'Aset <strong>' . $aset->nama_barang . '</strong> tidak bisa dihapus karena masih memiliki riwayat peminjaman.'
+            );
         }
 
-        // Hapus data aset dari database
+        // 3. Jika lolos pengecekan (tidak ada relasi), baru hapus file fisik
+        if ($aset->upload_bukti_aset) {
+            if (Storage::disk('public')->exists($aset->upload_bukti_aset)) {
+                Storage::disk('public')->delete($aset->upload_bukti_aset);
+            }
+        }
+
+        // 4. Hapus data dari database
         $aset->delete();
 
-        // Redirect kembali ke halaman sebelumnya dengan pesan sukses
         return redirect()->back()->with('success', 'Data aset berhasil <strong>Dihapus</strong>');
+    }
+
+    private function compressImage($source, $destination, $extension)
+    {
+        $info = getimagesize($source);
+        $image = null;
+
+        if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
+            $image = imagecreatefromjpeg($source);
+        } elseif ($info['mime'] == 'image/png') {
+            $image = imagecreatefrompng($source);
+            $bg = imagecreatetruecolor(imagesx($image), imagesy($image));
+            imagefill($bg, 0, 0, imagecolorallocate($bg, 255, 255, 255));
+            imagecopy($bg, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+            $image = $bg;
+        }
+
+        if ($image) {
+            imagejpeg($image, $destination, 60);
+        }
     }
 }

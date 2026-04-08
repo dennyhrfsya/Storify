@@ -25,6 +25,20 @@
                     </div>
                 @endif
 
+                @if (session('error'))
+                    <div id="welcomeNotice" class="dx-notice dx-notice-warning">
+                        <h3 class="dx-notice-title">Peringatan !</h3>
+                        <div class="dx-notice-icon">
+                            <img src="{{ asset('images/icon-warning.png') }}" alt="Peringatan" class="img-fluid">
+                        </div>
+                        <div class="row dx-notice-body">
+                            <div class="dx-notice-body-text" style="--padding-right:calc(10rem + 3rem);">
+                                <p>{!! session('error') !!}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
                 <h3 class="dx-table-title dx-with-border dx-table-text-left">Aset</h3>
                 <p>Halaman untuk data <strong>Aset</strong></p>
 

@@ -1,4 +1,5 @@
-<div class="modal fade" id="modalPengembalian" tabindex="-1" role="dialog" aria-modal="true">
+<div class="modal fade" id="modalPengembalian" tabindex="-1" role="dialog" aria-modal="true"
+    data-errors="{{ $errors->any() ? 'true' : 'false' }}" data-old-id="{{ old('id_peminjaman') }}">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <form action="{{ route('peminjaman.pengembalian.simpan') }}" method="POST" enctype="multipart/form-data">
@@ -43,10 +44,10 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="foto_pengembalian">Foto / Bukti Kembali</label>
-                                    <input type="file" id="fileinput" name="foto_pengembalian"
+                                    <input type="file" id="foto_pengembalian" name="foto_pengembalian"
                                         accept=".jpg,.jpeg,.png,.pdf" />
                                     <div class="dx-text-xs dx-text-abu-abu-gelap dx-py-1">
-                                        Format yang didukung: JPG, PNG, PDF. Maksimal 2MB.
+                                        Format: JPG, PNG (Maks 10MB) atau PDF (Maks 2MB).
                                     </div>
                                     @error('foto_pengembalian')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>

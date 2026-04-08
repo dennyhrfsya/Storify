@@ -41,15 +41,34 @@ class PengembalianController extends Controller
 
     public function simpan(Request $request)
     {
+        // 1. Cari data peminjaman terlebih dahulu untuk referensi tanggal
+        $peminjaman = Peminjaman::findOrFail($request->id_peminjaman);
+
         $request->validate([
             'id_peminjaman' => 'required|exists:peminjaman,id',
-            'tanggal_pengembalian' => 'required|date',
-            'foto_pengembalian' => 'nullable|file|mimes:jpg,png,jpeg,pdf|max:5120',
+            'tanggal_pengembalian' => [
+                'required',
+                'date',
+                'after_or_equal:' . $peminjaman->tanggal_peminjaman,
+            ],
+            'foto_pengembalian' => [
+                'nullable', 'file', 'mimes:jpg,jpeg,png,pdf',
+                function ($attribute, $value, $fail) {
+                    $extension = strtolower($value->getClientOriginalExtension());
+                    $size = $value->getSize() / 1024;
+
+                    if ($extension === 'pdf' && $size > 2048) {
+                        $fail('Untuk file PDF, ukuran maksimal adalah 2MB.');
+                    }
+                    if (in_array($extension, ['jpg', 'jpeg', 'png']) && $size > 10240) {
+                        $fail('Ukuran gambar maksimal 10MB untuk dikompres.');
+                    }
+                }
+            ],
             'kondisi_pengembalian' => 'required|in:baik,rusak',
             'catatan' => 'nullable|string'
         ],[
             'foto_pengembalian.mimes' => 'Format file harus berupa JPEG, PNG, JPG, atau PDF.',
-            'foto_pengembalian.max' => 'Ukuran file maksimal adalah 2MB.',
         ]);
 
         try {
@@ -58,13 +77,7 @@ class PengembalianController extends Controller
             $peminjaman = Peminjaman::findOrFail($request->id_peminjaman);
             $aset = Aset::findOrFail($peminjaman->id_aset);
 
-            // 1. Handle Upload File
-            $filePath = null;
-            if ($request->hasFile('foto_pengembalian')) {
-                $filePath = $request->file('foto_pengembalian')->store('pengembalian', 'public');
-            }
-
-            // 2. LOGIKA KODE OTOMATIS (VERSI STABIL)
+            // 1. LOGIKA KODE OTOMATIS (VERSI STABIL)
             $today = now()->format('Ymd');
 
             // Cari kode pengembalian terakhir yang berawalan KMB + Tanggal hari ini
@@ -82,6 +95,33 @@ class PengembalianController extends Controller
             }
 
             $kodeKembaliOtomatis = 'KMB' . $today . $nextNumber;
+
+            // 2. Handle Upload File
+            $filePath = null;
+            if ($request->hasFile('foto_pengembalian')) {
+                $file = $request->file('foto_pengembalian');
+                $extension = strtolower($file->getClientOriginalExtension());
+                $today = now()->format('Ymd');
+                $filename = $today . '_' . $kodeKembaliOtomatis . '.' . $extension;
+
+                // Jika Gambar dan ukuran > 2MB (2048 KB), lakukan kompresi
+                if (in_array($extension, ['jpg', 'jpeg', 'png']) && $file->getSize() > 2048 * 1024) {
+
+                    $destinationPath = storage_path('app/public/pengembalian/' . $filename);
+
+                    // Pastikan folder tujuan ada
+                    if (!file_exists(storage_path('app/public/pengembalian'))) {
+                        mkdir(storage_path('app/public/pengembalian'), 0755, true);
+                    }
+
+                    // Gunakan fungsi helper kompresi yang sudah kita perbaiki tadi
+                    $this->compressImage($file->getRealPath(), $destinationPath, $extension);
+                    $filePath = 'pengembalian/' . $filename;
+                } else {
+                    // Simpan normal (untuk PDF atau gambar yang sudah kecil)
+                    $filePath = $file->storeAs('pengembalian', $filename, 'public');
+                }
+            }
 
             // 3. Simpan ke tabel pengembalian
             Pengembalian::create([
@@ -113,7 +153,10 @@ class PengembalianController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             // Gunakan dd($e->getMessage()) jika masih gagal untuk melihat error aslinya
-            return redirect()->back()->with('error', 'Gagal: ' . $e->getMessage());
+            return redirect()->back()
+            ->withInput()
+            ->withErrors(['tanggal_pengembalian' => $e->getMessage()])
+            ->with('error', 'Gagal: ' . $e->getMessage());
         }
     }
 
@@ -124,5 +167,25 @@ class PengembalianController extends Controller
                         ->firstOrFail();
 
         return view('pengembalian.detail', compact('pengembalian'));
+    }
+
+    private function compressImage($source, $destination, $extension)
+    {
+        $info = getimagesize($source);
+        $image = null;
+
+        if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
+            $image = imagecreatefromjpeg($source);
+        } elseif ($info['mime'] == 'image/png') {
+            $image = imagecreatefrompng($source);
+            $bg = imagecreatetruecolor(imagesx($image), imagesy($image));
+            imagefill($bg, 0, 0, imagecolorallocate($bg, 255, 255, 255));
+            imagecopy($bg, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+            $image = $bg;
+        }
+
+        if ($image) {
+            imagejpeg($image, $destination, 60);
+        }
     }
 }

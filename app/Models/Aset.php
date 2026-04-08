@@ -40,4 +40,9 @@ class Aset extends Model
         'status_garansi'    => 'date',   // akan diperlakukan sebagai tanggal (pastikan field ini ada di tabel)
         'harga'             => 'decimal:2', // harga otomatis jadi decimal dengan 2 digit di belakang koma
     ];
+
+    public function peminjaman()
+    {
+        return $this->hasMany(Peminjaman::class, 'id_aset');
+    }
 }
