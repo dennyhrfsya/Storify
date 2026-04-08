@@ -106,7 +106,8 @@
                                                         data-bs-toggle="modal" data-bs-target="#modalPengembalian"
                                                         data-id="{{ $peminjaman->id }}"
                                                         data-kode="{{ $peminjaman->kode_peminjaman }}"
-                                                        data-barang="{{ $peminjaman->aset->nama_barang }}">
+                                                        data-barang="{{ $peminjaman->aset->nama_barang }}"
+                                                        data-kondisi="{{ $peminjaman->aset->kondisi }}">
                                                         Kembalikan
                                                     </a>
                                                 @else

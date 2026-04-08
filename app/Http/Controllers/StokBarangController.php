@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\StokBarang;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -147,6 +148,14 @@ class StokBarangController extends Controller
     public function hapus($id)
     {
         $stok = StokBarang::findOrFail($id);
+        // Cek apakah barang ini sudah pernah ada di transaksi
+        $transaksi = Transaksi::where('stok_barang_id', $id)->exists();
+
+        if ($transaksi) {
+            return redirect()->route('stok.index')
+                ->with('error', 'Barang <strong>' . $stok->nama_barang . '</strong> tidak bisa dihapus karena sudah memiliki riwayat transaksi.');
+        }
+
         $stok->delete();
 
         return redirect()->route('stok.index')

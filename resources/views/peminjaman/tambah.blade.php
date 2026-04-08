@@ -5,6 +5,7 @@
     <div class="container">
 
         <div class="row mx-auto justify-content-center">
+
             <div class="col-12 col-lg-6">
 
                 <h5 class="dx-text-lg dx-text-biru dx-mb-10 text-center">Tambah <span
@@ -14,6 +15,18 @@
                 <form method="POST" action="{{ route('peminjaman.simpan') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-4">
+                        @if (session('error'))
+                            <div class="dx-notice dx-notice-warning">
+                                <h3 class="dx-notice-title">Peringatan !</h3>
+                                <div class="row dx-notice-body">
+                                    <p>{!! session('error') !!}</p>
+
+                                    @if (str_contains(session('error'), 'RUSAK'))
+                                        <input type="hidden" name="konfirmasi_rusak" value="1">
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
                         <div class="col-12">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
@@ -45,7 +58,8 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="user_aset">Nama User</label>
-                                    <input type="text" id="user_aset" name="user_aset" placeholder="Nama User">
+                                    <input type="text" id="user_aset" name="user_aset" value="{{ old('user_aset') }}"
+                                        placeholder="Nama User">
                                     @error('user_aset')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
@@ -115,7 +129,8 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="departemen">Departemen</label>
-                                    <input type="text" id="departemen" name="departemen" placeholder="Departemen">
+                                    <input type="text" id="departemen" name="departemen" value="{{ old('departemen') }}"
+                                        placeholder="Departemen">
                                     @error('departemen')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
@@ -126,7 +141,8 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="lokasi">Lokasi</label>
-                                    <input type="text" id="lokasi" name="lokasi" placeholder="Lokasi barang">
+                                    <input type="text" id="lokasi" name="lokasi" value="{{ old('lokasi') }}"
+                                        placeholder="Lokasi barang">
                                     @error('lokasi')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
@@ -177,7 +193,7 @@
                                     <input type="file" id="foto_peminjaman" name="foto_peminjaman"
                                         accept=".jpg,.jpeg,.png,.pdf">
                                     <div class="dx-text-xs dx-text-abu-abu-gelap dx-py-1">
-                                        Format yang didukung: JPG, PNG, PDF. Maksimal 2MB.
+                                        Format: JPG, PNG (Maks 10MB) atau PDF (Maks 2MB).
                                     </div>
                                     @error('foto_peminjaman')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
@@ -188,7 +204,8 @@
                     </div>
                     <div class="row mb-10 text-center">
                         <div class="col d-flex gap-2 justify-content-center">
-                            <button type="submit" class="dx-btn dx-btn-primary">Simpan</button>
+                            <button type="submit" id="btn-submit-pmj" class="dx-btn dx-btn-primary"
+                                {{ session('error') && str_contains(session('error'), 'RUSAK') ? 'disabled' : '' }}>Simpan</button>
                             <a href="{{ route('peminjaman.index') }}" class="dx-btn dx-btn-secondary">Batal</a>
                         </div>
                     </div>
@@ -197,7 +214,6 @@
         </div>
     </div>
     @push('scripts')
-        {{-- <script src="{{ asset('js/transaksi.js') }}"></script> --}}
         <script src="{{ asset('js/single-select.js') }}"></script>
     @endpush
 @endsection

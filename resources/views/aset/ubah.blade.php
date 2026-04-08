@@ -357,7 +357,7 @@
                                         accept=".jpg,.jpeg,.png,.pdf" />
 
                                     <div class="dx-text-xs dx-text-abu-abu-gelap dx-py-1">
-                                        Format yang didukung: JPG, PNG, PDF. Maksimal 2MB.
+                                        Format: JPG, PNG (Maks 10MB) atau PDF (Maks 2MB).
                                     </div>
                                     @error('upload_bukti_aset')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>

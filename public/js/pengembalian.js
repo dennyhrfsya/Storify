@@ -1,46 +1,74 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const modalReturn = document.querySelector('#modalPengembalian');
+/**
+ * Asset Return Handler - Combined Block Scoped Version
+ * Menggabungkan fitur: Auto-open saat error, Reset saat tutup, dan Auto-fill dari tombol.
+ */
+{
+    const initPengembalianAsset = () => {
+        const modalEl = document.getElementById('modalPengembalian');
+        if (!modalEl) return;
 
-    if (modalReturn) {
-        // Event ini terpicu saat tombol "Kembalikan" diklik (sebelum modal muncul)
-        modalReturn.addEventListener('show.bs.modal', (event) => {
-            // 1. Ambil tombol yang diklik (Trigger)
-            const button = event.relatedTarget;
+        const inputId = modalEl.querySelector('#input_id_peminjaman');
+        const textInfo = modalEl.querySelector('#text_info_barang');
 
-            // 2. Destructuring data dari dataset tombol (data-id, data-kode, dst)
-            const { id, kode, barang } = button.dataset;
+        // --- 1. LOGIKA AUTO-FILL (Saat tombol "Kembalikan" diklik) ---
+        modalEl.addEventListener('show.bs.modal', (event) => {
+            const button = event.target.closest('.btn-kembali') || event.relatedTarget;
 
-            // 3. DEBUGGING: Cek di Console Browser (F12)
-            // console.group("DEBUG: Modal Pengembalian");
-            // console.log("ID Peminjaman :", id);
-            // console.log("Kode Barang   :", kode);
-            // console.log("Nama Barang   :", barang);
-            // console.groupEnd();
+            // Cek jika modal dipicu oleh tombol, bukan dipicu manual lewat JS (Auto-open error)
+            if (button) {
+                const { id, kode, barang, kondisi } = button.dataset; // Ambil 'kondisi'
 
-            // 4. Seleksi elemen di dalam modal
-            const inputId = modalReturn.querySelector('#input_id_peminjaman');
-            const infoText = modalReturn.querySelector('#text_info_barang');
-            const form = modalReturn.querySelector('form');
+                if (inputId) inputId.value = id;
 
-            // 5. Masukkan ID ke input hidden agar terkirim ke Controller
-            if (inputId) {
-                inputId.value = id;
-                // console.log("Input Hidden Value Terisi:", inputId.value);
-            }
+                // Pilih otomatis dropdown sesuai kondisi aset
+                const selectKondisi = modalEl.querySelector('select[name="kondisi_pengembalian"]');
+                if (selectKondisi && kondisi) {
+                    selectKondisi.value = kondisi;
+                }
 
-            // 6. Update teks informasi di Modal
-            if (infoText) {
-                infoText.innerHTML = `Anda akan mengembalikan : <strong>${barang}</strong> <br> <small class="text-muted">Kode Pinjam : ${kode}</small>`;
-            }
-
-            // 7. Reset Form (Pembersihan input dari klik sebelumnya)
-            if (form) {
-                const fileInput = form.querySelector('input[type="file"]');
-                const textArea = form.querySelector('textarea');
-                // Kita tidak mereset inputId karena baru saja kita isi di atas
-                if (fileInput) fileInput.value = '';
-                if (textArea) textArea.value = '';
+                if (textInfo) {
+                    textInfo.innerHTML = `Anda akan mengembalikan: <strong>${barang}</strong> <br>
+                                    <small class="text-muted">Kode Pinjam : ${kode}</small> <br>
+                                  <small class="text-muted">Kondisi Awal : ${kondisi}</small>`;
+                }
             }
         });
+
+        // --- 2. LOGIKA AUTO-OPEN (Saat terjadi error validasi Laravel) ---
+        const { errors, oldId } = modalEl.dataset;
+        if (errors === 'true') {
+            const myModal = window.bootstrap.Modal.getOrCreateInstance(modalEl);
+            myModal.show();
+
+            // Jika ada data lama (saat revisi), tampilkan pesan error di dalam modal
+            if (oldId && inputId) {
+                inputId.value = oldId;
+                if (textInfo) {
+                    textInfo.innerHTML = `<span class="dx-text-merah">Gagal menyimpan. Silakan periksa kembali input Anda.</span>`;
+                }
+            }
+        }
+
+        // --- 3. LOGIKA RESET & PEMBERSIHAN (Saat modal ditutup) ---
+        modalEl.addEventListener('hidden.bs.modal', function () {
+            const form = this.querySelector('form');
+            if (form) form.reset();
+
+            // Reset manual elemen yang tidak terkena reset() form
+            if (inputId) inputId.value = '';
+            if (textInfo) textInfo.innerHTML = '';
+
+            // Sembunyikan semua pesan error validasi (Laravel @error)
+            document.querySelectorAll('.dx-text-merah').forEach(el => {
+                el.style.display = 'none';
+            });
+        });
+    };
+
+    // Jalankan inisialisasi saat DOM siap
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPengembalianAsset);
+    } else {
+        initPengembalianAsset();
     }
-});
+}
