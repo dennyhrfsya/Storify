@@ -11,7 +11,8 @@
                         class="dx-text-kuning dx-font-bold dx-text-2xl">Transaksi</span>
                 </h5>
 
-                <form method="POST" action="{{ route('transaksi.simpan') }}" enctype="multipart/form-data">
+                <form id="form-tambah-transaksi" method="POST" action="{{ route('transaksi.simpan') }}"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-4">
                         <div class="col-12">
@@ -61,9 +62,9 @@
                                 <div class="dx-form-group">
                                     <label for="jumlah_input">Jumlah Yang Diambil</label>
                                     <input type="number" name="jumlah" id="jumlah_input" min="1">
-                                    @error('jumlah')
-                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
-                                    @enderror
+                                    @if (session('error'))
+                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{!! session('error') !!}</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -129,11 +130,8 @@
                                     <input type="file" id="bukti_transaksi" name="bukti_transaksi"
                                         accept=".jpg,.jpeg,.png,.pdf" />
                                     <div class="dx-text-xs dx-text-abu-abu-gelap dx-py-1">
-                                        Format yang didukung: JPG, PNG, PDF. Maksimal 2MB.
+                                        Format: JPG, PNG (Maks 10MB) atau PDF (Maks 2MB).
                                     </div>
-                                    @error('bukti_transaksi')
-                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
-                                    @enderror
                                 </div>
                             </div>
                         </div>

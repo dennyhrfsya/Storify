@@ -46,7 +46,7 @@
                                     <input type="number" name="jumlah" id="jumlah_input" min="1"
                                         max="{{ $transaksi->stokBarang->stok_saat_ini + $transaksi->jumlah }}"
                                         value="{{ old('jumlah', $transaksi->jumlah) }}">
-                                    <small class="dx-text-abu">Max revisi:
+                                    <small class="dx-text-abu">Maksimal :
                                         {{ $transaksi->stokBarang->stok_saat_ini + $transaksi->jumlah }}</small>
                                     @error('jumlah')
                                         <p class="dx-text-merah dx-text-xs">{{ $message }}</p>
@@ -161,11 +161,8 @@
                                         accept=".jpg,.jpeg,.png,.pdf" />
 
                                     <div class="dx-text-xs dx-text-abu-abu-gelap dx-py-1">
-                                        Format yang didukung: JPG, PNG, PDF. Maksimal 2MB.
+                                        Format: JPG, PNG (Maks 10MB) atau PDF (Maks 2MB).
                                     </div>
-                                    @error('bukti_transaksi')
-                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
-                                    @enderror
                                 </div>
                             </div>
                         </div>

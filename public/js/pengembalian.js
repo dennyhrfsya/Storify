@@ -12,16 +12,24 @@
 
         // --- 1. LOGIKA AUTO-FILL (Saat tombol "Kembalikan" diklik) ---
         modalEl.addEventListener('show.bs.modal', (event) => {
-            const button = event.relatedTarget;
+            const button = event.target.closest('.btn-kembali') || event.relatedTarget;
 
             // Cek jika modal dipicu oleh tombol, bukan dipicu manual lewat JS (Auto-open error)
             if (button) {
-                const { id, kode, barang } = button.dataset;
+                const { id, kode, barang, kondisi } = button.dataset; // Ambil 'kondisi'
 
                 if (inputId) inputId.value = id;
+
+                // Pilih otomatis dropdown sesuai kondisi aset
+                const selectKondisi = modalEl.querySelector('select[name="kondisi_pengembalian"]');
+                if (selectKondisi && kondisi) {
+                    selectKondisi.value = kondisi;
+                }
+
                 if (textInfo) {
                     textInfo.innerHTML = `Anda akan mengembalikan: <strong>${barang}</strong> <br>
-                                          <small class="text-muted">Kode Pinjam: ${kode}</small>`;
+                                    <small class="text-muted">Kode Pinjam : ${kode}</small> <br>
+                                  <small class="text-muted">Kondisi Awal : ${kondisi}</small>`;
                 }
             }
         });

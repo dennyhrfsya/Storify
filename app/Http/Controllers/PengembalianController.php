@@ -43,6 +43,7 @@ class PengembalianController extends Controller
     {
         // 1. Cari data peminjaman terlebih dahulu untuk referensi tanggal
         $peminjaman = Peminjaman::findOrFail($request->id_peminjaman);
+        $aset = Aset::findOrFail($peminjaman->id_aset);
 
         $request->validate([
             'id_peminjaman' => 'required|exists:peminjaman,id',
@@ -155,7 +156,6 @@ class PengembalianController extends Controller
             // Gunakan dd($e->getMessage()) jika masih gagal untuk melihat error aslinya
             return redirect()->back()
             ->withInput()
-            ->withErrors(['tanggal_pengembalian' => $e->getMessage()])
             ->with('error', 'Gagal: ' . $e->getMessage());
         }
     }

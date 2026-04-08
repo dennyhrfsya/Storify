@@ -60,8 +60,11 @@
                                     <label for="kondisi_pengembalian">Kondisi Barang</label>
                                     <select id="select" name="kondisi_pengembalian">
                                         <option value="">Pilih Opsi...</option>
-                                        <option value="baik">Baik</option>
-                                        <option value="rusak">Rusak</option>
+                                        <option value="baik"
+                                            {{ old('kondisi_pengembalian') == 'baik' ? 'selected' : '' }}>Baik</option>
+                                        <option value="rusak"
+                                            {{ old('kondisi_pengembalian') == 'rusak' ? 'selected' : '' }}>Rusak
+                                        </option>
                                     </select>
                                     @error('kondisi_pengembalian')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
