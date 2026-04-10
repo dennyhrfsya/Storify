@@ -48,6 +48,7 @@
                                         value="{{ old('jumlah', $transaksi->jumlah) }}">
                                     <small class="dx-text-abu">Maksimal :
                                         {{ $transaksi->stokBarang->stok_saat_ini + $transaksi->jumlah }}</small>
+                                    <p id="error-js-jumlah" class="dx-text-merah dx-text-xs" style="display: none;"></p>
                                     @error('jumlah')
                                         <p class="dx-text-merah dx-text-xs">{{ $message }}</p>
                                     @enderror
@@ -178,6 +179,6 @@
         </div>
     </div>
     @push('scripts')
-        <script src="{{ asset('js/transaksi.js') }}"></script>
+        <script src="{{ asset('js/ubah-transaksi.js') }}"></script>
     @endpush
 @endsection

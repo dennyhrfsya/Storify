@@ -11,8 +11,7 @@
                         class="dx-text-kuning dx-font-bold dx-text-2xl">Transaksi</span>
                 </h5>
 
-                <form id="form-tambah-transaksi" method="POST" action="{{ route('transaksi.simpan') }}"
-                    enctype="multipart/form-data">
+                <form method="POST" action="{{ route('transaksi.simpan') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-4">
                         <div class="col-12">
@@ -62,9 +61,10 @@
                                 <div class="dx-form-group">
                                     <label for="jumlah_input">Jumlah Yang Diambil</label>
                                     <input type="number" name="jumlah" id="jumlah_input" min="1">
-                                    @if (session('error'))
-                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{!! session('error') !!}</p>
-                                    @endif
+                                    <p id="error-js-jumlah" class="dx-text-merah dx-text-xs" style="display: none;"></p>
+                                    @error('jumlah')
+                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
         </div>
     </div>
     @push('scripts')
-        <script src="{{ asset('js/transaksi.js') }}"></script>
+        <script src="{{ asset('js/tambah-transaksi.js') }}"></script>
         <script src="{{ asset('js/single-select.js') }}"></script>
     @endpush
 @endsection
