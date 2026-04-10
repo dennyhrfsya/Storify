@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 31/03/2026 15:10:52
+ Date: 10/04/2026 17:02:55
 */
 
 SET NAMES utf8mb4;
@@ -44,32 +44,32 @@ CREATE TABLE `aset`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 65 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of aset
 -- ----------------------------
-INSERT INTO `aset` VALUES (1, 'BRG001', 'Laptop Dell', 'Laptop', 'Dell', 'SN12345', '2024-01-15', '2027-03-03', 1, 15000000.00, 'PT Global Sekuriti Indonesia', NULL, NULL, 'Gudang', 'bekas', 'rusak', 'Masih baru', 'tersedia', 'upload_bukti_aset/tuclhDZsSyYQZC0NWZAwVjFQeh469mbat5rbzcw0.pdf', '2026-03-07 02:05:03', '2026-03-28 09:58:59');
-INSERT INTO `aset` VALUES (2, 'BRG002', 'Macbook Pro M3', 'Laptop', 'Apple', 'BH7H99S', '2026-03-08', '2027-03-10', 1, 15000000.00, 'PT Armindo Langgeng Sejahtera', 'Acong', 'Admin', 'Bandung', 'baru', 'baik', 'Oke', 'dipinjam', 'upload_bukti_aset/DcwicFW3w8ritw26Kxu24eOIrNnqO2pOyme5khYG.jpg', '2026-03-07 18:37:13', '2026-03-27 17:20:50');
+INSERT INTO `aset` VALUES (1, 'BRG001', 'Laptop Dell', 'Laptop', 'Dell', 'SN12345', '2024-01-15', '2027-03-03', 1, 15000000.00, 'PT Global Sekuriti Indonesia', 'Aban', 'Pro Player', 'Rawa Belong', 'bekas', 'rusak', 'Masih baru', 'dipinjam', 'upload_bukti_aset/tuclhDZsSyYQZC0NWZAwVjFQeh469mbat5rbzcw0.pdf', '2026-03-07 02:05:03', '2026-04-07 12:35:57');
+INSERT INTO `aset` VALUES (2, 'BRG002', 'Macbook Pro M3', 'Laptop', 'Apple', 'BH7H99S', '2026-03-08', '2027-03-10', 1, 15000000.00, 'PT Armindo Langgeng Sejahtera', NULL, NULL, 'Gudang', 'baru', 'baik', 'Oke', 'tersedia', 'upload_bukti_aset/DcwicFW3w8ritw26Kxu24eOIrNnqO2pOyme5khYG.jpg', '2026-03-07 18:37:13', '2026-04-07 09:23:05');
 INSERT INTO `aset` VALUES (3, 'BRG003', 'Asus TUF Gaming', 'Laptop', 'Asus', 'SN12345', '2026-03-08', '2026-03-11', 1, 12500000.00, 'PT Sada Usaha Niaga', 'Mamat', 'MBG', 'Banten', 'bekas', 'baik', 'Oke', 'permanen', 'upload_bukti_aset/n9eQcyT97m7Nq9zTySg48AtCFkEIolSd2ugu6keQ.jpg', '2026-03-07 20:29:43', '2026-03-15 19:25:27');
 INSERT INTO `aset` VALUES (6, 'BRG004', 'HP Victus 14', 'Laptop', 'HP', '7JHHWW782', '2026-03-16', '2028-03-01', 1, 13500000.00, 'PT Dapur Pulau Rasa', 'Abdoel bin smith', 'Industri', 'Amerika', 'baru', 'baik', 'Oke', 'dipinjam', 'upload_bukti_aset/rNyQisinsp4ljW8Z0Rb5A1MKFUmtvEyjkINNDrAT.png', '2026-03-15 17:30:39', '2026-03-28 10:38:45');
 INSERT INTO `aset` VALUES (7, 'BRG005', 'Advan WorkPlus', 'Laptop', 'Advan', '23SDWWW2', '2026-03-17', '2028-03-01', 1, 7800000.00, 'PT Nawa Sena Utama', 'Tarno', 'Admin', 'Gedung KMZ', 'baru', 'baik', 'OKE', 'dipinjam', 'upload_bukti_aset/PSiS78Dzqxfrz4wqtheJysICoQe84LLRVCrIjy2u.png', '2026-03-16 18:43:14', '2026-03-16 18:44:09');
 INSERT INTO `aset` VALUES (8, 'BRG006', 'Asus Vivobook 14s', 'Laptop', 'Asus', 'K900LOSD', '2026-03-17', '2027-03-01', 1, 15248000.00, 'PT Bumi Hardana Sakti', NULL, NULL, NULL, 'baru', 'baik', 'tes 123456', 'tersedia', 'upload_bukti_aset/yME86n3tocOUrcIpeV0gW7nRFoYCBJZdEO1IzOCG.png', '2026-03-17 11:00:36', '2026-03-24 09:35:33');
-INSERT INTO `aset` VALUES (9, 'BRGCG-5780', 'Printer corporis', 'Printer', 'Logitech', 'SN-35K1I35SJI', '2008-04-26', '2026-08-25', 5, 7550134.00, 'PT Bumi Hardana Sakti', NULL, NULL, NULL, 'bekas', 'rusak', 'Molestiae accusamus deserunt est doloremque eaque esse sit.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
+INSERT INTO `aset` VALUES (9, 'BRGCG-5780', 'Printer corporis', 'Printer', 'Logitech', 'SN-35K1I35SJI', '2008-04-26', '2026-08-25', 5, 7550134.00, 'PT Bumi Hardana Sakti', 'Jarot', 'Gudang', 'Gudang', 'bekas', 'rusak', 'Molestiae accusamus deserunt est doloremque eaque esse sit.', 'dipinjam', NULL, '2026-03-27 16:23:04', '2026-04-07 07:44:39');
 INSERT INTO `aset` VALUES (10, 'BRGLR-5024', 'Monitor dolor', 'Monitor', 'Epson', 'SN-K8SK7KV36M', '1977-05-17', '2026-11-17', 16, 9151455.00, 'PT Mitrel Berkat Utama', 'Anto', 'Dinas Luar', 'Tangerang', 'bekas', 'rusak', 'Sed et dolorum voluptas et alias aut.', 'dipinjam', NULL, '2026-03-27 16:23:04', '2026-03-28 11:10:13');
 INSERT INTO `aset` VALUES (11, 'BRGFH-4397', 'Server necessitatibus', 'Server', 'Asus', 'SN-YUV28HZ5KT', '2008-06-18', '2027-03-02', 2, 831153.00, 'PT Armindo Langgeng Sejahtera', 'AB', 'Developer', 'Bandung', 'baru', 'rusak', 'Sapiente omnis nisi aspernatur maxime.', 'permanen', NULL, '2026-03-27 16:23:04', '2026-03-28 11:08:17');
-INSERT INTO `aset` VALUES (12, 'BRGRN-2826', 'Printer eum', 'Printer', 'Dell', 'SN-ZR2O78HFQE', '1987-10-09', '2026-06-16', 6, 8370286.00, 'PT Armindo Langgeng Sejahtera', 'Bimo', 'Admin', 'Yogyakarta', 'bekas', 'baik', 'Et odit explicabo vero quisquam unde quam.', 'dipinjam', NULL, '2026-03-27 16:23:04', '2026-03-28 11:09:33');
-INSERT INTO `aset` VALUES (13, 'BRGXE-5899', 'Server vel', 'Server', 'Logitech', 'SN-0QQKZ9999L', '2004-02-02', '2027-07-11', 1, 6094976.00, 'PT Mitrel Berkat Utama', NULL, NULL, NULL, 'baru', 'baik', 'Perferendis placeat quia assumenda amet quaerat sed asperiores voluptatem.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
-INSERT INTO `aset` VALUES (14, 'BRGOT-2373', 'Server consequatur', 'Server', 'Logitech', 'SN-Y6XCVA3XR9', '1977-08-23', '2026-09-30', 15, 2651432.00, 'PT Bumi Hardana Sakti', NULL, NULL, NULL, 'baru', 'baik', 'Impedit non quasi culpa qui harum nihil et itaque.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
-INSERT INTO `aset` VALUES (15, 'BRGCS-5937', 'Laptop ea', 'Laptop', 'Logitech', 'SN-0A25VZ4611', '1996-05-06', '2027-05-13', 20, 2910247.00, 'PT Armindo Langgeng Sejahtera', NULL, NULL, NULL, 'bekas', 'rusak', 'Reiciendis et eum et qui.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
+INSERT INTO `aset` VALUES (12, 'BRGRN-2826', 'Printer eum', 'Printer', 'Dell', 'SN-ZR2O78HFQE', '1987-10-09', '2026-06-16', 6, 8370286.00, 'PT Armindo Langgeng Sejahtera', NULL, NULL, 'Gudang', 'bekas', 'baik', 'Et odit explicabo vero quisquam unde quam.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-04-08 02:15:59');
+INSERT INTO `aset` VALUES (13, 'BRGXE-5899', 'Server vel', 'Server', 'Logitech', 'SN-0QQKZ9999L', '2004-02-02', '2027-07-11', 1, 6094976.00, 'PT Mitrel Berkat Utama', 'Gogon', 'Pertanian', 'Karawang', 'baru', 'baik', 'Perferendis placeat quia assumenda amet quaerat sed asperiores voluptatem.', 'permanen', NULL, '2026-03-27 16:23:04', '2026-04-07 08:19:57');
+INSERT INTO `aset` VALUES (14, 'BRGOT-2373', 'Server consequatur', 'Server', 'Logitech', 'SN-Y6XCVA3XR9', '1977-08-23', '2026-09-30', 15, 2651432.00, 'PT Bumi Hardana Sakti', NULL, NULL, 'Gudang', 'baru', 'rusak', 'Impedit non quasi culpa qui harum nihil et itaque.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-04-08 04:33:14');
+INSERT INTO `aset` VALUES (15, 'BRGCS-5937', 'Laptop ea', 'Laptop', 'Logitech', 'SN-0A25VZ4611', '1996-05-06', '2027-05-13', 20, 2910247.00, 'PT Armindo Langgeng Sejahtera', 'Aban', 'Pro Player', 'Rawa Belong', 'bekas', 'rusak', 'Reiciendis et eum et qui.', 'dipinjam', NULL, '2026-03-27 16:23:04', '2026-04-08 08:27:58');
 INSERT INTO `aset` VALUES (16, 'BRGHP-0846', 'Scanner voluptates', 'Scanner', 'Epson', 'SN-BX4586XTM2', '2015-10-16', '2027-01-14', 6, 7600007.00, 'PT Mitrel Berkat Utama', NULL, NULL, NULL, 'bekas', 'baik', 'Ut pariatur voluptatem aperiam et et.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
-INSERT INTO `aset` VALUES (17, 'BRGIV-7603', 'Printer at', 'Printer', 'Lenovo', 'SN-VQ01SWSVRM', '1983-10-31', '2027-06-18', 20, 4886908.00, 'PT Bumi Hardana Sakti', NULL, NULL, NULL, 'bekas', 'rusak', 'Pariatur distinctio et molestias in.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
+INSERT INTO `aset` VALUES (17, 'BRGIV-7603', 'Printer at', 'Printer', 'Lenovo', 'SN-VQ01SWSVRM', '1983-10-31', '2027-06-18', 20, 4886908.00, 'PT Bumi Hardana Sakti', 'Puyol', 'Pertanian', 'Karawang', 'bekas', 'rusak', 'Pariatur distinctio et molestias in.', 'dipinjam', NULL, '2026-03-27 16:23:04', '2026-04-07 09:05:40');
 INSERT INTO `aset` VALUES (19, 'BRGJI-8058', 'Scanner excepturi', 'Scanner', 'Logitech', 'SN-8L0UV637Z2', '1998-02-20', '2026-04-18', 19, 850090.00, 'PT Armindo Langgeng Sejahtera', NULL, NULL, NULL, 'bekas', 'baik', 'Qui nostrum quas asperiores.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
 INSERT INTO `aset` VALUES (20, 'BRGAC-4867', 'Printer sed', 'Printer', 'Lenovo', 'SN-NSIH4HN1Y3', '1983-09-15', '2026-09-27', 1, 12467696.00, 'PT Armindo Langgeng Sejahtera', NULL, NULL, NULL, 'bekas', 'rusak', 'Illum ex unde harum quaerat animi.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
 INSERT INTO `aset` VALUES (21, 'BRGVB-2092', 'Monitor optio', 'Monitor', 'Logitech', 'SN-94563QDNXJ', '1977-04-23', '2028-01-23', 5, 3430825.00, 'PT Bumi Hardana Sakti', NULL, NULL, NULL, 'bekas', 'rusak', 'Aut quisquam quisquam nisi exercitationem et possimus suscipit.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
-INSERT INTO `aset` VALUES (22, 'BRGLU-7434', 'CCTV ea', 'CCTV', 'Lenovo', 'SN-4PGK7X0591', '2003-03-24', '2027-12-13', 1, 8683965.00, 'PT Armindo Langgeng Sejahtera', NULL, NULL, NULL, 'baru', 'rusak', 'Assumenda ut in officia praesentium et rerum sunt corporis.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
+INSERT INTO `aset` VALUES (22, 'BRGLU-7434', 'CCTV ea', 'CCTV', 'Lenovo', 'SN-4PGK7X0591', '2003-03-24', '2027-12-13', 1, 8683965.00, 'PT Armindo Langgeng Sejahtera', 'Toyo', 'Pro Player', 'Rawa Belong', 'baru', 'rusak', 'Assumenda ut in officia praesentium et rerum sunt corporis.', 'dipinjam', NULL, '2026-03-27 16:23:04', '2026-04-08 02:23:14');
 INSERT INTO `aset` VALUES (23, 'BRGXD-3103', 'Printer autem', 'Printer', 'Epson', 'SN-51672RYOGD', '2010-09-23', '2027-01-27', 4, 2954001.00, 'PT Armindo Langgeng Sejahtera', NULL, NULL, NULL, 'bekas', 'baik', 'Blanditiis omnis aliquid eos.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
-INSERT INTO `aset` VALUES (24, 'BRGVK-4699', 'Printer culpa', 'Printer', 'Epson', 'SN-V5P8W9LBK2', '2014-01-29', '2027-07-03', 2, 8212134.00, 'PT Mitrel Berkat Utama', NULL, NULL, NULL, 'baru', 'baik', 'Animi dolorum ut sit rerum molestias.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
+INSERT INTO `aset` VALUES (24, 'BRGVK-4699', 'Printer culpa', 'Printer', 'Epson', 'SN-V5P8W9LBK2', '2014-01-29', '2027-07-03', 2, 8212134.00, 'PT Mitrel Berkat Utama', 'Yayan', 'Admin', 'Kantor Pusat', 'baru', 'baik', 'Animi dolorum ut sit rerum molestias.', 'dipinjam', NULL, '2026-03-27 16:23:04', '2026-04-07 09:24:34');
 INSERT INTO `aset` VALUES (25, 'BRGUE-3957', 'Laptop odit', 'Laptop', 'Asus', 'SN-J7D45L12X1', '1999-07-12', '2027-12-15', 3, 4992512.00, 'PT Mitrel Berkat Utama', NULL, NULL, NULL, 'bekas', 'baik', 'Accusantium necessitatibus saepe nulla voluptas nemo et.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
 INSERT INTO `aset` VALUES (26, 'BRGXU-4320', 'Printer iste', 'Printer', 'Hikvision', 'SN-GPD21ZP1GO', '2024-04-24', '2026-08-17', 3, 424071.00, 'PT Bumi Hardana Sakti', NULL, NULL, NULL, 'baru', 'rusak', 'Et voluptas delectus adipisci quis eum.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
 INSERT INTO `aset` VALUES (27, 'BRGOT-8552', 'Server rerum', 'Server', 'Hikvision', 'SN-MLUQ7L8ZK2', '2000-04-11', '2026-11-09', 1, 11292402.00, 'PT Bumi Hardana Sakti', NULL, NULL, NULL, 'baru', 'baik', 'Sequi dolorem sed id voluptatem ut sint ullam consequatur.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
@@ -104,8 +104,8 @@ INSERT INTO `aset` VALUES (55, 'BRGRL-0038', 'CCTV dolores', 'CCTV', 'Dell', 'SN
 INSERT INTO `aset` VALUES (56, 'BRGVF-9203', 'CCTV quas', 'CCTV', 'Hikvision', 'SN-636OG08BKN', '1974-03-03', '2028-01-06', 7, 11016643.00, 'PT Mitrel Berkat Utama', NULL, NULL, NULL, 'baru', 'rusak', 'Numquam error nulla necessitatibus rerum eum.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
 INSERT INTO `aset` VALUES (57, 'BRGFI-9640', 'CCTV labore', 'CCTV', 'Epson', 'SN-68V90K5HE7', '1995-05-19', '2026-12-10', 13, 12286023.00, 'PT Armindo Langgeng Sejahtera', NULL, NULL, NULL, 'baru', 'baik', 'Ea esse laboriosam eum neque incidunt dolorem ut.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
 INSERT INTO `aset` VALUES (58, 'BRGEZ-5079', 'Server qui', 'Server', 'HP', 'SN-ZYP3NP69W9', '1973-03-19', '2026-09-06', 6, 13504891.00, 'PT Armindo Langgeng Sejahtera', NULL, NULL, NULL, 'baru', 'baik', 'Dicta sunt quos earum laudantium explicabo distinctio.', 'tersedia', NULL, '2026-03-27 16:23:04', '2026-03-27 16:23:04');
-INSERT INTO `aset` VALUES (59, 'BRG012', 'Lenovo Ideapad i5', 'Laptop', 'Lenovo', 'JKS888', '2026-03-28', '2028-03-01', 1, 11000000.00, 'PT Parkit Indonesia', NULL, NULL, NULL, 'baru', 'baik', 'Yes', 'tersedia', 'upload_bukti_aset/s0f1hUv8Suj5e9k1xzAnvmD2wRpu1fhLNUURWu7B.pdf', '2026-03-27 17:12:20', '2026-03-31 03:32:59');
-INSERT INTO `aset` VALUES (61, 'BRG014', 'Acer Nitro', 'Laptop', 'Acer', 'BB11', '2026-03-29', '2026-03-31', 1, 15423000.00, 'PT Global Sekuriti Indonesia', NULL, NULL, 'Gudang', 'baru', 'baik', 'Tes', 'tersedia', 'upload_bukti_aset/DPX2lr1XLF4rpxYnCmbNW4x1fZBp1W880IYKJyRD.jpg', '2026-03-28 18:29:37', '2026-03-28 18:34:22');
+INSERT INTO `aset` VALUES (61, 'BRG014', 'Acer Nitro', 'Laptop', 'Acer', 'BB11', '2026-03-29', '2026-03-31', 1, 15423000.00, 'PT Global Sekuriti Indonesia', 'Aban', 'Pro Player', 'Palembang', 'baru', 'rusak', 'Tes', 'dipinjam', 'upload_bukti_aset/20260407_BRG014.png', '2026-03-28 18:29:37', '2026-04-08 01:56:31');
+INSERT INTO `aset` VALUES (64, 'BRG016', 'Lenovo LOQ', 'Laptop', 'Lenovo', 'IUOP231', '2026-04-08', '2027-04-01', 1, 12340000.00, 'PT Angin Ribut', NULL, NULL, 'Gudang', 'baru', 'baik', 'Tes', 'tersedia', 'upload_bukti_aset/20260408_BRG016.png', '2026-04-08 08:18:59', '2026-04-08 08:24:18');
 
 -- ----------------------------
 -- Table structure for cache
@@ -210,7 +210,7 @@ CREATE TABLE `migrations`  (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of migrations
@@ -236,6 +236,7 @@ INSERT INTO `migrations` VALUES (18, '2026_03_15_183319_create_pengembalian_tabl
 INSERT INTO `migrations` VALUES (19, '2026_03_17_103731_add_grade_barang_to_aset_table', 9);
 INSERT INTO `migrations` VALUES (20, '2026_03_27_163924_add_pt_user_to_peminjaman_table', 10);
 INSERT INTO `migrations` VALUES (21, '2026_03_30_075051_add_bukti_transaksi_to_transaksi_table', 11);
+INSERT INTO `migrations` VALUES (22, '2026_04_07_095438_add_soft_delete_to_aset_table', 12);
 
 -- ----------------------------
 -- Table structure for password_reset_tokens
@@ -273,7 +274,7 @@ CREATE TABLE `peminjaman`  (
   UNIQUE INDEX `peminjaman_kode_peminjaman_unique`(`kode_peminjaman` ASC) USING BTREE,
   INDEX `peminjaman_id_aset_foreign`(`id_aset` ASC) USING BTREE,
   CONSTRAINT `peminjaman_id_aset_foreign` FOREIGN KEY (`id_aset`) REFERENCES `aset` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of peminjaman
@@ -284,12 +285,25 @@ INSERT INTO `peminjaman` VALUES (8, 'PJ202603150006', 3, 'Mamat', 'PT Nawa Sena 
 INSERT INTO `peminjaman` VALUES (9, 'PJ202603160009', 1, 'Tarjo', 'PT Nawa Sena Utama', 'Developer', 'Rumah Dev', '2026-03-16', 'peminjaman/B2Vsh1KxY0rvS5jlDblO2PFN3LMMxUmbyM3ROFdY.png', 'dikembalikan', '2026-03-16 16:58:13', '2026-03-16 18:38:30');
 INSERT INTO `peminjaman` VALUES (10, 'PJ202603160010', 7, 'Tarno', 'PT Nawa Sena Utama', 'Admin', 'Gedung KMZ', '2026-03-17', 'peminjaman/5jDRGtCSZ7XYqVBoUSAzcpXen74pAygTnJPf4pZZ.png', 'dipinjam', '2026-03-16 18:44:09', '2026-03-16 18:44:09');
 INSERT INTO `peminjaman` VALUES (11, 'PJ202603270011', 1, 'Udin', 'PT Nawa Sena Utama', 'Pertamanan', 'Cibitung', '2026-03-27', 'peminjaman/gvOyjXlw7fbnKNUJuqUFeuytcgMyFWFHwegTbJ4t.png', 'dikembalikan', '2026-03-27 16:35:26', '2026-03-27 17:23:39');
-INSERT INTO `peminjaman` VALUES (12, 'PJ202603270012', 2, 'Acong', 'PT Nawa Sena Utama', 'Admin', 'Bandung', '2026-03-28', 'peminjaman/J5B53ocQH1LkKYhywu5jJZBEIHH5JtcbPKlaZKNz.png', 'dipinjam', '2026-03-27 17:20:50', '2026-03-27 17:20:50');
+INSERT INTO `peminjaman` VALUES (12, 'PJ202603270012', 2, 'Acong', 'PT Nawa Sena Utama', 'Admin', 'Bandung', '2026-03-28', 'peminjaman/J5B53ocQH1LkKYhywu5jJZBEIHH5JtcbPKlaZKNz.png', 'dikembalikan', '2026-03-27 17:20:50', '2026-04-07 09:23:05');
 INSERT INTO `peminjaman` VALUES (13, 'PJ202603280013', 6, 'Abdoel bin smith', 'PT Singa Raja', 'Industri', 'Amerika', '2026-03-30', 'peminjaman/qxHB3927X2e989tfnlH6sk2aI2jl7vrtu1nBxxoz.pdf', 'dipinjam', '2026-03-28 10:38:45', '2026-03-28 10:38:45');
 INSERT INTO `peminjaman` VALUES (14, 'PJ202603280014', 11, 'AB', 'PT Global Sekuriti Indonesia', 'Developer', 'Bandung', '2026-03-28', 'peminjaman/MmoZfx4D5NlgvcpJJVOnYA1KaLKfMf4qxgY3S0ed.png', 'permanen', '2026-03-28 11:08:17', '2026-03-28 11:08:17');
-INSERT INTO `peminjaman` VALUES (15, 'PJ202603280015', 12, 'Bimo', 'PT Sinar Perdana Teknologi', 'Admin', 'Yogyakarta', '2026-03-24', 'peminjaman/hAfhy6hcze8F8XOAJXk95EjOUWZwm3p9nyKR9bVh.pdf', 'dipinjam', '2026-03-28 11:09:33', '2026-03-28 11:09:33');
+INSERT INTO `peminjaman` VALUES (15, 'PJ202603280015', 12, 'Bimo', 'PT Sinar Perdana Teknologi', 'Admin', 'Yogyakarta', '2026-03-24', 'peminjaman/hAfhy6hcze8F8XOAJXk95EjOUWZwm3p9nyKR9bVh.pdf', 'dikembalikan', '2026-03-28 11:09:33', '2026-04-07 09:13:37');
 INSERT INTO `peminjaman` VALUES (16, 'PJ202603280016', 10, 'Anto', 'PT Mitrel Berkat Utama', 'Dinas Luar', 'Tangerang', '2026-03-28', 'peminjaman/hYIBgYQy4rvomFxYJ75jXqYN341ppT87dMv6jott.png', 'dipinjam', '2026-03-28 11:10:13', '2026-03-28 11:10:13');
 INSERT INTO `peminjaman` VALUES (17, 'PJ202603280017', 61, 'Inem', 'PT Babon Kunciran', 'Admin', 'Jakarta Pusat', '2026-03-31', 'peminjaman/W9zaDh8bh8E6akYi1OyCt7273DluC9GKZXqME9gJ.jpg', 'dikembalikan', '2026-03-28 18:32:46', '2026-03-28 18:34:22');
+INSERT INTO `peminjaman` VALUES (18, 'PJ202604070018', 9, 'Jarot', 'PT Bumi Hardana Sakti', 'Gudang', 'Gudang', '2026-04-07', 'peminjaman/7etlic7f0exkFyzUxSuger5lteRa9LSfLGLPRh66.png', 'dipinjam', '2026-04-07 07:44:39', '2026-04-07 07:44:39');
+INSERT INTO `peminjaman` VALUES (19, 'PJ202604070019', 14, 'Jimmy', 'PT Cipta Arta Hadikara', 'Gudang', 'Gudang', '2026-04-08', 'peminjaman/sZYK3778manaQ4W3AxVm9qVJcnItg087bZCjDiou.pdf', 'dikembalikan', '2026-04-07 07:45:42', '2026-04-08 04:33:14');
+INSERT INTO `peminjaman` VALUES (20, 'PJ202604070020', 13, 'Gogon', 'PT Mulia Indonesia Muda', 'Pertanian', 'Karawang', '2026-04-07', 'peminjaman/1775549997_PJ202604070020.jpg', 'permanen', '2026-04-07 08:19:57', '2026-04-07 08:19:57');
+INSERT INTO `peminjaman` VALUES (21, 'PJ202604070021', 17, 'Puyol', 'PT Sinar Perdana Teknologi', 'Pertanian', 'Karawang', '2026-04-08', 'peminjaman/PJ_20260407_PJ202604070021.jpg', 'dipinjam', '2026-04-07 09:05:40', '2026-04-07 09:05:40');
+INSERT INTO `peminjaman` VALUES (22, 'PJ202604070022', 24, 'Yayan', 'PT Kawan Usaha Sejahtera', 'Admin', 'Kantor Pusat', '2026-04-13', 'peminjaman/20260407_PJ202604070022.pdf', 'dipinjam', '2026-04-07 09:24:34', '2026-04-07 09:24:34');
+INSERT INTO `peminjaman` VALUES (23, 'PJ202604070023', 61, 'Aan', 'PT Angin Ribut', 'Kehutanan', 'Palembang', '2026-04-08', 'peminjaman/20260407_PJ202604070023.pdf', 'dikembalikan', '2026-04-07 12:13:51', '2026-04-07 12:14:29');
+INSERT INTO `peminjaman` VALUES (24, 'PJ202604070024', 1, 'Aban', 'PT Cipta Arta Hadikara', 'Pro Player', 'Rawa Belong', '2026-04-07', 'peminjaman/20260407_PJ202604070024.png', 'dipinjam', '2026-04-07 12:35:57', '2026-04-07 12:35:57');
+INSERT INTO `peminjaman` VALUES (25, 'PJ202604070025', 61, 'Aban', 'PT Global Sekuriti Indonesia', 'Pro Player', 'Rawa Belong', '2026-04-07', NULL, 'dikembalikan', '2026-04-07 13:23:01', '2026-04-07 13:23:29');
+INSERT INTO `peminjaman` VALUES (26, 'PJ202604080026', 61, 'Aban', 'PT Dapur Pulau Rasa', 'Pro Player', 'Palembang', '2026-04-08', NULL, 'dipinjam', '2026-04-08 01:56:31', '2026-04-08 01:56:31');
+INSERT INTO `peminjaman` VALUES (27, 'PJ202604080027', 12, 'Toyo', 'PT Global Sekuriti Indonesia', 'Pro Player', 'Palembang', '2026-04-08', 'peminjaman/20260408_PJ202604080027.png', 'dikembalikan', '2026-04-08 01:57:45', '2026-04-08 02:15:59');
+INSERT INTO `peminjaman` VALUES (28, 'PJ202604080028', 22, 'Toyo', 'PT Sinar Digital Teknologi', 'Pro Player', 'Rawa Belong', '2026-04-13', 'peminjaman/20260408_PJ202604080028.pdf', 'dipinjam', '2026-04-08 02:23:14', '2026-04-08 02:23:14');
+INSERT INTO `peminjaman` VALUES (29, 'PJ202604080029', 64, 'Yanto', 'PT Dapur Pulau Rasa', 'Pro Player', 'Kantor Pusat', '2026-04-13', 'peminjaman/20260408_PJ202604080029.png', 'dikembalikan', '2026-04-08 08:21:36', '2026-04-08 08:24:18');
+INSERT INTO `peminjaman` VALUES (30, 'PJ202604080030', 15, 'Aban', 'PT Bumi Hardana Sakti', 'Pro Player', 'Rawa Belong', '2026-04-08', NULL, 'dipinjam', '2026-04-08 08:27:58', '2026-04-08 08:27:58');
 
 -- ----------------------------
 -- Table structure for pengembalian
@@ -309,7 +323,7 @@ CREATE TABLE `pengembalian`  (
   UNIQUE INDEX `pengembalian_kode_pengembalian_unique`(`kode_pengembalian` ASC) USING BTREE,
   INDEX `pengembalian_id_peminjaman_foreign`(`id_peminjaman` ASC) USING BTREE,
   CONSTRAINT `pengembalian_id_peminjaman_foreign` FOREIGN KEY (`id_peminjaman`) REFERENCES `peminjaman` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pengembalian
@@ -319,6 +333,13 @@ INSERT INTO `pengembalian` VALUES (24, 3, 'KMB20260316002', '2026-03-17', 'penge
 INSERT INTO `pengembalian` VALUES (25, 5, 'KMB20260316003', '2026-03-21', 'pengembalian/sq9z8gPtlwtGQ4fOwpZgMOmnLpfqMkfFcxGJP9qO.png', 'baik', NULL, '2026-03-16 19:09:01', '2026-03-16 19:09:01');
 INSERT INTO `pengembalian` VALUES (26, 11, 'KMB20260327001', '2026-03-31', 'pengembalian/BkKCTcY4HbCmdOUD6VFUDfdeqbdXzLhmLRioG7X6.png', 'rusak', 'Ada garis hitam di sisi bawah layar', '2026-03-27 17:23:39', '2026-03-27 17:23:39');
 INSERT INTO `pengembalian` VALUES (27, 17, 'KMB20260328001', '2026-04-01', 'pengembalian/Ifu6X0A09FyOJglYJNPdV7DxrsDEcMQUdw9Qz4wZ.jpg', 'baik', 'Aman', '2026-03-28 18:34:22', '2026-03-28 18:34:22');
+INSERT INTO `pengembalian` VALUES (28, 15, 'KMB20260407001', '2026-04-07', 'pengembalian/20260407_KMB20260407001.jpg', 'baik', 'Dengan charger, flashdisk, dan kabel data', '2026-04-07 09:13:37', '2026-04-07 09:13:37');
+INSERT INTO `pengembalian` VALUES (29, 12, 'KMB20260407002', '2026-04-07', 'pengembalian/20260407_KMB20260407002.pdf', 'baik', NULL, '2026-04-07 09:23:05', '2026-04-07 09:23:05');
+INSERT INTO `pengembalian` VALUES (30, 23, 'KMB20260407003', '2026-04-14', 'pengembalian/20260407_KMB20260407003.png', 'baik', 'Oke Aman', '2026-04-07 12:14:29', '2026-04-07 12:14:29');
+INSERT INTO `pengembalian` VALUES (31, 25, 'KMB20260407004', '2026-04-09', 'pengembalian/20260407_KMB20260407004.png', 'rusak', NULL, '2026-04-07 13:23:29', '2026-04-07 13:23:29');
+INSERT INTO `pengembalian` VALUES (32, 27, 'KMB20260408001', '2026-04-01', NULL, 'baik', 'A', '2026-04-08 02:15:59', '2026-04-08 02:15:59');
+INSERT INTO `pengembalian` VALUES (33, 19, 'KMB20260408002', '2026-04-08', 'pengembalian/20260408_KMB20260408002.png', 'rusak', 'Rusak pada layar retak', '2026-04-08 04:33:14', '2026-04-08 04:33:14');
+INSERT INTO `pengembalian` VALUES (34, 29, 'KMB20260408003', '2026-04-27', 'pengembalian/20260408_KMB20260408003.png', 'baik', 'Barang aman', '2026-04-08 08:24:18', '2026-04-08 08:24:18');
 
 -- ----------------------------
 -- Table structure for permissions
@@ -349,13 +370,13 @@ INSERT INTO `permissions` VALUES (6, 'admin', 'Stok', 1, 1, 1, 1, '2026-03-24 15
 INSERT INTO `permissions` VALUES (7, 'admin', 'Transaksi', 1, 1, 1, 1, '2026-03-24 15:36:29', '2026-03-24 15:36:29');
 INSERT INTO `permissions` VALUES (8, 'admin', 'Report Transaksi', 1, 1, 1, 1, '2026-03-24 15:36:29', '2026-03-24 15:36:29');
 INSERT INTO `permissions` VALUES (9, 'user', 'User', 0, 0, 0, 0, '2026-03-24 15:36:29', '2026-03-27 06:31:13');
-INSERT INTO `permissions` VALUES (10, 'user', 'Inventori', 1, 0, 0, 0, '2026-03-24 15:36:29', '2026-03-24 15:36:29');
-INSERT INTO `permissions` VALUES (11, 'user', 'Peminjaman', 1, 0, 0, 0, '2026-03-24 15:36:29', '2026-03-24 15:36:29');
-INSERT INTO `permissions` VALUES (12, 'user', 'Pengembalian', 1, 0, 0, 0, '2026-03-24 15:36:29', '2026-03-24 15:36:29');
-INSERT INTO `permissions` VALUES (13, 'user', 'Report Peminjaman Pengembalian', 1, 0, 0, 0, '2026-03-24 15:36:29', '2026-03-27 06:31:12');
+INSERT INTO `permissions` VALUES (10, 'user', 'Inventori', 1, 0, 0, 0, '2026-03-24 15:36:29', '2026-04-08 08:14:13');
+INSERT INTO `permissions` VALUES (11, 'user', 'Peminjaman', 1, 0, 0, 0, '2026-03-24 15:36:29', '2026-04-08 08:14:12');
+INSERT INTO `permissions` VALUES (12, 'user', 'Pengembalian', 1, 0, 0, 0, '2026-03-24 15:36:29', '2026-04-08 08:14:11');
+INSERT INTO `permissions` VALUES (13, 'user', 'Report Peminjaman Pengembalian', 1, 0, 0, 0, '2026-03-24 15:36:29', '2026-04-08 08:14:11');
 INSERT INTO `permissions` VALUES (14, 'user', 'Stok', 1, 0, 0, 0, '2026-03-24 15:36:29', '2026-03-24 15:36:29');
-INSERT INTO `permissions` VALUES (15, 'user', 'Transaksi', 1, 0, 0, 0, '2026-03-24 15:36:29', '2026-03-24 15:36:29');
-INSERT INTO `permissions` VALUES (16, 'user', 'Report Transaksi', 1, 0, 0, 0, '2026-03-24 15:36:29', '2026-03-24 15:36:29');
+INSERT INTO `permissions` VALUES (15, 'user', 'Transaksi', 1, 0, 0, 0, '2026-03-24 15:36:29', '2026-04-08 08:13:59');
+INSERT INTO `permissions` VALUES (16, 'user', 'Report Transaksi', 1, 0, 0, 0, '2026-03-24 15:36:29', '2026-04-08 08:14:00');
 
 -- ----------------------------
 -- Table structure for sessions
@@ -376,7 +397,7 @@ CREATE TABLE `sessions`  (
 -- ----------------------------
 -- Records of sessions
 -- ----------------------------
-INSERT INTO `sessions` VALUES ('FftWhSKdSqWq58Q7kTKWIcZQepWD1VOSR7CosZbF', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZGlaQkVIZWx3QjRob3F1aHlNTkNwY2dyVGludzk0czYwdlFVa1U4VCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC91c2VycyI7czo1OiJyb3V0ZSI7czoxMToidXNlcnMuaW5kZXgiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1774928295);
+INSERT INTO `sessions` VALUES ('GGPLgW8YwoeurzvevHYzkryhLqDpl5vjmcmnH7HQ', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiN1lSRWZCQTBMb1A2S0pPMGU0Sk55emJVZElQWEVWMVMwTHR6Qlp2ZSI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjcwOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvLndlbGwta25vd24vYXBwc3BlY2lmaWMvY29tLmNocm9tZS5kZXZ0b29scy5qc29uIjtzOjU6InJvdXRlIjtOO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1775815315);
 
 -- ----------------------------
 -- Table structure for stok_barang
@@ -396,17 +417,18 @@ CREATE TABLE `stok_barang`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `stok_barang_kode_barang_unique`(`kode_barang` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of stok_barang
 -- ----------------------------
-INSERT INTO `stok_barang` VALUES (1, 'BRG-001', 'Flashdisk Lexar 64GB', '2026-06-20', 'PT Global Sekuriti Indonesia', 'Pcs', 250000.00, 2250000.00, 5, '2026-03-07 19:17:43', '2026-03-13 04:29:52');
-INSERT INTO `stok_barang` VALUES (4, 'BRG-0002', 'Flashdisk Lexar 32GB', '2026-06-20', 'PT Kawan Usaha Sejahtera', 'Pcs', 100000.00, 1000000.00, 8, '2026-03-10 14:50:28', '2026-03-30 10:08:07');
-INSERT INTO `stok_barang` VALUES (5, 'BRG-0005', 'Flashdisk Lexar 128GB', '2026-06-16', 'PT Kawan Usaha Sejahtera', 'Pcs', 250000.00, 1000000.00, 1, '2026-03-10 14:56:30', '2026-03-14 15:04:17');
+INSERT INTO `stok_barang` VALUES (1, 'BRG-001', 'Flashdisk Lexar 64GB', '2026-06-20', 'PT Global Sekuriti Indonesia', 'Pcs', 250000.00, 2250000.00, 3, '2026-03-07 19:17:43', '2026-04-09 09:44:28');
+INSERT INTO `stok_barang` VALUES (4, 'BRG-0002', 'Flashdisk Lexar 32GB', '2026-06-20', 'PT Kawan Usaha Sejahtera', 'Pcs', 100000.00, 1000000.00, 8, '2026-03-10 14:50:28', '2026-04-01 07:46:47');
+INSERT INTO `stok_barang` VALUES (5, 'BRG-0005', 'Flashdisk Lexar 128GB', '2026-06-16', 'PT Kawan Usaha Sejahtera', 'Pcs', 250000.00, 1000000.00, 0, '2026-03-10 14:56:30', '2026-04-10 02:11:33');
 INSERT INTO `stok_barang` VALUES (6, 'BRG-0006', 'Toner TN 451', '2026-03-06', 'PT Dwireka Cakra Buana', 'Box', 1200000.00, 4800000.00, 5, '2026-03-10 14:58:16', '2026-03-13 04:39:08');
-INSERT INTO `stok_barang` VALUES (7, 'BRG-0007', 'Toner A09', '2026-03-10', 'PT Sinar Digital Teknologi', 'Pcs', 2000000.00, 8000000.00, 5, '2026-03-10 15:03:38', '2026-03-10 15:03:38');
-INSERT INTO `stok_barang` VALUES (9, 'BRG-0009', 'Gelas', '2026-03-28', 'PT Dapur Pulau Rasa', 'Pieces', 5000.00, 50000.00, 10, '2026-03-28 16:26:08', '2026-03-28 16:26:34');
+INSERT INTO `stok_barang` VALUES (9, 'BRG-0009', 'Gelas', '2026-03-28', 'PT Dapur Pulau Rasa', 'Pieces', 5000.00, 50000.00, 5, '2026-03-28 16:26:08', '2026-04-10 10:01:52');
+INSERT INTO `stok_barang` VALUES (10, 'BRG-0010', 'Toner A03', '2026-04-08', 'PT Nawa Sena Utama', 'Pieces', 800000.00, 3200000.00, 0, '2026-04-08 08:25:52', '2026-04-09 09:35:15');
+INSERT INTO `stok_barang` VALUES (11, 'BRG-0011', 'Toner A04', '2026-04-09', 'PT Armindo Langgeng Sejahtera', 'Unit', 200000.00, 1000000.00, 1, '2026-04-09 09:48:43', '2026-04-10 02:12:18');
 
 -- ----------------------------
 -- Table structure for transaksi
@@ -430,17 +452,22 @@ CREATE TABLE `transaksi`  (
   UNIQUE INDEX `transaksi_kode_transaksi_unique`(`kode_transaksi` ASC) USING BTREE,
   INDEX `transaksi_stok_barang_id_foreign`(`stok_barang_id` ASC) USING BTREE,
   CONSTRAINT `transaksi_stok_barang_id_foreign` FOREIGN KEY (`stok_barang_id`) REFERENCES `stok_barang` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of transaksi
 -- ----------------------------
-INSERT INTO `transaksi` VALUES (9, 'TR202603130001', 5, 'Parjo', 'Keuangan', 1, 5, 4, 'dipinjamkan', '2026-03-11 00:00:00', NULL, '2026-03-13 03:40:41', '2026-03-13 04:29:33');
+INSERT INTO `transaksi` VALUES (9, 'TR202603130001', 5, 'Parjo', 'Keuangan', 1, 1, 0, 'diberikan', '2026-03-11 00:00:00', NULL, '2026-03-13 03:40:41', '2026-04-10 02:11:33');
 INSERT INTO `transaksi` VALUES (11, 'TR202603130010', 1, 'Rudi', 'Kontraktor', 5, 10, 5, 'diberikan', '2026-03-13 00:00:00', NULL, '2026-03-13 04:29:05', '2026-03-13 04:29:52');
 INSERT INTO `transaksi` VALUES (12, 'TR202603130012', 6, 'Parman', 'Admin', 1, 5, 5, 'dibatalkan', '2026-03-10 00:00:00', NULL, '2026-03-13 04:38:42', '2026-03-13 04:39:08');
 INSERT INTO `transaksi` VALUES (13, 'TR202603140013', 5, 'Agung', 'Pertanian', 3, 4, 1, 'dipinjamkan', '2026-03-14 00:00:00', NULL, '2026-03-14 15:04:17', '2026-03-14 15:04:17');
-INSERT INTO `transaksi` VALUES (14, 'TR202603300014', 4, 'Yanto', 'Keuangan', 2, 10, 10, 'dibatalkan', '2026-03-30 00:00:00', NULL, '2026-03-30 09:07:29', '2026-03-30 09:11:00');
+INSERT INTO `transaksi` VALUES (14, 'TR202603300014', 4, 'Yanto', 'Keuangan', 2, 10, 8, 'dipinjamkan', '2026-03-30 00:00:00', 'bukti_transaksi/H0mp7PuumKYSSjrH6vXng0KBeGtHbrcgAOFk3cG4.png', '2026-03-30 09:07:29', '2026-04-01 07:46:48');
 INSERT INTO `transaksi` VALUES (15, 'TR202603300015', 4, 'Badrul', 'Sekretaris', 2, 10, 8, 'dipinjamkan', '2026-03-30 00:00:00', 'bukti_transaksi/gZ0ClHkXEXH7EuYUp0ZCKNsDLF0Y80o6dH7vgBPj.pdf', '2026-03-30 09:12:33', '2026-03-30 10:08:07');
+INSERT INTO `transaksi` VALUES (16, 'TR202604010016', 5, 'Hendro', 'Perkebunan', 1, 1, 0, 'dipinjamkan', '2026-04-01 00:00:00', 'bukti_transaksi/Q6dZUb02xMTK2V1Ec06lcwqep3znHdh7dndMubiI.png', '2026-04-01 09:18:39', '2026-04-01 09:19:09');
+INSERT INTO `transaksi` VALUES (21, 'TR202604090017', 11, 'Budi', 'Pro Player', 3, 5, 2, 'dipinjamkan', '2026-04-09 00:00:00', NULL, '2026-04-09 09:49:17', '2026-04-09 09:49:17');
+INSERT INTO `transaksi` VALUES (22, 'TR202604100022', 11, 'User A', 'Admin', 1, 2, 1, 'dipinjamkan', '2026-04-10 00:00:00', 'bukti_transaksi/20260410_TR202604100022.png', '2026-04-10 02:12:17', '2026-04-10 02:12:17');
+INSERT INTO `transaksi` VALUES (32, 'TR202604100023', 9, 'Usman', 'Kecamatan Bikini Bottom', 5, 10, 5, 'dipinjamkan', '2026-04-10 00:00:00', NULL, '2026-04-10 09:28:58', '2026-04-10 09:42:07');
+INSERT INTO `transaksi` VALUES (33, 'TR202604100033', 9, 'Udin', 'Kecamatan Bikini Bottom', 5, 5, 5, 'dibatalkan', '2026-04-10 00:00:00', 'bukti_transaksi/20260410_TR202604100033.pdf', '2026-04-10 09:42:26', '2026-04-10 10:01:52');
 
 -- ----------------------------
 -- Table structure for users
@@ -466,7 +493,7 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'Tarjo', 'admin@gmail.com', NULL, '$2y$12$SYAGXR6dzn2zbq3KCjkI4O/ow4r.tHXkv0deWLIjDNy2voHdKcoyG', NULL, NULL, NULL, 'admin', 'omNnAxL3RYWD4zQRrNmCyXM0G3OIsFZSOJa123DpRAEypdd9GHeWJQrqGC1A', '2026-03-07 02:05:03', '2026-03-07 02:05:03');
+INSERT INTO `users` VALUES (1, 'Tarjo', 'admin@gmail.com', NULL, '$2y$12$SYAGXR6dzn2zbq3KCjkI4O/ow4r.tHXkv0deWLIjDNy2voHdKcoyG', NULL, NULL, NULL, 'admin', 'Asg1C804e6My36hmn6YffSRG4RdhoHKAE5FWws5nogqNznlweHXmjQ1ia1Nq', '2026-03-07 02:05:03', '2026-03-07 02:05:03');
 INSERT INTO `users` VALUES (33, 'Patricia Utami', 'sitompul.uchita@example.net', '2026-03-27 15:50:36', '$2y$12$m0Tn4cM4Qk1NAVf0vYq9W.wv4Qkrp.c/GShisziUElmvi.VMZvyri', NULL, NULL, NULL, 'user', 'WdMBgecwNS', '2026-03-27 15:50:36', '2026-03-27 15:50:36');
 INSERT INTO `users` VALUES (34, 'Asirwanda Wahyudin', 'farah.hariyah@example.com', '2026-03-27 15:50:36', '$2y$12$m0Tn4cM4Qk1NAVf0vYq9W.wv4Qkrp.c/GShisziUElmvi.VMZvyri', NULL, NULL, NULL, 'user', 'jBi959gYFh', '2026-03-27 15:50:36', '2026-03-27 15:50:36');
 INSERT INTO `users` VALUES (35, 'Safina Suartini', 'ibrani58@example.net', '2026-03-27 15:50:36', '$2y$12$m0Tn4cM4Qk1NAVf0vYq9W.wv4Qkrp.c/GShisziUElmvi.VMZvyri', NULL, NULL, NULL, 'user', 'z2JIwVvVqw', '2026-03-27 15:50:36', '2026-03-27 15:50:36');
@@ -476,6 +503,6 @@ INSERT INTO `users` VALUES (38, 'Perkasa Kuswoyo', 'cahyanto.hardiansyah@example
 INSERT INTO `users` VALUES (39, 'Tomi Sirait', 'almira40@example.net', '2026-03-27 15:50:36', '$2y$12$m0Tn4cM4Qk1NAVf0vYq9W.wv4Qkrp.c/GShisziUElmvi.VMZvyri', NULL, NULL, NULL, 'user', 'KKfaRbIBmz', '2026-03-27 15:50:36', '2026-03-27 15:50:36');
 INSERT INTO `users` VALUES (40, 'Karja Wibisono S.IP', 'simbolon.hana@example.net', '2026-03-27 15:50:36', '$2y$12$m0Tn4cM4Qk1NAVf0vYq9W.wv4Qkrp.c/GShisziUElmvi.VMZvyri', NULL, NULL, NULL, 'user', '4Xyjs70aBj', '2026-03-27 15:50:36', '2026-03-27 15:50:36');
 INSERT INTO `users` VALUES (41, 'Zalindra Prastuti', 'syahrini46@example.org', '2026-03-27 15:50:36', '$2y$12$m0Tn4cM4Qk1NAVf0vYq9W.wv4Qkrp.c/GShisziUElmvi.VMZvyri', NULL, NULL, NULL, 'user', 'pj7LjuNsHa', '2026-03-27 15:50:36', '2026-03-27 15:50:36');
-INSERT INTO `users` VALUES (42, 'Nalar Hutagalung', 'marsito.irawan@example.net', '2026-03-27 15:50:36', '$2y$12$m0Tn4cM4Qk1NAVf0vYq9W.wv4Qkrp.c/GShisziUElmvi.VMZvyri', NULL, NULL, NULL, 'user', 'JunG4LhRpm', '2026-03-27 15:50:36', '2026-03-27 15:50:36');
+INSERT INTO `users` VALUES (42, 'Nalar Hutagalung', 'marsito.irawan@example.net', '2026-03-27 15:50:36', '$2y$12$.BeP2ERzBdDzhZo5Ujz0FemBD4HyBwjmiCj0JEf3hITMZ1gE3j3am', NULL, NULL, NULL, 'user', 'BlgNUTRtsCCFnwPuoHPZIwSCEWfOc7anKxBaqR1VqSghMm5yF0S8lsfZoYrD', '2026-03-27 15:50:36', '2026-04-08 08:13:31');
 
 SET FOREIGN_KEY_CHECKS = 1;
