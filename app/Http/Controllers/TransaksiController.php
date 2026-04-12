@@ -179,6 +179,7 @@ class TransaksiController extends Controller
             ],
         ],[
             'bukti_transaksi.mimes' => 'Format file harus berupa JPEG, PNG, JPG, atau PDF.',
+            'jumlah.min' => 'Kolom jumlah minimal 1 atau Transaksi sudah dibatalkan.'
         ]);
 
         try {
