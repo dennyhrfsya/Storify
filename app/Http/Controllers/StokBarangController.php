@@ -84,7 +84,7 @@ class StokBarangController extends Controller
             ]);
 
             return redirect()->route('stok.index')
-                         ->with('success', 'Stok baru berhasil di <strong>Tambah</strong>');
+                         ->with('success', 'Stok baru berhasil <strong>Ditambah</strong>');
             });
 
         } catch (\Exception $e) {
@@ -138,7 +138,7 @@ class StokBarangController extends Controller
                 ]);
 
                 return redirect()->route('stok.index')
-                                ->with('success', 'Data stok berhasil di <strong>Ubah</strong>');
+                                ->with('success', 'Data stok berhasil <strong>Diubah</strong>');
             });
         } catch (\Exception $e) {
             return back()->withInput()->with('error', 'Gagal mengubah data: ' . $e->getMessage());
@@ -159,6 +159,6 @@ class StokBarangController extends Controller
         $stok->delete();
 
         return redirect()->route('stok.index')
-                        ->with('success', 'Data stok berhasil di <strong>Hapus</strong>');
+                        ->with('success', 'Data stok berhasil <strong>Dihapus</strong>');
     }
 }

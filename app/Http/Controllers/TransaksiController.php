@@ -137,7 +137,7 @@ class TransaksiController extends Controller
                 $stokBarang->decrement('stok_saat_ini', $request->jumlah);
 
                 return redirect()->route('transaksi.index')
-                                ->with('success', 'Transaksi <strong>' . $kodeTrOtomatis . '</strong> berhasil di <strong>Tambah</strong>');
+                                ->with('success', 'Transaksi <strong>' . $kodeTrOtomatis . '</strong> berhasil <strong>Ditambah</strong>');
             });
 
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -153,111 +153,6 @@ class TransaksiController extends Controller
         $stokBarang = StokBarang::all();
         return view('transaksi.ubah', compact('transaksi', 'stokBarang'));
     }
-
-    // public function update(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'stok_barang_id' => 'required|exists:stok_barang,id',
-    //         'jumlah'         => 'required|numeric|min:1',
-    //         'status'         => 'required|in:dipinjamkan,diberikan,dibatalkan',
-    //         'nama_user'      => 'required|string',
-    //         'departemen'     => 'required|string',
-    //         'tanggal_transaksi' => 'required|date',
-    //         'bukti_transaksi' => [
-    //             'nullable', 'file', 'mimes:jpg,jpeg,png,pdf',
-    //             function ($attribute, $value, $fail) {
-    //                 $extension = strtolower($value->getClientOriginalExtension());
-    //                 $size = $value->getSize() / 1024;
-
-    //                 if ($extension === 'pdf' && $size > 2048) {
-    //                     $fail('Untuk file PDF, ukuran maksimal adalah 2MB.');
-    //                 }
-    //                 if (in_array($extension, ['jpg', 'jpeg', 'png']) && $size > 10240) {
-    //                     $fail('Ukuran gambar maksimal 10MB untuk dikompres.');
-    //                 }
-    //             }
-    //         ],
-    //     ],[
-    //         'bukti_transaksi.mimes' => 'Format file harus berupa JPEG, PNG, JPG, atau PDF.',
-    //     ]);
-
-    //     try {
-    //         return DB::transaction(function () use ($request, $id) {
-    //             $transaksi = Transaksi::findOrFail($id);
-
-    //             // Supaya kalau tidak upload file baru, data lama tidak hilang/error
-    //             $path = $transaksi->bukti_transaksi;
-
-    //             // 1. KEMBALIKAN STOK BARANG LAMA (REVERSE)
-    //             $barangLama = StokBarang::lockForUpdate()->find($transaksi->stok_barang_id);
-    //             if ($transaksi->status !== 'dibatalkan') {
-    //                 $barangLama->increment('stok_saat_ini', $transaksi->jumlah);
-    //             }
-
-    //             // 2. AMBIL DATA BARANG BARU (Bisa jadi ID-nya tetap sama, bisa jadi beda)
-    //             $barangBaru = StokBarang::lockForUpdate()->find($request->stok_barang_id);
-    //             $statusBaru = strtolower($request->status);
-
-    //             // 3. HITUNG HISTORI STOK BARU
-    //             $stokAwalBaru  = $barangBaru->stok_saat_ini;
-    //             $stokAkhirBaru = $stokAwalBaru;
-
-    //             if ($statusBaru !== 'dibatalkan') {
-    //                 // Cek ketersediaan stok pada barang baru
-    //                 if ($barangBaru->stok_saat_ini < $request->jumlah) {
-    //                     throw new \Exception("Stok tidak mencukupi! Barang '{$barangBaru->nama_barang}' tersedia: {$barangBaru->stok_saat_ini}");
-    //                 }
-
-    //                 $stokAkhirBaru = $stokAwalBaru - $request->jumlah;
-
-    //                 // Kurangi stok barang baru
-    //                 $barangBaru->decrement('stok_saat_ini', $request->jumlah);
-    //             }
-
-    //             // 2. Logika File (Upload baru & Hapus lama)
-    //             if ($request->hasFile('bukti_transaksi')) {
-    //                 if ($transaksi->bukti_transaksi && Storage::disk('public')->exists($transaksi->bukti_transaksi)) {
-    //                     Storage::disk('public')->delete($transaksi->bukti_transaksi);
-    //                 }
-
-    //                 $file = $request->file('bukti_transaksi');
-    //                 $extension = strtolower($file->getClientOriginalExtension());
-    //                 $filename = now()->format('Ymd') . '_' . $transaksi->kode_transaksi . '.' . $extension;
-    //                 $folderPath = 'bukti_transaksi';
-
-    //                 if (in_array($extension, ['jpg', 'jpeg', 'png']) && $file->getSize() > 2048 * 1024) {
-    //                     if (!Storage::disk('public')->exists($folderPath)) {
-    //                         Storage::disk('public')->makeDirectory($folderPath);
-    //                     }
-
-    //                     $destinationPath = storage_path('app/public/' . $folderPath . '/' . $filename);
-    //                     $this->compressImage($file->getRealPath(), $destinationPath, $extension);
-    //                     $path = $folderPath . '/' . $filename;
-    //                 } else {
-    //                     $path = $file->storeAs($folderPath, $filename, 'public');
-    //                 }
-    //             }
-
-    //             // 4. UPDATE DATA TRANSAKSI
-    //             $transaksi->update([
-    //                 'stok_barang_id'    => $request->stok_barang_id,
-    //                 'jumlah'            => $request->jumlah,
-    //                 'status'            => $statusBaru,
-    //                 'nama_user'         => $request->nama_user,
-    //                 'departemen'        => $request->departemen,
-    //                 'tanggal_transaksi' => $request->tanggal_transaksi,
-    //                 'stok_awal'         => $stokAwalBaru,
-    //                 'stok_akhir'        => $stokAkhirBaru,
-    //                 'bukti_transaksi'   => $path
-    //             ]);
-
-    //             return redirect()->route('transaksi.index')
-    //                 ->with('success', 'Transaksi <strong>'.$transaksi->kode_transaksi.'</strong> berhasil di <strong>Ubah</strong>');
-    //         });
-    //     } catch (\Throwable $e) {
-    //         return back()->withInput()->with('error','Gagal mengubah: ' . $e->getMessage());
-    //     }
-    // }
 
     public function update(Request $request, $id)
     {
@@ -362,7 +257,7 @@ class TransaksiController extends Controller
                 ]);
 
                 return redirect()->route('transaksi.index')
-                    ->with('success', 'Transaksi <strong>'.$transaksi->kode_transaksi.'</strong> berhasil di <strong>Ubah</strong>');
+                    ->with('success', 'Transaksi <strong>'.$transaksi->kode_transaksi.'</strong> berhasil <strong>Diubah</strong>');
             });
         } catch (\Throwable $e) {
             return back()->withInput()->with('error','Gagal mengubah: ' . $e->getMessage());
@@ -396,7 +291,7 @@ class TransaksiController extends Controller
                 $transaksi->delete();
 
                 return redirect()->route('transaksi.index')
-                                ->with('success', 'Transaksi berhasil di<strong>Hapus</strong> dan stok telah dikembalikan');
+                                ->with('success', 'Transaksi berhasil <strong>Dihapus</strong> dan stok telah dikembalikan');
             });
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal menghapus : ' . $e->getMessage());
