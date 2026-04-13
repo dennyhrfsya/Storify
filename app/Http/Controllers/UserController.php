@@ -49,7 +49,7 @@ class UserController extends Controller
         ]);
 
         return redirect()->route('users.index')
-                         ->with('success', 'User baru berhasil di <strong>Tambah</strong>');
+                         ->with('success', 'User baru berhasil <strong>Ditambah</strong>');
     }
 
     public function ubah($id)
@@ -81,7 +81,7 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('users.index')
-                        ->with('success', 'Data user berhasil di <strong>Ubah</strong>');
+                        ->with('success', 'Data user berhasil <strong>Diubah</strong>');
     }
 
     public function hapus($id)
@@ -89,6 +89,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->back()->with('success', 'Data user berhasil di <strong>Hapus</strong>');
+        return redirect()->back()->with('success', 'Data user berhasil <strong>Dihapus</strong>');
     }
 }

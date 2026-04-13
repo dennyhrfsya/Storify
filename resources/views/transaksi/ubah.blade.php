@@ -43,11 +43,32 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="jumlah_input">Jumlah Yang Diambil</label>
+
+                                    @php
+                                        $stokGudang = $transaksi->stokBarang->stok_saat_ini;
+                                        $jumlahPinjam = $transaksi->jumlah;
+                                        $statusSaatIni = $transaksi->status;
+
+                                        // LOGIKA PERBAIKAN:
+                                        // Jika status DB aslinya 'dibatalkan', stok gudang SUDAH berisi angka ini. Max = 10.
+                                        // Jika status DB aslinya 'dipinjamkan', barang masih DI LUAR. Max = 5 + 5 = 10.
+
+                                        if ($statusSaatIni == 'dibatalkan') {
+                                            $maxReal = $stokGudang;
+                                        } else {
+                                            $maxReal = $stokGudang + $jumlahPinjam;
+                                        }
+                                    @endphp
+
                                     <input type="number" name="jumlah" id="jumlah_input" min="1"
-                                        max="{{ $transaksi->stokBarang->stok_saat_ini + $transaksi->jumlah }}"
-                                        value="{{ old('jumlah', $transaksi->jumlah) }}">
+                                        max="{{ $maxReal }}" {{-- Kita simpan data asli di atribut untuk dibaca JS --}} data-stok-asal="{{ $stokGudang }}"
+                                        data-jumlah-asal="{{ $jumlahPinjam }}" data-status-asal="{{ $statusSaatIni }}"
+                                        value="{{ old('jumlah', $jumlahPinjam) }}">
+
                                     <small class="dx-text-abu">Maksimal :
-                                        {{ $transaksi->stokBarang->stok_saat_ini + $transaksi->jumlah }}</small>
+                                        <strong id="display-max">{{ $maxReal }}</strong>
+                                    </small>
+
                                     <p id="error-js-jumlah" class="dx-text-merah dx-text-xs" style="display: none;"></p>
                                     @error('jumlah')
                                         <p class="dx-text-merah dx-text-xs">{{ $message }}</p>
