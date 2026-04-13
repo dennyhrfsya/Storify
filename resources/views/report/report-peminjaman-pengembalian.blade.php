@@ -36,7 +36,7 @@
                                 <div class="dx-form-group">
                                     <label for="pencarian">Pencarian</label>
                                     <input type="text" id="pencarian" name="search" value="{{ request('search') }}"
-                                        placeholder="Ketik kode, aset, atau user...">
+                                        placeholder="Ketik kode, aset, user, atau PT...">
                                 </div>
                             </div>
                         </div>
@@ -123,6 +123,7 @@
                                         <th scope="col" class="align-middle dx-sortable">Kode Pinjam / Kembali</th>
                                         <th scope="col" class="align-middle dx-sortable">Aset</th>
                                         <th scope="col" class="align-middle">Peminjam</th>
+                                        <th scope="col" class="align-middle">PT User</th>
                                         <th scope="col" class="align-middle">Dept / Lokasi</th>
                                         <th scope="col" class="align-middle">Tgl Pinjam</th>
                                         <th scope="col" class="align-middle">Tgl Kembali</th>
@@ -148,6 +149,7 @@
                                                 {{ $rpp->aset->nama_barang ?? 'Aset Tidak Ditemukan' }}
                                             </td>
                                             <td>{{ $rpp->user_aset ?? '-' }}</td>
+                                            <td>{{ $rpp->pt_user ?? '-' }}</td>
                                             <td>
                                                 {{ $rpp->departemen ?? '-' }}<br>
                                                 <small class="text-muted dx-font-italic">{{ $rpp->lokasi ?? '-' }}</small>

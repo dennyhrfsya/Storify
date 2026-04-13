@@ -24,6 +24,7 @@ class PengembalianController extends Controller
                     // Mencari ke tabel peminjaman
                     ->orWhereHas('peminjaman', function ($subP) use ($search) {
                         $subP->where('user_aset', 'like', "%{$search}%")
+                            ->orWhere('pt_user', 'like', "%{$search}%")
                             // Mencari lebih dalam lagi ke tabel aset
                             ->orWhereHas('aset', function ($subA) use ($search) {
                                 $subA->where('nama_barang', 'like', "%{$search}%")

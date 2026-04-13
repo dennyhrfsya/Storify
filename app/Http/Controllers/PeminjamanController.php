@@ -19,6 +19,7 @@ class PeminjamanController extends Controller
             ->when($search, function ($query) use ($search) {
                 $query->where('kode_peminjaman', 'like', "%{$search}%")
                     ->orWhere('user_aset', 'like', "%{$search}%")
+                    ->orWhere('pt_user', 'like', "%{$search}%")
                     ->orWhereHas('aset', function ($q) use ($search) {
                         $q->where('kode_barang', 'like', "%{$search}%")
                             ->orWhere('nama_barang', 'like', "%{$search}%");

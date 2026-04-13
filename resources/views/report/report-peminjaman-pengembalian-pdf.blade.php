@@ -140,6 +140,7 @@
                 <th>Kode Pinjam / Kembali</th>
                 <th>Kode / Nama Barang</th>
                 <th>User</th>
+                <th>PT</th>
                 <th>Dept / Lokasi</th>
                 <th>Tgl Pinjam</th>
                 <th>Tgl Kembali</th>
@@ -164,6 +165,7 @@
                         {{ $rpp->aset->nama_barang ?? '-' }}
                     </td>
                     <td>{{ $rpp->user_aset ?? '-' }}</td>
+                    <td>{{ $rpp->pt_user ?? '-' }}</td>
                     <td>
                         {{ $rpp->departemen ?? '-' }}<br>
                         {{ $rpp->lokasi ?? '-' }}

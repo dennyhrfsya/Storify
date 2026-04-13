@@ -34,6 +34,7 @@ class ReportPeminjamanPengembalianController extends Controller
                 $query->where(function($q) use ($search) {
                     $q->where('kode_peminjaman', 'LIKE', "%{$search}%")
                     ->orWhere('user_aset', 'LIKE', "%{$search}%")
+                    ->orWhere('pt_user', 'LIKE', "%{$search}%")
                     ->orWhereHas('aset', function($qAset) use ($search) {
                         $qAset->where('kode_barang', 'LIKE', "%{$search}%")
                                 ->orWhere('nama_barang', 'LIKE', "%{$search}%");
@@ -84,6 +85,7 @@ class ReportPeminjamanPengembalianController extends Controller
             $query->where(function($q) use ($search) {
                 $q->where('kode_peminjaman', 'LIKE', "%{$search}%")
                 ->orWhere('user_aset', 'LIKE', "%{$search}%")
+                ->orWhere('pt_user', 'LIKE', "%{$search}%")
                 ->orWhereHas('aset', function($qAset) use ($search) {
                     $qAset->where('kode_barang', 'LIKE', "%{$search}%")
                             ->orWhere('nama_barang', 'LIKE', "%{$search}%");

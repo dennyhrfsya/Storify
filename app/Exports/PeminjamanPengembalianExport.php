@@ -44,6 +44,7 @@ class PeminjamanPengembalianExport implements FromQuery, WithHeadings, WithMappi
             $query->where(function($q) use ($search) {
                 $q->where('kode_peminjaman', 'LIKE', "%{$search}%")
                 ->orWhere('user_aset', 'LIKE', "%{$search}%")
+                ->orWhere('pt_user', 'LIKE', "%{$search}%")
                 ->orWhereHas('aset', function($qAset) use ($search) {
                     $qAset->where('kode_barang', 'LIKE', "%{$search}%")
                             ->orWhere('nama_barang', 'LIKE', "%{$search}%");
@@ -65,7 +66,7 @@ class PeminjamanPengembalianExport implements FromQuery, WithHeadings, WithMappi
     {
         return [
             'No', 'No Peminjaman', 'No Pengembalian', 'Kode Barang', 'Nama Barang',
-            'User', 'Departemen', 'Lokasi', 'Tanggal Pinjam', 'Tanggal Kembali',
+            'User','PT User', 'Departemen', 'Lokasi', 'Tanggal Pinjam', 'Tanggal Kembali',
             'Status', 'Kondisi'
         ];
     }
@@ -80,6 +81,7 @@ class PeminjamanPengembalianExport implements FromQuery, WithHeadings, WithMappi
             $peminjaman->aset->kode_barang ?? '-',
             $peminjaman->aset->nama_barang ?? '-',
             $peminjaman->user_aset ?? '-',
+            $peminjaman->pt_user ?? '-',
             $peminjaman->departemen ?? '-',
             $peminjaman->lokasi ?? '-',
             $peminjaman->tanggal_peminjaman ? $peminjaman->tanggal_peminjaman->format('d-m-Y') : '-',
