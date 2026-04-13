@@ -123,7 +123,6 @@
                                         <th scope="col" class="align-middle dx-sortable">Kode Pinjam / Kembali</th>
                                         <th scope="col" class="align-middle dx-sortable">Aset</th>
                                         <th scope="col" class="align-middle">Peminjam</th>
-                                        <th scope="col" class="align-middle">PT User</th>
                                         <th scope="col" class="align-middle">Dept / Lokasi</th>
                                         <th scope="col" class="align-middle">Tgl Pinjam</th>
                                         <th scope="col" class="align-middle">Tgl Kembali</th>
@@ -148,8 +147,9 @@
                                                 <strong>{{ $rpp->aset->kode_barang ?? '-' }}</strong><br>
                                                 {{ $rpp->aset->nama_barang ?? 'Aset Tidak Ditemukan' }}
                                             </td>
-                                            <td>{{ $rpp->user_aset ?? '-' }}</td>
-                                            <td>{{ $rpp->pt_user ?? '-' }}</td>
+                                            <td><strong>{{ $rpp->user_aset ?? '-' }}</strong><br>
+                                                {{ $rpp->pt_user ?? '-' }}
+                                            </td>
                                             <td>
                                                 {{ $rpp->departemen ?? '-' }}<br>
                                                 <small class="text-muted dx-font-italic">{{ $rpp->lokasi ?? '-' }}</small>
