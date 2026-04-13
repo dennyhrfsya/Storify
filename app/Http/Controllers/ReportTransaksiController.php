@@ -94,7 +94,7 @@ class ReportTransaksiController extends Controller
             $query->whereDate('tanggal_transaksi', '<=', $sampai_tanggal);
         });
 
-        $reportTransaksis = $query->orderBy('tanggal_transaksi')->get();
+        $reportTransaksis = $query->orderBy('tanggal_transaksi','asc')->get();
 
         // 2. Load View dengan mengirimkan data report dan variabel filter tanggal untuk heading PDF
         $pdf = Pdf::loadView('report.report-transaksi-pdf', [

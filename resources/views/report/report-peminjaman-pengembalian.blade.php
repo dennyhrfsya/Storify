@@ -209,6 +209,7 @@
                                             <strong>{{ date('d M Y', strtotime(request('sampai_tanggal'))) }}</strong></small>
                                     @endif
                                 </div>
+                                {{ $reportPeminjamanPengembalian->links('report.partials.pagination') }}
                             </div>
                         </div>
                     </div>

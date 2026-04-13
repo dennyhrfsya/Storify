@@ -172,7 +172,7 @@
                                             <strong>{{ date('d M Y', strtotime(request('end_date'))) }}</strong></small>
                                     @endif
                                 </div>
-
+                                {{ $reportTransaksis->links('report.partials.pagination') }}
                             </div>
                         </div>
                     </div>

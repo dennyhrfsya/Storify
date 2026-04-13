@@ -75,6 +75,9 @@ class TransaksiExport implements FromQuery, WithHeadings, WithMapping, ShouldAut
     public function map($transaksi): array
     {
         $this->rowNumber++;
+        $stokAwal  = strval($transaksi->stok_awal ?? 0);
+        $jumlah    = strval($transaksi->jumlah ?? 0);
+        $stokAkhir = strval($transaksi->stok_akhir ?? 0);
         return [
             $this->rowNumber,
             $transaksi->kode_transaksi,
@@ -83,9 +86,9 @@ class TransaksiExport implements FromQuery, WithHeadings, WithMapping, ShouldAut
             $transaksi->departemen,
             $transaksi->tanggal_transaksi->format('d-m-Y'),
             ucfirst(strtolower($transaksi->status)),
-            $transaksi->stok_awal ?? 0,
-            $transaksi->jumlah,
-            $transaksi->stok_akhir ?? 0,
+            $stokAwal,
+            $jumlah,
+            $stokAkhir,
         ];
     }
 
