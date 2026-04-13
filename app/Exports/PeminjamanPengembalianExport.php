@@ -112,7 +112,7 @@ class PeminjamanPengembalianExport implements FromQuery, WithHeadings, WithMappi
                 $event->sheet->getStyle('A2')->getFont()->setBold(true);
                 $event->sheet->getStyle('A2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
-                $event->sheet->getStyle('A4:L4')->applyFromArray([
+                $event->sheet->getStyle('A4:M4')->applyFromArray([
                     'font' => ['bold' => true],
                     'background' => [
                         'color' => ['rgb' => 'F8F9FA']
