@@ -186,6 +186,14 @@
                                             'PT Jaya Selaras Mutu',
                                             'PT Nawa Sena Utama',
                                             'PT Dapur Pulau Rasa',
+                                            'PT Berkat Usaha Teknologi',
+                                            'PT Niaga Bersama Indonesia',
+                                            'PT Niaga Megah Abadi',
+                                            'PT Mustika Duta Mas',
+                                            'PT Tambang Nikel Permai',
+                                            'PT Helizona',
+                                            'PT Artha Mas Sadhenna',
+                                            'PT Sekurindo Prima Jaya',
                                         ];
 
                                         $oldPT = old('pt_pembeban');
