@@ -67,7 +67,7 @@
                                     <th scope="col" class="align-middle dx-sortable">Aset</th>
                                     <th scope="col" class="align-middle">Peminjam (User)</th>
                                     <th scope="col" class="align-middle">PT User</th>
-                                    <th scope="col" class="align-middle">Tanggal Pinjam</th>
+                                    <th scope="col" class="align-middle">Tanggal Serah Terima</th>
                                     <th scope="col" class="align-middle">Status</th>
                                     <th scope="col" class="align-middle">Aksi</th>
                                 </tr>
@@ -88,13 +88,13 @@
                                         <td>
                                             @if ($peminjaman->status == 'dipinjam')
                                                 <span class="dx-badge dx-no-cursor dx-badge-outline-warning">
-                                                    Dipinjam</span>
+                                                    Delivered</span>
                                             @elseif($peminjaman->status == 'permanen')
                                                 <span class="dx-badge dx-no-cursor dx-badge-outline-danger">
-                                                    Permanen</span>
+                                                    Permanent</span>
                                             @else
                                                 <span class="dx-badge dx-no-cursor dx-badge-outline-success">
-                                                    Dikembalikan</span>
+                                                    Returned</span>
                                             @endif
                                         </td>
                                         <td>
@@ -108,10 +108,10 @@
                                                         data-kode="{{ $peminjaman->kode_peminjaman }}"
                                                         data-barang="{{ $peminjaman->aset->nama_barang }}"
                                                         data-kondisi="{{ $peminjaman->aset->kondisi }}">
-                                                        Kembalikan
+                                                        Returned
                                                     </a>
                                                 @else
-                                                    <span class="dx-badge dx-no-cursor dx-badge-success" disabled>Selesai
+                                                    <span class="dx-badge dx-no-cursor dx-badge-success" disabled>Completed
                                                     </span>
                                                 @endif
                                             @endif

@@ -300,11 +300,11 @@
                                     <div id="statusWrapper" style="cursor: help;">
                                         <select id="select" class="dx-select-disable" readonly tabindex="-1">
                                             <option value="tersedia" {{ $aset->status == 'tersedia' ? 'selected' : '' }}>
-                                                Tersedia</option>
+                                                Available</option>
                                             <option value="dipinjam" {{ $aset->status == 'dipinjam' ? 'selected' : '' }}>
-                                                Dipinjam</option>
+                                                Delivered</option>
                                             <option value="permanen" {{ $aset->status == 'permanen' ? 'selected' : '' }}>
-                                                Permanen</option>
+                                                Permanent</option>
                                         </select>
                                     </div>
 

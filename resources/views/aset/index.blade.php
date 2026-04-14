@@ -97,13 +97,13 @@
                                         <td>
                                             @if ($aset->status == 'dipinjam')
                                                 <span class="dx-badge dx-no-cursor dx-badge-outline-warning">
-                                                    Dipinjam</span>
+                                                    Delivered</span>
                                             @elseif ($aset->status == 'permanen')
                                                 <span class="dx-badge dx-no-cursor dx-badge-outline-danger">
-                                                    Permanen</span>
+                                                    Permanent</span>
                                             @else
                                                 <span class="dx-badge dx-no-cursor dx-badge-outline-success">
-                                                    Tersedia</span>
+                                                    Available</span>
                                             @endif
                                         </td>
                                         <td>

@@ -176,9 +176,9 @@
                                     <select id="select" name="status">
                                         <option value="">Pilih Opsi...</option>
                                         <option value="dipinjam" {{ old('status') == 'dipinjam' ? 'selected' : '' }}>
-                                            Dipinjam</option>
+                                            Delivered</option>
                                         <option value="permanen" {{ old('status') == 'permanen' ? 'selected' : '' }}>
-                                            Permanen</option>
+                                            Permanent</option>
                                     </select>
                                     @error('status')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>

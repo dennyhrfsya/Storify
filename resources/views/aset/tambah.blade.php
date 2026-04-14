@@ -282,7 +282,7 @@
                                     <label for="status">Status</label>
                                     <select id="select" name="status">
                                         <option value="">Pilih Opsi...</option>
-                                        <option value="tersedia">Tersedia</option>
+                                        <option value="tersedia">Available</option>
                                     </select>
                                     @error('status')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>

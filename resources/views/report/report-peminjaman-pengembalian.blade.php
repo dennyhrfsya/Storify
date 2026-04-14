@@ -123,8 +123,8 @@
                                         <th scope="col" class="align-middle dx-sortable">Kode Pinjam / Kembali</th>
                                         <th scope="col" class="align-middle dx-sortable">Aset</th>
                                         <th scope="col" class="align-middle">Peminjam</th>
-                                        <th scope="col" class="align-middle">Dept / Lokasi</th>
-                                        <th scope="col" class="align-middle">Tgl Pinjam</th>
+                                        <th scope="col" class="align-middle">Dept / <br> Lokasi</th>
+                                        <th scope="col" class="align-middle">Tgl Pinjam / <br> Serah Terima</th>
                                         <th scope="col" class="align-middle">Tgl Kembali</th>
                                         <th scope="col" class="align-middle">Status</th>
                                         <th scope="col" class="align-middle">Kondisi Kembali</th>
@@ -173,9 +173,15 @@
                                                         'dipinjam' => 'dx-badge-outline-warning',
                                                         default => 'dx-badge-outline-secondary',
                                                     };
+                                                    $label = match ($status) {
+                                                        'dikembalikan' => 'Returned',
+                                                        'permanen' => 'Permanent',
+                                                        'dipinjam' => 'Delivered',
+                                                        default => ucfirst($status),
+                                                    };
                                                 @endphp
                                                 <span
-                                                    class="dx-badge dx-no-cursor {{ $badge }}">{{ ucfirst($rpp->status) }}</span>
+                                                    class="dx-badge dx-no-cursor {{ $badge }}">{{ $label }}</span>
                                             </td>
                                             <td class="align-middle">
                                                 @if ($rpp->pengembalian)

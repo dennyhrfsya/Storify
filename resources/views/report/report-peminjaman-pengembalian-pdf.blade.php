@@ -142,7 +142,7 @@
                 <th>User</th>
                 <th>PT</th>
                 <th>Dept / Lokasi</th>
-                <th>Tgl Pinjam</th>
+                <th>Tgl Pinjam / Serah Terima</th>
                 <th>Tgl Kembali</th>
                 <th align="center">Status</th>
                 <th align="center">Kondisi</th>
@@ -176,18 +176,24 @@
                     </td>
                     <td align="center">
                         @php
-                            $statusRaw = strtolower($rpp->status);
+                            $status = strtolower($rpp->status);
 
-                            $dxBadgeClass = match ($statusRaw) {
+                            $dxBadgeClass = match ($status) {
                                 'dikembalikan' => 'dx-outline-success',
                                 'dipinjam' => 'dx-outline-warning',
                                 'permanen' => 'dx-outline-danger',
                                 default => 'dx-outline-secondary',
                             };
+                            $label = match ($status) {
+                                'dikembalikan' => 'Returned',
+                                'permanen' => 'Permanent',
+                                'dipinjam' => 'Delivered',
+                                default => ucfirst($status),
+                            };
                         @endphp
 
                         <span class="dx-badge-outline {{ $dxBadgeClass }}">
-                            {{ ucfirst(strtolower($rpp->status)) }}
+                            {{ $label }}
                         </span>
                     </td>
 

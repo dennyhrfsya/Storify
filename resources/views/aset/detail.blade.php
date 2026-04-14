@@ -84,7 +84,17 @@
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <span class="d-block">Status</span>
-                                    <strong>{{ ucfirst($aset->status) }}</strong>
+                                    <strong>
+                                        @if ($aset->status == 'dipinjam')
+                                            <span class="dx-badge dx-no-cursor dx-badge-outline-warning">Delivered</span>
+                                        @elseif ($aset->status == 'dikembalikan')
+                                            <span class="dx-badge dx-no-cursor dx-badge-outline-success">Returned</span>
+                                        @elseif ($aset->status == 'permanen')
+                                            <span class="dx-badge dx-no-cursor dx-badge-outline-danger">Permanent</span>
+                                        @else
+                                            <span class="dx-badge dx-no-cursor dx-badge-outline-success">Available</span>
+                                        @endif
+                                    </strong>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <span class="d-block">Keterangan </span>

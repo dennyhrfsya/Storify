@@ -57,11 +57,11 @@
                                     <span class="d-block">Status</span>
                                     <strong>
                                         @if ($peminjaman->status == 'dipinjam')
-                                            <span class="dx-badge dx-no-cursor dx-badge-outline-warning">Dipinjam</span>
+                                            <span class="dx-badge dx-no-cursor dx-badge-outline-warning">Delivered</span>
                                         @elseif ($peminjaman->status == 'dikembalikan')
-                                            <span class="dx-badge dx-no-cursor dx-badge-outline-success">Dikembalikan</span>
+                                            <span class="dx-badge dx-no-cursor dx-badge-outline-success">Returned</span>
                                         @elseif ($peminjaman->status == 'permanen')
-                                            <span class="dx-badge dx-no-cursor dx-badge-outline-danger">Permanen</span>
+                                            <span class="dx-badge dx-no-cursor dx-badge-outline-danger">Permanent</span>
                                         @else
                                             Tidak diketahui
                                         @endif

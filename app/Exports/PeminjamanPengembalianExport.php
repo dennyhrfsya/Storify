@@ -66,7 +66,7 @@ class PeminjamanPengembalianExport implements FromQuery, WithHeadings, WithMappi
     {
         return [
             'No', 'No Peminjaman', 'No Pengembalian', 'Kode Barang', 'Nama Barang',
-            'User','PT User', 'Departemen', 'Lokasi', 'Tanggal Pinjam', 'Tanggal Kembali',
+            'User','PT User', 'Departemen', 'Lokasi', 'Tanggal Pinjam / Serah Terima', 'Tanggal Kembali',
             'Status', 'Kondisi'
         ];
     }
@@ -74,6 +74,13 @@ class PeminjamanPengembalianExport implements FromQuery, WithHeadings, WithMappi
     public function map($peminjaman): array
     {
         $this->rowNumber++;
+        $statusRaw = strtolower($peminjaman->status);
+        $statusPeminjamanPengembalians = match ($statusRaw) {
+            'dikembalikan' => 'Returned',
+            'dipinjam'     => 'Delivered',
+            'permanen'     => 'Permanent',
+            default        => ucfirst($statusRaw),
+        };
         return [
             $this->rowNumber,
             $peminjaman->kode_peminjaman,
@@ -86,7 +93,7 @@ class PeminjamanPengembalianExport implements FromQuery, WithHeadings, WithMappi
             $peminjaman->lokasi ?? '-',
             $peminjaman->tanggal_peminjaman ? $peminjaman->tanggal_peminjaman->format('d-m-Y') : '-',
             $peminjaman->pengembalian?->tanggal_pengembalian ? $peminjaman->pengembalian->tanggal_pengembalian->format('d-m-Y') : '-',
-            ucfirst(strtolower($peminjaman->status)),
+            $statusPeminjamanPengembalians,
             ucfirst(strtolower($peminjaman->pengembalian?->kondisi_pengembalian ?? '-'))
         ];
     }
