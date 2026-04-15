@@ -87,7 +87,7 @@
                                         </td>
                                         <td>
                                             @if ($peminjaman->status == 'dipinjam')
-                                                <span class="dx-badge dx-no-cursor dx-badge-outline-warning">
+                                                <span class="dx-badge dx-no-cursor dx-badge-outline-primary">
                                                     Delivered</span>
                                             @elseif($peminjaman->status == 'permanen')
                                                 <span class="dx-badge dx-no-cursor dx-badge-outline-danger">

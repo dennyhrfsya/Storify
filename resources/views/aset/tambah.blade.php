@@ -291,6 +291,7 @@
                                     <select id="select" name="status">
                                         <option value="">Pilih Opsi...</option>
                                         <option value="tersedia">Available</option>
+                                        <option value="tertunda">Pending</option>
                                     </select>
                                     @error('status')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>

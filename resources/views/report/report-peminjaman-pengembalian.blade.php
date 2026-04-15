@@ -168,15 +168,15 @@
                                                 @php
                                                     $status = strtolower($rpp->status);
                                                     $badge = match ($status) {
+                                                        'dipinjam' => 'dx-badge-outline-primary',
                                                         'dikembalikan' => 'dx-badge-outline-success',
                                                         'permanen' => 'dx-badge-outline-danger',
-                                                        'dipinjam' => 'dx-badge-outline-warning',
                                                         default => 'dx-badge-outline-secondary',
                                                     };
                                                     $label = match ($status) {
+                                                        'dipinjam' => 'Delivered',
                                                         'dikembalikan' => 'Returned',
                                                         'permanen' => 'Permanent',
-                                                        'dipinjam' => 'Delivered',
                                                         default => ucfirst($status),
                                                     };
                                                 @endphp

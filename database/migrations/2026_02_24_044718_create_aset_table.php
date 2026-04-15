@@ -31,7 +31,7 @@ return new class extends Migration
 
             $table->enum('kondisi', ['baik', 'rusak']); // Kondisi barang, hanya bisa 'baik' atau 'rusak'
             $table->text('keterangan')->nullable();     // Keterangan tambahan, boleh kosong
-            $table->enum('status', ['tersedia', 'dipinjam', 'permanen']); // Status barang, hanya bisa 'tersedia' atau 'dipinjam'
+            $table->enum('status', ['tersedia', 'dipinjam', 'permanen', 'menunggu']); // Status barang, hanya bisa 'tersedia' atau 'dipinjam'
 
             $table->string('upload_bukti_aset', 255)->nullable(); // Path file bukti tanda terima, boleh kosong
 

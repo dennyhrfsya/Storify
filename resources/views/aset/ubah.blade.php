@@ -311,6 +311,8 @@
                                                 Available</option>
                                             <option value="dipinjam" {{ $aset->status == 'dipinjam' ? 'selected' : '' }}>
                                                 Delivered</option>
+                                            <option value="tertunda" {{ $aset->status == 'tertunda' ? 'selected' : '' }}>
+                                                Pending</option>
                                             <option value="permanen" {{ $aset->status == 'permanen' ? 'selected' : '' }}>
                                                 Permanent</option>
                                         </select>

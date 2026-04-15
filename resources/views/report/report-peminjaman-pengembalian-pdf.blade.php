@@ -91,6 +91,11 @@
             color: #e02424;
         }
 
+        .dx-outline-primary {
+            border: 1px solid #0652dd;
+            color: #0652dd;
+        }
+
         .dx-outline-secondary {
             border: 1px solid #266ef4;
             color: #266ef4;
@@ -179,8 +184,8 @@
                             $status = strtolower($rpp->status);
 
                             $dxBadgeClass = match ($status) {
+                                'dipinjam' => 'dx-outline-primary',
                                 'dikembalikan' => 'dx-outline-success',
-                                'dipinjam' => 'dx-outline-warning',
                                 'permanen' => 'dx-outline-danger',
                                 default => 'dx-outline-secondary',
                             };

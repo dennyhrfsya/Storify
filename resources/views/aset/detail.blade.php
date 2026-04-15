@@ -80,15 +80,16 @@
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <span class="d-block">Kondisi </span>
-                                    <strong>{{ ucfirst($aset->kondisi) }}</strong>
+                                    <strong
+                                        class="dx-font-bold {{ $aset->kondisi == 'baik' ? 'dx-text-hijau' : 'dx-text-merah' }}">{{ ucfirst($aset->kondisi) }}</strong>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <span class="d-block">Status</span>
                                     <strong>
                                         @if ($aset->status == 'dipinjam')
-                                            <span class="dx-badge dx-no-cursor dx-badge-outline-warning">Delivered</span>
-                                        @elseif ($aset->status == 'dikembalikan')
-                                            <span class="dx-badge dx-no-cursor dx-badge-outline-success">Returned</span>
+                                            <span class="dx-badge dx-no-cursor dx-badge-outline-primary">Delivered</span>
+                                        @elseif ($aset->status == 'tertunda')
+                                            <span class="dx-badge dx-no-cursor dx-badge-outline-warning">Pending</span>
                                         @elseif ($aset->status == 'permanen')
                                             <span class="dx-badge dx-no-cursor dx-badge-outline-danger">Permanent</span>
                                         @else

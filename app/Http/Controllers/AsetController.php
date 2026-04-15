@@ -81,7 +81,7 @@ class AsetController extends Controller
             'grade_barang' => 'required|string|max:100',
             'kondisi' => 'required|in:baik,rusak',
             'keterangan' => 'nullable|string',
-            'status' => 'required|in:tersedia,dipinjam',
+            'status' => 'required|in:tersedia,tertunda',
             'upload_bukti_aset' => [
                 'nullable', 'file', 'mimes:jpg,jpeg,png,pdf',
                 function ($attribute, $value, $fail) {
@@ -221,7 +221,7 @@ class AsetController extends Controller
             'grade_barang' => 'required|string|max:100',
             'kondisi' => 'required|in:baik,rusak',
             'keterangan' => 'nullable|string',
-            'status' => 'required|in:tersedia,dipinjam,permanen',
+            'status' => 'required|in:tersedia,dipinjam,permanen,tertunda',
             'upload_bukti_aset' => [
                 'nullable', 'file', 'mimes:jpg,jpeg,png,pdf',
                 function ($attribute, $value, $fail) {

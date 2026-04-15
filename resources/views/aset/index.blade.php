@@ -96,8 +96,11 @@
                                         <td>{{ $aset->user_aset ? $aset->user_aset : '-' }}</td>
                                         <td>
                                             @if ($aset->status == 'dipinjam')
-                                                <span class="dx-badge dx-no-cursor dx-badge-outline-warning">
+                                                <span class="dx-badge dx-no-cursor dx-badge-outline-primary">
                                                     Delivered</span>
+                                            @elseif ($aset->status == 'tertunda')
+                                                <span class="dx-badge dx-no-cursor dx-badge-outline-warning">
+                                                    Pending</span>
                                             @elseif ($aset->status == 'permanen')
                                                 <span class="dx-badge dx-no-cursor dx-badge-outline-danger">
                                                     Permanent</span>
