@@ -18,7 +18,7 @@
                 <div class="dx-modal-body-input">
                     <h6 id="deleteAsetLabel{{ $aset->id }}" class="dx-modal-title">Konfirmasi</h6>
                     <p class="text-center">Apakah Anda yakin ingin
-                        menghapus aset <strong>{{ $aset->kode_barang }}</strong> ?
+                        menghapus data aset <strong>{{ $aset->kode_barang }}</strong> ?
                     </p>
                 </div>
 

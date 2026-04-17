@@ -6,8 +6,6 @@ use App\Models\Aset;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class PeminjamanController extends Controller
 {
@@ -129,10 +127,15 @@ class PeminjamanController extends Controller
                 }
             }
 
+            // Logika untuk penambahan total pemakaian
+            $aset->increment('total_pemakaian');
+            $pemakaianKe = $aset->total_pemakaian;
+
             // 4. Buat Record Peminjaman
             Peminjaman::create([
                 'kode_peminjaman' => $request->kode_peminjaman, // Dari input readonly di view
                 'id_aset' => $request->id_aset,
+                'urutan_pemakaian' => $pemakaianKe,
                 'user_aset' => $request->user_aset,
                 'pt_user' => $request->pt_user,
                 'departemen' => $request->departemen,
@@ -143,7 +146,6 @@ class PeminjamanController extends Controller
             ]);
 
             // 5. SINKRONISASI: Update Tabel Aset
-            $aset = Aset::findOrFail($request->id_aset);
             $aset->update([
                 'status' => ($request->status == 'permanen' ? 'permanen' : 'dipinjam'),
                 'user_aset' => $request->user_aset,    // Data dari input form
@@ -152,7 +154,7 @@ class PeminjamanController extends Controller
             ]);
 
             return redirect()->route('peminjaman.index')
-                            ->with('success', 'Transaksi Peminjaman ' . $request->kode_peminjaman . ' </strong> berhasil <strong>Ditambah</strong>');
+                            ->with('success', 'Transaksi Peminjaman <strong>' . $request->kode_peminjaman . ' </strong> berhasil <strong>Ditambah</strong>.');
         });
     }
 
@@ -165,6 +167,45 @@ class PeminjamanController extends Controller
         return view('peminjaman.detail', compact('peminjaman'));
     }
 
+    public function batalkanPeminjaman($id)
+    {
+        // 1. Cari data peminjaman
+        $peminjaman = Peminjaman::findOrFail($id);
+
+        try {
+            DB::transaction(function () use ($peminjaman) {
+                // 2. Rollback counter di Tabel Aset
+                $aset = Aset::find($peminjaman->id_aset);
+                if ($aset) {
+                    // Kurangi total pemakaian hanya jika lebih dari 0
+                    if ($aset->total_pemakaian > 0) {
+                        $aset->decrement('total_pemakaian');
+                    }
+
+                    // Kosongkan detail pemegang di Aset agar statusnya "Fresh"
+                    $aset->update([
+                        'user_aset'  => null,
+                        'departemen' => null,
+                        'lokasi'     => null,
+                        'status'     => 'tersedia'
+                    ]);
+                }
+
+               // 3. Update Tabel PEMINJAMAN (DATA TETAP ADA)
+                $peminjaman->update([
+                    'status' => 'dibatalkan',
+                    // Kita biarkan user_aset, departemen, dll TETAP ISI untuk audit
+                    // urutan_pemakaian kita set NULL agar bisa dideteksi "Canceled" di View
+                    'urutan_pemakaian' => null,
+                ]);
+            });
+
+            return redirect()->back()->with('success', '<strong>Peminjaman</strong> dibatalkan. Data aset dan peminjaman telah dibersihkan.');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan sistem saat sinkronisasi data.');
+        }
+    }
 
     /**
      * Helper: Kompresi Gambar PHP 8+

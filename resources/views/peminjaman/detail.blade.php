@@ -16,7 +16,33 @@
 
                         <div>
                             <h2 class="dx-font-bold mb-2">{{ $peminjaman->aset->kode_barang }}</h2>
-                            <p class="dx-text-xl dx-font-regular dx-font-semi-bold mb-3">{{ $peminjaman->aset->nama_barang }}
+                            <p class="dx-text-xl dx-font-regular dx-font-semi-bold mb-3 d-block">
+                                {{ $peminjaman->aset->nama_barang }}
+                                @php
+                                    $suffix = 'th';
+                                    if (
+                                        $peminjaman->urutan_pemakaian % 100 < 11 ||
+                                        $peminjaman->urutan_pemakaian % 100 > 13
+                                    ) {
+                                        switch ($peminjaman->urutan_pemakaian % 10) {
+                                            case 1:
+                                                $suffix = 'st';
+                                                break;
+                                            case 2:
+                                                $suffix = 'nd';
+                                                break;
+                                            case 3:
+                                                $suffix = 'rd';
+                                                break;
+                                        }
+                                    }
+                                @endphp
+                                @if ($peminjaman->urutan_pemakaian)
+                                    <small class="d-block">{{ $peminjaman->urutan_pemakaian }}{{ $suffix }}
+                                        usage</small>
+                                @else
+                                    <small class="d-block">No record</small>
+                                @endif
                             </p>
 
                             <div class="row">
@@ -30,7 +56,7 @@
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <span class="d-block">PT User</span>
-                                    <strong>{{ $peminjaman->pt_user }}</strong>
+                                    <strong>{{ $peminjaman->pt_user ?? '-' }}</strong>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <span class="d-block">Tanggal Pinjam</span>
@@ -57,11 +83,13 @@
                                     <span class="d-block">Status</span>
                                     <strong>
                                         @if ($peminjaman->status == 'dipinjam')
-                                            <span class="dx-badge dx-no-cursor dx-badge-outline-warning">Delivered</span>
+                                            <span class="dx-badge dx-no-cursor dx-badge-outline-primary">Delivered</span>
                                         @elseif ($peminjaman->status == 'dikembalikan')
                                             <span class="dx-badge dx-no-cursor dx-badge-outline-success">Returned</span>
+                                        @elseif ($peminjaman->status == 'dibatalkan')
+                                            <span class="dx-badge dx-no-cursor dx-badge-outline-danger">Canceled</span>
                                         @elseif ($peminjaman->status == 'permanen')
-                                            <span class="dx-badge dx-no-cursor dx-badge-outline-danger">Permanent</span>
+                                            <span class="dx-badge dx-no-cursor dx-badge-outline-warning">Permanent</span>
                                         @else
                                             Tidak diketahui
                                         @endif

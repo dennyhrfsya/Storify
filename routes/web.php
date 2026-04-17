@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/peminjaman/tambah', [PeminjamanController::class, 'tambah'])->middleware('permission:Peminjaman,tambah')->name('peminjaman.tambah');
     Route::post('/peminjaman', [PeminjamanController::class, 'simpan'])->middleware('permission:Peminjaman,tambah')->name('peminjaman.simpan');
     Route::get('/peminjaman/detail/{kode_peminjaman}', [PeminjamanController::class, 'detail'])->middleware('permission:Peminjaman,all')->name('peminjaman.detail');
+    Route::put('/peminjaman/{id}/batalkan', [PeminjamanController::class, 'batalkanPeminjaman'])->name('peminjaman.batalkan');
 
     //* Pengembalian
     Route::get('/pengembalian', [PengembalianController::class, 'index'])->middleware('permission:Pengembalian,all')->name('pengembalian.index');

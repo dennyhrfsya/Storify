@@ -16,7 +16,10 @@
 
                         <div>
                             <h2 class="dx-font-bold mb-2">{{ $aset->kode_barang }}</h2>
-                            <p class="dx-text-xl dx-font-regular dx-font-semi-bold mb-3">{{ $aset->nama_barang }}</p>
+                            <p class="dx-text-xl dx-font-regular dx-font-semi-bold mb-2">{{ $aset->nama_barang }}
+                                <small class="d-block">
+                                    {{ $aset->total_pemakaian > 0 ? $aset->total_pemakaian . ' times used' : 'Unused' }}</small>
+                            </p>
 
                             <div class="row">
                                 <div class="col-md-6 mb-2">

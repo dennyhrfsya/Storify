@@ -123,8 +123,8 @@
                                         <th scope="col" class="align-middle dx-sortable">Kode Pinjam / Kembali</th>
                                         <th scope="col" class="align-middle dx-sortable">Aset</th>
                                         <th scope="col" class="align-middle">Peminjam</th>
-                                        <th scope="col" class="align-middle">Dept / <br> Lokasi</th>
-                                        <th scope="col" class="align-middle">Tgl Pinjam / <br> Serah Terima</th>
+                                        <th scope="col" class="align-middle">Dept / Lokasi</th>
+                                        <th scope="col" class="align-middle">Tgl Pinjam / Serah Terima</th>
                                         <th scope="col" class="align-middle">Tgl Kembali</th>
                                         <th scope="col" class="align-middle">Status</th>
                                         <th scope="col" class="align-middle">Kondisi Kembali</th>
@@ -144,15 +144,49 @@
                                                 </small>
                                             </td>
                                             <td>
-                                                <strong>{{ $rpp->aset->kode_barang ?? '-' }}</strong><br>
-                                                {{ $rpp->aset->nama_barang ?? 'Aset Tidak Ditemukan' }}
+                                                <strong class="d-block">{{ $rpp->aset->kode_barang ?? '-' }}</strong>
+                                                <span
+                                                    class="d-block">{{ $rpp->aset->nama_barang ?? 'Aset Tidak Ditemukan' }}
+                                                </span>
+                                                @php
+                                                    $suffix = 'th';
+                                                    if (
+                                                        $rpp->urutan_pemakaian % 100 < 11 ||
+                                                        $rpp->urutan_pemakaian % 100 > 13
+                                                    ) {
+                                                        switch ($rpp->urutan_pemakaian % 10) {
+                                                            case 1:
+                                                                $suffix = 'st';
+                                                                break;
+                                                            case 2:
+                                                                $suffix = 'nd';
+                                                                break;
+                                                            case 3:
+                                                                $suffix = 'rd';
+                                                                break;
+                                                        }
+                                                    }
+                                                @endphp
+
+                                                @if ($rpp->status == 'dibatalkan')
+                                                    <small class="dx-text-merah">
+                                                        Canceled
+                                                    </small>
+                                                @elseif ($rpp->urutan_pemakaian)
+                                                    <small>
+                                                        {{ $rpp->urutan_pemakaian }}{{ $suffix }} usage
+                                                    </small>
+                                                @else
+                                                    <small>No record</small>
+                                                @endif
                                             </td>
-                                            <td><strong>{{ $rpp->user_aset ?? '-' }}</strong><br>
+                                            <td><strong class="d-block">{{ $rpp->user_aset ?? '-' }}</strong>
                                                 {{ $rpp->pt_user ?? '-' }}
                                             </td>
                                             <td>
-                                                {{ $rpp->departemen ?? '-' }}<br>
-                                                <small class="text-muted dx-font-italic">{{ $rpp->lokasi ?? '-' }}</small>
+                                                {{ $rpp->departemen ?? '-' }}
+                                                <small
+                                                    class="d-block text-muted dx-font-italic">{{ $rpp->lokasi ?? '-' }}</small>
                                             </td>
                                             <td>
                                                 {{ $rpp->tanggal_peminjaman ? \Carbon\Carbon::parse($rpp->tanggal_peminjaman)->format('d-m-Y') : '-' }}
@@ -170,12 +204,14 @@
                                                     $badge = match ($status) {
                                                         'dipinjam' => 'dx-badge-outline-primary',
                                                         'dikembalikan' => 'dx-badge-outline-success',
-                                                        'permanen' => 'dx-badge-outline-danger',
+                                                        'dibatalkan' => 'dx-badge-outline-danger',
+                                                        'permanen' => 'dx-badge-outline-warning',
                                                         default => 'dx-badge-outline-secondary',
                                                     };
                                                     $label = match ($status) {
                                                         'dipinjam' => 'Delivered',
                                                         'dikembalikan' => 'Returned',
+                                                        'dibatalkan' => 'Canceled',
                                                         'permanen' => 'Permanent',
                                                         default => ucfirst($status),
                                                     };

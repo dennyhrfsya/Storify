@@ -13,6 +13,7 @@ class Peminjaman extends Model
     protected $fillable = [
         'kode_peminjaman',
         'id_aset',
+        'urutan_pemakaian',
         'user_aset',
         'pt_user',
         'departemen',

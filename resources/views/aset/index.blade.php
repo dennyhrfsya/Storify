@@ -23,9 +23,7 @@
                             </div>
                         </div>
                     </div>
-                @endif
-
-                @if (session('error'))
+                @elseif (session('error'))
                     <div id="welcomeNotice" class="dx-notice dx-notice-warning">
                         <h3 class="dx-notice-title">Peringatan !</h3>
                         <div class="dx-notice-icon">
@@ -88,7 +86,9 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $aset->kode_barang }}</td>
-                                        <td>{{ $aset->nama_barang }}</td>
+                                        <td><strong class="d-block">{{ $aset->nama_barang }}</strong>
+                                            <small>{{ $aset->total_pemakaian > 0 ? $aset->total_pemakaian . ' times used' : 'Unused' }}</small>
+                                        </td>
                                         <td>{{ $aset->kategori }}</td>
                                         <td>{{ $aset->tanggal_pembelian ? $aset->tanggal_pembelian->format('d-m-Y') : '-' }}
                                         </td>

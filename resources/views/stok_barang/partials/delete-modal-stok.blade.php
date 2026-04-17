@@ -18,7 +18,7 @@
                 <div class="dx-modal-body-input">
                     <h6 id="deleteUserLabel{{ $stok->id }}" class="dx-modal-title">Konfirmasi</h6>
                     <p class="text-center">Apakah Anda yakin ingin
-                        menghapus stok <strong>{{ $stok->kode_barang }}</strong> ?
+                        menghapus data stok <strong>{{ $stok->kode_barang }}</strong> ?
                     </p>
                 </div>
 

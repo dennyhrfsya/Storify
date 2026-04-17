@@ -27,6 +27,18 @@
                             </div>
                         </div>
                     </div>
+                @elseif (session('error'))
+                    <div id="welcomeNotice" class="dx-notice dx-notice-warning">
+                        <h3 class="dx-notice-title">Peringatan !</h3>
+                        <div class="dx-notice-icon">
+                            <img src="{{ asset('images/icon-warning.png') }}" alt="Peringatan" class="img-fluid">
+                        </div>
+                        <div class="row dx-notice-body">
+                            <div class="dx-notice-body-text" style="--padding-right:calc(10rem + 3rem);">
+                                <p>{!! session('error') !!}</p>
+                            </div>
+                        </div>
+                    </div>
                 @endif
 
                 <h3 class="dx-table-title dx-with-border dx-table-text-left">Peminjaman</h3>
@@ -81,7 +93,39 @@
                                             <strong>{{ $peminjaman->aset->nama_barang }}</strong><br>
                                             <small>{{ $peminjaman->aset->kode_barang }}</small>
                                         </td>
-                                        <td>{{ $peminjaman->user_aset }}</td>
+                                        <td><strong class="d-block">{{ $peminjaman->user_aset }}</strong>
+                                            @php
+                                                $suffix = 'th';
+                                                if (
+                                                    $peminjaman->urutan_pemakaian % 100 < 11 ||
+                                                    $peminjaman->urutan_pemakaian % 100 > 13
+                                                ) {
+                                                    switch ($peminjaman->urutan_pemakaian % 10) {
+                                                        case 1:
+                                                            $suffix = 'st';
+                                                            break;
+                                                        case 2:
+                                                            $suffix = 'nd';
+                                                            break;
+                                                        case 3:
+                                                            $suffix = 'rd';
+                                                            break;
+                                                    }
+                                                }
+                                            @endphp
+
+                                            @if ($peminjaman->status == 'dibatalkan')
+                                                <small class="dx-text-merah">
+                                                    Canceled
+                                                </small>
+                                            @elseif ($peminjaman->urutan_pemakaian)
+                                                <small>
+                                                    {{ $peminjaman->urutan_pemakaian }}{{ $suffix }} usage
+                                                </small>
+                                            @else
+                                                <small>No record</small>
+                                            @endif
+                                        </td>
                                         <td>{{ $peminjaman->pt_user }}</td>
                                         <td>{{ $peminjaman->tanggal_peminjaman ? $peminjaman->tanggal_peminjaman->format('d-m-Y') : '-' }}
                                         </td>
@@ -90,8 +134,11 @@
                                                 <span class="dx-badge dx-no-cursor dx-badge-outline-primary">
                                                     Delivered</span>
                                             @elseif($peminjaman->status == 'permanen')
-                                                <span class="dx-badge dx-no-cursor dx-badge-outline-danger">
+                                                <span class="dx-badge dx-no-cursor dx-badge-outline-warning">
                                                     Permanent</span>
+                                            @elseif ($peminjaman->status == 'dibatalkan')
+                                                <span class="dx-badge dx-no-cursor dx-badge-outline-danger">
+                                                    Canceled</span>
                                             @else
                                                 <span class="dx-badge dx-no-cursor dx-badge-outline-success">
                                                     Returned</span>
@@ -102,7 +149,7 @@
                                                 class="dx-badge dx-badge-info">Detail</a>
                                             @if ($permPengembalian->all && $permPengembalian->tambah)
                                                 @if ($peminjaman->status == 'dipinjam' || $peminjaman->status == 'permanen')
-                                                    <a href="#" class="dx-badge dx-badge-primary btn-kembali"
+                                                    <a href="#" class="dx-badge dx-badge-primary btn-kembali me-1"
                                                         data-bs-toggle="modal" data-bs-target="#modalPengembalian"
                                                         data-id="{{ $peminjaman->id }}"
                                                         data-kode="{{ $peminjaman->kode_peminjaman }}"
@@ -110,11 +157,16 @@
                                                         data-kondisi="{{ $peminjaman->aset->kondisi }}">
                                                         Returned
                                                     </a>
+                                                    <a href="#" class="dx-badge dx-badge-danger"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deletePeminjamanModal{{ $peminjaman->id }}">Canceled</a>
                                                 @else
-                                                    <span class="dx-badge dx-no-cursor dx-badge-success" disabled>Completed
-                                                    </span>
+                                                    <a href="#" class="dx-badge dx-no-cursor dx-badge-success"
+                                                        disabled>Completed
+                                                    </a>
                                                 @endif
                                             @endif
+                                            @include('peminjaman.partials.delete-modal-pembatalan')
                                             @include('peminjaman.partials.modal-pengembalian')
                                         </td>
                                     </tr>
