@@ -133,12 +133,12 @@
                                             @if ($peminjaman->status == 'dipinjam')
                                                 <span class="dx-badge dx-no-cursor dx-badge-outline-primary">
                                                     Delivered</span>
-                                            @elseif($peminjaman->status == 'permanen')
-                                                <span class="dx-badge dx-no-cursor dx-badge-outline-warning">
-                                                    Permanent</span>
                                             @elseif ($peminjaman->status == 'dibatalkan')
                                                 <span class="dx-badge dx-no-cursor dx-badge-outline-danger">
                                                     Canceled</span>
+                                            @elseif($peminjaman->status == 'permanen')
+                                                <span class="dx-badge dx-no-cursor dx-badge-outline-warning">
+                                                    Permanent</span>
                                             @else
                                                 <span class="dx-badge dx-no-cursor dx-badge-outline-success">
                                                     Returned</span>

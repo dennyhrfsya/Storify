@@ -34,6 +34,10 @@
             vertical-align: middle;
         }
 
+        .d-block {
+            display: block;
+        }
+
         .dx-header {
             text-align: center;
             margin-bottom: 20px;
@@ -97,8 +101,8 @@
         }
 
         .dx-outline-secondary {
-            border: 1px solid #266ef4;
-            color: #266ef4;
+            border: 1px solid #535353;
+            color: #535353;
         }
 
         .dx-text-muted {
@@ -166,13 +170,41 @@
                         @endif
                     </td>
                     <td>
-                        <strong>{{ $rpp->aset->kode_barang ?? '-' }}</strong><br>
-                        {{ $rpp->aset->nama_barang ?? '-' }}
+                        <strong class="d-block">{{ $rpp->aset->kode_barang ?? '-' }}</strong>
+                        <span class="d-block">{{ $rpp->aset->nama_barang ?? '-' }}</span>
+                        @php
+                            $suffix = 'th';
+                            if ($rpp->urutan_pemakaian % 100 < 11 || $rpp->urutan_pemakaian % 100 > 13) {
+                                switch ($rpp->urutan_pemakaian % 10) {
+                                    case 1:
+                                        $suffix = 'st';
+                                        break;
+                                    case 2:
+                                        $suffix = 'nd';
+                                        break;
+                                    case 3:
+                                        $suffix = 'rd';
+                                        break;
+                                }
+                            }
+                        @endphp
+
+                        @if ($rpp->status == 'dibatalkan')
+                            <small class="dx-text-merah">
+                                Canceled
+                            </small>
+                        @elseif ($rpp->urutan_pemakaian)
+                            <small>
+                                {{ $rpp->urutan_pemakaian }}{{ $suffix }} usage
+                            </small>
+                        @else
+                            <small>No record</small>
+                        @endif
                     </td>
                     <td>{{ $rpp->user_aset ?? '-' }}</td>
                     <td>{{ $rpp->pt_user ?? '-' }}</td>
                     <td>
-                        {{ $rpp->departemen ?? '-' }}<br>
+                        <span class="d-block">{{ $rpp->departemen ?? '-' }}</span>
                         {{ $rpp->lokasi ?? '-' }}
                     </td>
                     <td>{{ $rpp->tanggal_peminjaman->format('d-m-Y') }}</td>
@@ -186,13 +218,15 @@
                             $dxBadgeClass = match ($status) {
                                 'dipinjam' => 'dx-outline-primary',
                                 'dikembalikan' => 'dx-outline-success',
-                                'permanen' => 'dx-outline-danger',
+                                'dibatalkan' => 'dx-outline-danger',
+                                'permanen' => 'dx-outline-warning',
                                 default => 'dx-outline-secondary',
                             };
                             $label = match ($status) {
-                                'dikembalikan' => 'Returned',
-                                'permanen' => 'Permanent',
                                 'dipinjam' => 'Delivered',
+                                'dikembalikan' => 'Returned',
+                                'dibatalkan' => 'Canceled',
+                                'permanen' => 'Permanent',
                                 default => ucfirst($status),
                             };
                         @endphp
