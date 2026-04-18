@@ -136,7 +136,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $rt->kode_transaksi }}</td>
-                                            <td>{{ $rt->stokBarang->kode_barang }}
+                                            <td><strong class="d-block">{{ $rt->stokBarang->kode_barang }}</strong>
                                                 {{ $rt->stokBarang->nama_barang }}
                                             </td>
                                             <td>{{ $rt->nama_user }}</td>

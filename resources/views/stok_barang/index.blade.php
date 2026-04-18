@@ -90,7 +90,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $stok->kode_barang }}</td>
-                                        <td>{{ $stok->nama_barang }}</td>
+                                        <td><strong>{{ $stok->nama_barang }}</strong></td>
                                         <td>{{ $stok->tanggal_pembelian ? $stok->tanggal_pembelian->format('d-m-Y') : '-' }}
                                         </td>
                                         <td>{{ $stok->pt_pembeban }}</td>
