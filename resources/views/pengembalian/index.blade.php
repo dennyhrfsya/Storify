@@ -65,7 +65,9 @@
                                     <tr>
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $pengembalian->kode_pengembalian }}</td>
+                                        <td><span
+                                                class="dx-text-merah dx-font-bold">{{ $pengembalian->kode_pengembalian }}</span>
+                                        </td>
                                         <td>
                                             <strong>{{ $pengembalian->peminjaman->aset->nama_barang }}</strong><br>
                                             <small>{{ $pengembalian->peminjaman->aset->kode_barang }}</small>
@@ -115,7 +117,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7">
+                                        <td colspan="9">
                                             <div class="dx-empty-batch text-center">
                                                 <div class="dx-empty-batch-image">
                                                     <img src="{{ asset('images/speech-bubble.png') }}" alt="empty-batch"

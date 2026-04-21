@@ -45,7 +45,7 @@
                                 <div class="dx-form-group">
                                     <label for="start_date">Dari Tanggal</label>
                                     <div class="dx-input-wrapper">
-                                        <input type="date" id="tanggal" name="dari_tanggal"
+                                        <input type="date" id="dari_tanggal" name="dari_tanggal"
                                             value="{{ request('dari_tanggal') }}" placeholder="Pilih tanggal" />
                                         <span class="dx-icon">
                                             <img src="{{ asset('images/icon-calendar.svg') }}" alt="ava calendar"
@@ -60,7 +60,7 @@
                                 <div class="dx-form-group">
                                     <label for="end_date">Sampai Tanggal</label>
                                     <div class="dx-input-wrapper">
-                                        <input type="date" id="tanggal" name="sampai_tanggal"
+                                        <input type="date" id="sampai_tanggal" name="sampai_tanggal"
                                             value="{{ request('sampai_tanggal') }}" placeholder="Pilih tanggal" />
                                         <span class="dx-icon">
                                             <img src="{{ asset('images/icon-calendar.svg') }}" alt="ava calendar"
@@ -136,7 +136,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $rt->kode_transaksi }}</td>
-                                            <td>{{ $rt->stokBarang->kode_barang }}
+                                            <td><strong class="d-block">{{ $rt->stokBarang->kode_barang }}</strong>
                                                 {{ $rt->stokBarang->nama_barang }}
                                             </td>
                                             <td>{{ $rt->nama_user }}</td>
@@ -145,7 +145,7 @@
                                             <td>
                                                 @php
                                                     $badgeClass = match (Str::lower($rt->status)) {
-                                                        'dipinjamkan' => 'dx-badge-warning',
+                                                        'dipinjamkan' => 'dx-badge-primary',
                                                         'diberikan' => 'dx-badge-success',
                                                         default => 'dx-badge-danger',
                                                     };
@@ -179,4 +179,7 @@
                 @endif
             </div>
         </div>
+        @push('scripts')
+            <script src="{{ asset('js/report-transaksi.js') }}"></script>
+        @endpush
     @endsection

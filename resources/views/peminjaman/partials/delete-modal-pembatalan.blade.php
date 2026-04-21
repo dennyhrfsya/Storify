@@ -19,7 +19,7 @@
                     <div class="dx-modal-body-input">
                         <h6 class="dx-modal-title">Konfirmasi</h6>
                         <p class="text-center">Apakah Anda yakin ingin
-                            membatalkan peminjaman
+                            membatalkan Peminjaman
                             <strong>{{ $peminjaman->kode_peminjaman }}</strong>
                             ?
                         </p>

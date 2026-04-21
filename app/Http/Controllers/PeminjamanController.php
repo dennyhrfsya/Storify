@@ -94,7 +94,7 @@ class PeminjamanController extends Controller
                                 <input id="konfirmasi-rusak-check" type="checkbox" name="konfirmasi_rusak"
                                     onchange="document.getElementById(\'btn-submit-pmj\').disabled = !this.checked">
                                 <label for="konfirmasi-rusak-check">
-                                    Ya, saya menyadari kondisi aset rusak dan tetap ingin meminjam.
+                                    Ya, saya menyadari kondisi aset rusak dan tetap ingin meminjam
                                 </label>
                             </div>
                         </div>
@@ -154,7 +154,7 @@ class PeminjamanController extends Controller
             ]);
 
             return redirect()->route('peminjaman.index')
-                            ->with('success', 'Transaksi Peminjaman <strong>' . $request->kode_peminjaman . ' </strong> berhasil <strong>Ditambah</strong>.');
+                            ->with('success', 'Transaksi Peminjaman <strong>' . $request->kode_peminjaman . ' </strong> berhasil <strong>Ditambah</strong>');
         });
     }
 
@@ -200,10 +200,10 @@ class PeminjamanController extends Controller
                 ]);
             });
 
-            return redirect()->back()->with('success', '<strong>Peminjaman</strong> dibatalkan. Data aset dan peminjaman telah dibersihkan.');
+            return redirect()->back()->with('success', '<strong>Peminjaman</strong> dibatalkan. Data aset dan peminjaman telah dibersihkan');
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan sistem saat sinkronisasi data.');
+            return redirect()->back()->with('error', 'Terjadi kesalahan sistem saat sinkronisasi data');
         }
     }
 

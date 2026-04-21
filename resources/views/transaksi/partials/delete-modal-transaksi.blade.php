@@ -18,7 +18,7 @@
                 <div class="dx-modal-body-input">
                     <h6 id="deleteUserLabel{{ $transaksi->id }}" class="dx-modal-title">Konfirmasi</h6>
                     <p class="text-center">Apakah Anda yakin ingin
-                        menghapus data transaksi <strong>{{ $transaksi->kode_transaksi }}</strong> ?
+                        menghapus Transaksi <strong>{{ $transaksi->kode_transaksi }}</strong> ?
                     </p>
                 </div>
 

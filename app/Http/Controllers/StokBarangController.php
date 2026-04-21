@@ -102,43 +102,70 @@ class StokBarangController extends Controller
     {
         $stok = StokBarang::findOrFail($id);
 
+        // 1. Handling input "Lainnya"
         if ($request->pt_pembeban === 'Lainnya') {
             $request->merge(['pt_pembeban' => trim($request->pt_pembeban_lainnya)]);
         }
 
         if ($request->satuan === 'Lainnya') {
-            $request->merge([
-                'satuan' => trim($request->satuan_lainnya)
-            ]);
+            $request->merge(['satuan' => trim($request->satuan_lainnya)]);
         }
 
-        $request->validate([
+        // 2. Cek histori transaksi menggunakan relasi hasMany
+        $sudahAdaTransaksi = $stok->transaksi()->exists();
+
+        // 3. Atur Rule Validasi secara dinamis
+        $rules = [
             'kode_barang'       => 'required|max:50|unique:stok_barang,kode_barang,' . $id,
             'nama_barang'       => 'required|string|max:255',
-            'stok_saat_ini'     => 'required|numeric|min:0',
-            'harga_satuan'      => 'required|numeric|min:0',
-        ],[
+            'tanggal_pembelian' => 'required|date',
+            'pt_pembeban'       => 'required',
+            'satuan'            => 'required',
+        ];
+
+        // Jika belum ada transaksi, stok dan harga wajib divalidasi
+        if (!$sudahAdaTransaksi) {
+            $rules['stok_saat_ini'] = 'required|numeric|min:0';
+            $rules['harga_satuan']  = 'required|numeric|min:0';
+        }
+
+        $request->validate($rules, [
             'kode_barang.unique' => 'Kode barang sudah ada, gunakan kode lain.',
         ]);
 
         try {
-            return DB::transaction(function () use ($request, $stok) {
-                // Kalkulasi Ulang
-                $total = $request->stok_saat_ini * $request->harga_satuan;
+            return DB::transaction(function () use ($request, $stok, $sudahAdaTransaksi) {
 
-                $stok->update([
+                // Siapkan data identitas yang selalu bisa diubah
+                $updateData = [
                     'kode_barang'       => $request->kode_barang,
                     'nama_barang'       => $request->nama_barang,
                     'tanggal_pembelian' => $request->tanggal_pembelian,
                     'pt_pembeban'       => $request->pt_pembeban,
                     'satuan'            => $request->satuan,
-                    'stok_saat_ini'     => $request->stok_saat_ini,
-                    'harga_satuan'      => $request->harga_satuan,
-                    'harga_total'       => $total,
-                ]);
+                ];
+
+                // 4. Logika Update Stok & Harga (Proteksi Finansial)
+                if (!$sudahAdaTransaksi) {
+                    // Kalkulasi hanya jika belum ada transaksi
+                    $total = $request->stok_saat_ini * $request->harga_satuan;
+
+                    $updateData['stok_saat_ini'] = $request->stok_saat_ini;
+                    $updateData['harga_satuan']  = $request->harga_satuan;
+                    $updateData['harga_total']   = $total;
+                } else {
+                    // JIKA SUDAH ADA TRANSAKSI:
+                    // Kita kunci nilainya menggunakan data asli dari database ($stok)
+                    // Ini mencegah manipulasi via Inspect Element/Frontend
+                    $updateData['stok_saat_ini'] = $stok->stok_saat_ini;
+                    $updateData['harga_satuan']  = $stok->harga_satuan;
+                    $updateData['harga_total']   = $stok->harga_total;
+                }
+
+                $stok->update($updateData);
 
                 return redirect()->route('stok.index')
-                                ->with('success', 'Data stok berhasil <strong>Diubah</strong>');
+                                ->with('success', 'Stok berhasil <strong>Diubah</strong>');
             });
         } catch (\Exception $e) {
             return back()->withInput()->with('error', 'Gagal mengubah data: ' . $e->getMessage());
@@ -153,12 +180,12 @@ class StokBarangController extends Controller
 
         if ($transaksi) {
             return redirect()->route('stok.index')
-                ->with('error', 'Barang <strong>' . $stok->nama_barang . '</strong> tidak bisa dihapus karena sudah memiliki riwayat transaksi.');
+                ->with('error', 'Barang <strong>' . $stok->nama_barang . '</strong> tidak bisa dihapus karena sudah memiliki riwayat transaksi');
         }
 
         $stok->delete();
 
         return redirect()->route('stok.index')
-                        ->with('success', 'Data stok berhasil <strong>Dihapus</strong>');
+                        ->with('success', 'Stok berhasil <strong>Dihapus</strong>');
     }
 }

@@ -126,7 +126,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="10">
+                                        <td colspan="9">
                                             <div class="dx-empty-batch text-center">
                                                 <div class="dx-empty-batch-image">
                                                     <img src="{{ asset('images/speech-bubble.png') }}" alt="empty-batch"

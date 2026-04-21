@@ -278,7 +278,7 @@ class AsetController extends Controller
 
         // Redirect ke halaman index aset dengan pesan sukses
         return redirect()->route('aset.index', $aset->id)
-                        ->with('success', 'Data aset berhasil <strong>Diubah</strong>');
+                        ->with('success', 'Aset berhasil <strong>Diubah</strong>');
     }
 
     public function hapus(string $id)
@@ -290,7 +290,7 @@ class AsetController extends Controller
         // 2. CEK RELASI: Jika aset ini punya riwayat di tabel peminjaman
         if ($aset->peminjaman_count > 0) {
             return redirect()->back()->with('error',
-                'Aset <strong>' . $aset->nama_barang . '</strong> tidak bisa dihapus karena masih memiliki riwayat peminjaman.'
+                'Aset <strong>' . $aset->nama_barang . '</strong> tidak bisa dihapus karena masih memiliki riwayat peminjaman'
             );
         }
 
@@ -304,7 +304,7 @@ class AsetController extends Controller
         // 4. Hapus data dari database
         $aset->delete();
 
-        return redirect()->back()->with('success', 'Data aset berhasil <strong>Dihapus</strong>');
+        return redirect()->back()->with('success', 'Aset berhasil <strong>Dihapus</strong>');
     }
 
     private function compressImage($source, $destination, $extension)

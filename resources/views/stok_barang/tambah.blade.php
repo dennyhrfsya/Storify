@@ -177,7 +177,8 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="harga">Harga Total</label>
-                                    <input type="text" id="harga" class="input-currency" readonly />
+                                    <input type="text" id="harga" class="input-currency dx-input-disable"
+                                        readonly />
                                     <input type="hidden" id="harga_total_hidden" name="harga_total">
                                 </div>
                             </div>
@@ -194,7 +195,7 @@
         </div>
     </div>
     @push('scripts')
-        <script src="{{ asset('js/stok-total-harga.js') }}"></script>
+        <script src="{{ asset('js/tambah-stok-total-harga.js') }}"></script>
         <script src="{{ asset('js/single-select.js') }}"></script>
     @endpush
 @endsection

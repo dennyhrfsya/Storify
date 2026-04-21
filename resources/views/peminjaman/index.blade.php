@@ -88,7 +88,9 @@
                                 @forelse($peminjamans as $peminjaman)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td><span dx-text-biru dx-font-bold>{{ $peminjaman->kode_peminjaman }}</span></td>
+                                        <td><span
+                                                class="dx-text-biru dx-font-bold">{{ $peminjaman->kode_peminjaman }}</span>
+                                        </td>
                                         <td>
                                             <strong>{{ $peminjaman->aset->nama_barang }}</strong><br>
                                             <small>{{ $peminjaman->aset->kode_barang }}</small>
@@ -172,7 +174,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7">
+                                        <td colspan="8">
                                             <div class="dx-empty-batch text-center">
                                                 <div class="dx-empty-batch-image">
                                                     <img src="{{ asset('images/speech-bubble.png') }}" alt="empty-batch"

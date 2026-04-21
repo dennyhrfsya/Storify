@@ -85,7 +85,7 @@
                                         <td>
                                             @php
                                                 $badgeClass = match (Str::lower($transaksi->status)) {
-                                                    'dipinjamkan' => 'dx-badge-warning',
+                                                    'dipinjamkan' => 'dx-badge-primary',
                                                     'diberikan' => 'dx-badge-success',
                                                     default => 'dx-badge-danger',
                                                 };
@@ -140,7 +140,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="17">
+                                        <td colspan="11">
                                             <div class="dx-empty-batch text-center">
                                                 <div class="dx-empty-batch-image">
                                                     <img src="{{ asset('images/speech-bubble.png') }}" alt="empty-batch"

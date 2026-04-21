@@ -72,7 +72,7 @@
         }
 
         .bg-pinjam {
-            background-color: #f1c40f;
+            background-color: #0652dd;
         }
 
         .bg-default {

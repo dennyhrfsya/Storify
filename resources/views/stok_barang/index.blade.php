@@ -24,9 +24,7 @@
                             </div>
                         </div>
                     </div>
-                @endif
-
-                @if (session('error'))
+                @elseif(session('error'))
                     <div id="welcomeNotice" class="dx-notice dx-notice-warning">
                         <h3 class="dx-notice-title">Peringatan !</h3>
                         <div class="dx-notice-icon">
@@ -90,7 +88,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $stok->kode_barang }}</td>
-                                        <td>{{ $stok->nama_barang }}</td>
+                                        <td><strong>{{ $stok->nama_barang }}</strong></td>
                                         <td>{{ $stok->tanggal_pembelian ? $stok->tanggal_pembelian->format('d-m-Y') : '-' }}
                                         </td>
                                         <td>{{ $stok->pt_pembeban }}</td>

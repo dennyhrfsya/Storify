@@ -157,16 +157,25 @@
 
                     <hr class="my-4">
 
+                    @php
+                        $sudahAdaTransaksi = $stok->transaksi->count() > 0;
+                    @endphp
                     <div class="row mb-4">
                         <div class="col-6">
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="input_stok">Stok</label>
                                     <input type="number" id="input_stok" name="stok_saat_ini"
-                                        value="{{ $stok->stok_saat_ini }}" />
+                                        value="{{ $stok->stok_saat_ini }}" {{ $sudahAdaTransaksi ? 'readonly' : '' }}
+                                        class="{{ $sudahAdaTransaksi ? 'dx-input-disable' : '' }}" />
                                     @error('stok')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
+                                    @if ($sudahAdaTransaksi)
+                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">
+                                            * Stok terkunci karena sudah ada riwayat transaksi.
+                                        </p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -174,13 +183,20 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="input_harga">Harga Satuan</label>
-                                    <input type="text" id="input_harga" class="input-currency"
-                                        value="{{ number_format($stok->harga_satuan, 0, ',', '.') }}" />
+                                    <input type="text" id="input_harga"
+                                        class="input-currency {{ $sudahAdaTransaksi ? 'dx-input-disable' : '' }}"
+                                        value="{{ number_format($stok->harga_satuan, 0, ',', '.') }}"
+                                        {{ $sudahAdaTransaksi ? 'readonly' : '' }} />
                                     <input type="hidden" id="harga_satuan_hidden" name="harga_satuan"
                                         value="{{ $stok->harga_satuan }}">
                                     @error('harga_satuan')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
+                                    @if ($sudahAdaTransaksi)
+                                        <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">
+                                            * Harga satuan terkunci karena sudah ada riwayat transaksi.
+                                        </p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -188,8 +204,10 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="harga">Harga Total</label>
-                                    <input type="text" id="harga" class="input-currency" readonly />
-                                    <input type="hidden" id="harga_total_hidden" name="harga_total">
+                                    <input type="text" id="harga" class="input-currency dx-input-disable"
+                                        readonly />
+                                    <input type="hidden" id="harga_total_hidden" name="harga_total"
+                                        value="{{ $stok->harga_total }}">
                                 </div>
                             </div>
                         </div>
@@ -205,7 +223,7 @@
         </div>
     </div>
     @push('scripts')
-        <script src="{{ asset('js/stok-total-harga.js') }}"></script>
+        <script src="{{ asset('js/ubah-stok-total-harga.js') }}"></script>
         <script src="{{ asset('js/single-select.js') }}"></script>
     @endpush
 @endsection

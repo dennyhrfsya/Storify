@@ -16,7 +16,7 @@ class ReportPeminjamanPengembalianController extends Controller
         'dari_tanggal'   => 'nullable|date',
         'sampai_tanggal' => 'nullable|date|after_or_equal:dari_tanggal',
         ], [
-            'sampai_tanggal.after_or_equal' => 'Tanggal akhir tidak boleh lebih kecil dari Tanggal mulai',
+            'sampai_tanggal.after_or_equal' => 'Tanggal akhir tidak boleh lebih kecil dari Tanggal mulai.',
         ]);
 
         $search = $request->input('search');
