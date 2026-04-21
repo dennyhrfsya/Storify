@@ -77,7 +77,9 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $transaksi->kode_transaksi }}</td>
-                                        <td>{{ $transaksi->stokBarang->nama_barang }}</td>
+                                        <td><strong class="d-block">{{ $transaksi->stokBarang->nama_barang }}</strong>
+                                            <small>{{ $transaksi->stokBarang->kode_barang }}</small>
+                                        </td>
                                         <td><strong>{{ $transaksi->nama_user }}</strong><br>
                                             {{ $transaksi->departemen }} </td>
                                         <td><strong>{{ $transaksi->jumlah }}</strong> {{ $transaksi->stokBarang->satuan }}

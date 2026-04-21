@@ -67,8 +67,30 @@ class PeminjamanPengembalianExport implements FromQuery, WithHeadings, WithMappi
         return [
             'No', 'No Peminjaman', 'No Pengembalian', 'Kode Barang', 'Nama Barang',
             'User','PT User', 'Departemen', 'Lokasi', 'Tanggal Pinjam / Serah Terima', 'Tanggal Kembali',
-            'Status', 'Kondisi'
+            'Status', 'Usage', 'Kondisi'
         ];
+    }
+
+    private function getOrdinalUsage($urutan, $status)
+    {
+        if ($status == 'dibatalkan') {
+            return 'Canceled';
+        }
+
+        if (!$urutan) {
+            return 'No record';
+        }
+
+        $suffix = 'th';
+        if ($urutan % 100 < 11 || $urutan % 100 > 13) {
+            switch ($urutan % 10) {
+                case 1: $suffix = 'st'; break;
+                case 2: $suffix = 'nd'; break;
+                case 3: $suffix = 'rd'; break;
+            }
+        }
+
+        return $urutan . $suffix . ' usage';
     }
 
     public function map($peminjaman): array
@@ -76,8 +98,9 @@ class PeminjamanPengembalianExport implements FromQuery, WithHeadings, WithMappi
         $this->rowNumber++;
         $statusRaw = strtolower($peminjaman->status);
         $statusPeminjamanPengembalians = match ($statusRaw) {
-            'dikembalikan' => 'Returned',
             'dipinjam'     => 'Delivered',
+            'dikembalikan' => 'Returned',
+            'dibatalkan'   => 'Canceled',
             'permanen'     => 'Permanent',
             default        => ucfirst($statusRaw),
         };
@@ -94,6 +117,7 @@ class PeminjamanPengembalianExport implements FromQuery, WithHeadings, WithMappi
             $peminjaman->tanggal_peminjaman ? $peminjaman->tanggal_peminjaman->format('d-m-Y') : '-',
             $peminjaman->pengembalian?->tanggal_pengembalian ? $peminjaman->pengembalian->tanggal_pengembalian->format('d-m-Y') : '-',
             $statusPeminjamanPengembalians,
+            $this->getOrdinalUsage($peminjaman->urutan_pemakaian, $statusRaw),
             ucfirst(strtolower($peminjaman->pengembalian?->kondisi_pengembalian ?? '-'))
         ];
     }
@@ -119,7 +143,7 @@ class PeminjamanPengembalianExport implements FromQuery, WithHeadings, WithMappi
                 $event->sheet->getStyle('A2')->getFont()->setBold(true);
                 $event->sheet->getStyle('A2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
-                $event->sheet->getStyle('A4:M4')->applyFromArray([
+                $event->sheet->getStyle('A4:N4')->applyFromArray([
                     'font' => ['bold' => true],
                     'background' => [
                         'color' => ['rgb' => 'F8F9FA']
