@@ -107,8 +107,9 @@ class AsetController extends Controller
             $file = $request->file('upload_bukti_aset');
             $extension = strtolower($file->getClientOriginalExtension());
             $today = now()->format('Ymd');
+            $generateKodeAset = str_replace('/', '_', $request->kode_barang);
 
-            $filename = $today . '_' . $request->kode_barang . '.' . $extension;
+            $filename = $today . '_' . $generateKodeAset . '.' . $extension;
 
             if (in_array($extension, ['jpg', 'jpeg', 'png']) && $file->getSize() > 2048 * 1024) {
                 // Jalankan Kompresi
@@ -246,9 +247,10 @@ class AsetController extends Controller
             $file = $request->file('upload_bukti_aset');
             $extension = strtolower($file->getClientOriginalExtension());
             $today = now()->format('Ymd'); // Menggunakan format YYYYMMDD
+            $generateKodeAset = str_replace('/', '_', $request->kode_barang);
 
             // Nama file menggunakan $today sesuai request kamu
-            $filename = $today . '_' . $request->kode_barang . '.' . $extension;
+            $filename = $today . '_' . $generateKodeAset . '.' . $extension;
             $relativeFolder = 'upload_bukti_aset';
             $fullFolderPath = storage_path('app/public/' . $relativeFolder);
             $destinationPath = $fullFolderPath . '/' . $filename;
