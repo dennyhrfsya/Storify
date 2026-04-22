@@ -242,35 +242,38 @@ class AsetController extends Controller
             'upload_bukti_aset.mimes' => 'Format file harus berupa JPEG, PNG, JPG, atau PDF.',
         ]);
 
-        // Jika ada file bukti tanda terima diupload
         if ($request->hasFile('upload_bukti_aset')) {
-            // Hapus file lama jika ada
+            $file = $request->file('upload_bukti_aset');
+            $extension = strtolower($file->getClientOriginalExtension());
+            $today = now()->format('Ymd'); // Menggunakan format YYYYMMDD
+
+            // Nama file menggunakan $today sesuai request kamu
+            $filename = $today . '_' . $request->kode_barang . '.' . $extension;
+            $relativeFolder = 'upload_bukti_aset';
+            $fullFolderPath = storage_path('app/public/' . $relativeFolder);
+            $destinationPath = $fullFolderPath . '/' . $filename;
+
+            // 1. PENTING: Pastikan folder 'upload_bukti_aset' ada secara fisik
+            if (!file_exists($fullFolderPath)) {
+                mkdir($fullFolderPath, 0755, true);
+            }
+
+            // 2. Hapus file lama di database & storage agar tidak menumpuk sampah data
             if ($aset->upload_bukti_aset && Storage::disk('public')->exists($aset->upload_bukti_aset)) {
                 Storage::disk('public')->delete($aset->upload_bukti_aset);
             }
 
-            $file = $request->file('upload_bukti_aset');
-            $extension = strtolower($file->getClientOriginalExtension());
-            $today = now()->format('Ymd');
-
-            // Nama file tetap konsisten menggunakan kode_barang
-            $filename = $today . '_' . $request->kode_barang . '.' . $extension;
-
+            // 3. Proses Simpan (Kompres jika gambar besar, Simpan Normal jika PDF/Gambar kecil)
             if (in_array($extension, ['jpg', 'jpeg', 'png']) && $file->getSize() > 2048 * 1024) {
-                // Kompres Gambar Baru
-                $destinationPath = storage_path('app/public/upload_bukti_aset/' . $filename);
-
-                if (!file_exists(storage_path('app/public/upload_bukti_aset'))) {
-                    mkdir(storage_path('app/public/upload_bukti_aset'), 0755, true);
-                }
-
+                // Jalankan fungsi compress (Sekarang aman karena folder sudah dipastikan ada di atas)
                 $this->compressImage($file->getRealPath(), $destinationPath, $extension);
-                $validated['upload_bukti_aset'] = 'upload_bukti_aset/' . $filename;
             } else {
-                // Simpan Normal (PDF atau Gambar Kecil)
-                $path = $file->storeAs('upload_bukti_aset', $filename, 'public');
-                $validated['upload_bukti_aset'] = $path;
+                // Simpan file asli (Timpa jika nama filenya sama persis)
+                $file->storeAs($relativeFolder, $filename, 'public');
             }
+
+            // Simpan path relatif ke database
+            $validated['upload_bukti_aset'] = $relativeFolder . '/' . $filename;
         }
 
         // Update data aset dengan data yang sudah divalidasi
@@ -312,18 +315,33 @@ class AsetController extends Controller
         $info = getimagesize($source);
         $image = null;
 
+        // Pastikan folder tujuan ada sebelum proses simpan (Jaga-jaring pengaman)
+        $directory = dirname($destination);
+        if (!file_exists($directory)) {
+            mkdir($directory, 0775, true);
+        }
+
+        // Hapus file lama jika ada agar benar-benar bersih (Overwrite logic)
+        if (file_exists($destination)) {
+            unlink($destination);
+        }
+
         if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
             $image = imagecreatefromjpeg($source);
         } elseif ($info['mime'] == 'image/png') {
-            $image = imagecreatefrompng($source);
-            $bg = imagecreatetruecolor(imagesx($image), imagesy($image));
-            imagefill($bg, 0, 0, imagecolorallocate($bg, 255, 255, 255));
-            imagecopy($bg, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
-            $image = $bg;
+            $pngImage = imagecreatefrompng($source);
+
+            // Membuat canvas putih untuk menggantikan transparansi PNG saat dikonversi ke JPG
+            $image = imagecreatetruecolor(imagesx($pngImage), imagesy($pngImage));
+            $white = imagecolorallocate($image, 255, 255, 255);
+            imagefill($image, 0, 0, $white);
+            imagecopy($image, $pngImage, 0, 0, 0, 0, imagesx($pngImage), imagesy($pngImage));
         }
 
         if ($image) {
+            // Simpan sebagai JPEG dengan kualitas 60% untuk kompresi
             imagejpeg($image, $destination, 60);
+            // imagedestroy($image); // Opsional di PHP 8.0+, silakan hapus jika sudah upgrade
         }
     }
 }
