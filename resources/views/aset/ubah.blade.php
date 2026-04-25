@@ -19,8 +19,9 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="kode_barang">Kode Barang</label>
-                                    <input type="text" id="kode_barang" name="kode_barang" placeholder="Kode Barang"
-                                        value="{{ old('kode_barang', $aset->kode_barang) }}" />
+                                    <input type="text" class="dx-input-disable" id="kode_barang" name="kode_barang"
+                                        placeholder="Kode Barang" value="{{ old('kode_barang', $aset->kode_barang) }}"
+                                        readonly />
                                     @error('kode_barang')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror

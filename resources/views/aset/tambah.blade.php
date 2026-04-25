@@ -18,8 +18,9 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="kode_barang">Kode Barang</label>
-                                    <input type="text" id="kode_barang" name="kode_barang" placeholder="Kode Barang"
-                                        value="" />
+                                    <input type="text" class="dx-input-disable" id="kode_barang" name="kode_barang"
+                                        placeholder="Kode Barang"
+                                        value="TRD/SLP73/IT/.../{{ $tahun }}/{{ $nextNumber }}" readonly />
                                     @error('kode_barang')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
@@ -70,7 +71,7 @@
                                             !empty($nilaiKategori) && !in_array($nilaiKategori, $daftarKategori);
                                     @endphp
 
-                                    <select class="select2-js js-select-single" name="kategori">
+                                    <select class="select2-js js-select-single" name="kategori" id="kategori">
                                         <option value="">Pilih Opsi...</option>
                                         @foreach ($daftarKategori as $kat)
                                             <option value="{{ $kat }}"
@@ -335,5 +336,64 @@
     </div>
     @push('scripts')
         <script src="{{ asset('js/single-select.js') }}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Ambil elemen
+                const selectKategori = $('#kategori'); // Gunakan JQuery jika pakai Select2
+                const kodeInput = document.getElementById('kode_barang');
+
+                // Fungsi untuk update kode
+                function updateKodeBarang(kategori) {
+                    // 1. Mapping Singkatan Lengkap
+                    const mapping = {
+                        'Laptop': 'LP',
+                        'Monitor': 'MTR',
+                        'Server': 'SVR',
+                        'Printer': 'PRT',
+                        'Keyboard': 'KYB',
+                        'PC Desktop': 'PC',
+                        'CCTV': 'CTV',
+                        'Proyektor': 'PROJ',
+                        'Scanner': 'SCN',
+                        'Hardisk': 'HDD',
+                        'Modem': 'MDM',
+                        'Router': 'RTR',
+                        'Access Point': 'AP',
+                        'Switch': 'SWT',
+                        'Range Extender': 'EXT',
+                        'Webcam': 'CAM',
+                        'Speaker': 'SPK',
+                        'Paper Shredder': 'SHR',
+                        'Lainnya': 'ETC'
+                    };
+
+                    // 2. Ambil inisial (Fallback: 3 huruf pertama)
+                    let inisial = mapping[kategori] || (kategori ? kategori.substring(0, 3).toUpperCase() : '...');
+
+                    // 3. Susun Ulang Kode Barang
+                    const tahun = "{{ $tahun }}";
+                    const nomorUrut = "{{ $nextNumber }}";
+
+                    kodeInput.value = `TRD/SLP73/IT/${inisial}/${tahun}/${nomorUrut}`;
+                }
+
+                // Jika menggunakan Select2, kita harus gunakan event 'select2:select' atau 'change' via JQuery
+                if (selectKategori.hasClass('select2-js') || selectKategori.hasClass('js-select-single')) {
+                    selectKategori.on('change', function(e) {
+                        updateKodeBarang(this.value);
+                    });
+                } else {
+                    // Fallback untuk select standar
+                    document.getElementById('kategori').addEventListener('change', function() {
+                        updateKodeBarang(this.value);
+                    });
+                }
+
+                // Jalankan sekali saat halaman dimuat (jika ada nilai 'old' dari Laravel)
+                if (selectKategori.val()) {
+                    updateKodeBarang(selectKategori.val());
+                }
+            });
+        </script>
     @endpush
 @endsection

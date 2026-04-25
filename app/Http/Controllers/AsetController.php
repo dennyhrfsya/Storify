@@ -38,11 +38,32 @@ class AsetController extends Controller
         return view('aset.index', compact('asets'));
     }
 
+    // public function tambah()
+    // {
+    //     // Tampilkan view tambah data aset
+    //     return view('aset.tambah');
+    // }
     public function tambah()
     {
-        // Tampilkan view tambah data aset
-        return view('aset.tambah');
+        $tahun = date('Y');
+
+        // Cari aset terakhir di tahun ini untuk menentukan nomor urut
+        $lastAset = \App\Models\Aset::whereYear('created_at', $tahun)
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+        if ($lastAset) {
+            $parts = explode('/', $lastAset->kode_barang);
+            $lastNumber = (int) end($parts);
+            $nextNumber = str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            $nextNumber = '001';
+        }
+
+        // Kirim data ke view
+        return view('aset.tambah', compact('nextNumber', 'tahun'));
     }
+
 
     public function simpan(Request $request)
     {
