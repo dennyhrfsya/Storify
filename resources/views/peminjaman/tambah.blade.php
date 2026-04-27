@@ -59,7 +59,7 @@
                                 <div class="dx-form-group">
                                     <label for="user_aset">Nama User</label>
                                     <input type="text" id="user_aset" name="user_aset" value="{{ old('user_aset') }}"
-                                        placeholder="Nama User">
+                                        placeholder="Nama User" autofocus>
                                     @error('user_aset')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror

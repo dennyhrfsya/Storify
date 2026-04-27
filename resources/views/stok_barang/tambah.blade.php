@@ -31,7 +31,7 @@
                                 <div class="dx-form-group">
                                     <label for="nama_barang">Nama Barang</label>
                                     <input type="text" id="nama_barang" name="nama_barang" placeholder="Nama Barang"
-                                        value="" />
+                                        value="{{ old('nama_barang') }}" autofocus />
                                     @error('nama_barang')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
@@ -162,7 +162,7 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="input_stok">Stok</label>
-                                    <input type="number" id="input_stok" name="stok_saat_ini" value="" />
+                                    <input type="number" id="input_stok" name="stok_saat_ini" />
                                     @error('stok')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror

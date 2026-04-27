@@ -75,7 +75,7 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="catatan">Catatan</label>
-                                    <textarea name="catatan" id="catatan"></textarea>
+                                    <textarea name="catatan" id="catatan">{{ old('catatan') }}</textarea>
                                 </div>
                             </div>
 

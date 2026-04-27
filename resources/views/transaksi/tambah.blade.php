@@ -60,7 +60,7 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="jumlah_input">Jumlah Yang Diambil</label>
-                                    <input type="number" name="jumlah" id="jumlah_input" min="1">
+                                    <input type="number" name="jumlah" id="jumlah_input" min="1" autofocus>
                                     <p id="error-js-jumlah" class="dx-text-merah dx-text-xs" style="display: none;"></p>
                                     @error('jumlah')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
@@ -90,7 +90,7 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="nama_user">Nama User</label>
-                                    <input type="text" id="nama_user" name="nama_user">
+                                    <input type="text" id="nama_user" name="nama_user" value="{{ old('nama_user') }}">
                                     @error('nama_user')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
@@ -101,7 +101,8 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="departemen">Departemen</label>
-                                    <input type="text" id="departemen" name="departemen">
+                                    <input type="text" id="departemen" name="departemen"
+                                        value="{{ old('departemen') }}">
                                     @error('departemen')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror

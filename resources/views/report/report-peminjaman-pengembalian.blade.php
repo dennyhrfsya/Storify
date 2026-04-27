@@ -36,7 +36,7 @@
                                 <div class="dx-form-group">
                                     <label for="pencarian">Pencarian</label>
                                     <input type="text" id="pencarian" name="search" value="{{ request('search') }}"
-                                        placeholder="Ketik kode, aset, user, atau PT...">
+                                        placeholder="Ketik kode, aset, user, atau PT..." autofocus>
                                 </div>
                             </div>
                         </div>

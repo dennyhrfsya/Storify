@@ -17,7 +17,7 @@
                         <div class="dx-form-group">
                             <label for="name">Nama</label>
                             <input type="text" id="name" name="name" placeholder="Nama Lengkap"
-                                value="{{ old('name') }}" />
+                                value="{{ old('name') }}" autofocus />
                             @error('name')
                                 <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                             @enderror

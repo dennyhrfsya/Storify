@@ -31,8 +31,8 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="nama_barang">Nama Barang</label>
-                                    <input type="text" id="nama_barang" name="nama_barang" placeholder="Nama Barang"
-                                        value="" />
+                                    <input type="text" id="nama_barang" name="nama_barang"
+                                        value="{{ old('nama_barang') }}" placeholder="Nama Barang" autofocus />
                                     @error('nama_barang')
                                         <p class="dx-text-merah dx-text-xs dx-margin-bottom-0">{{ $message }}</p>
                                     @enderror
@@ -102,7 +102,8 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="merk">Merk</label>
-                                    <input type="text" id="merk" name="merk" placeholder="Merk" value="" />
+                                    <input type="text" id="merk" name="merk" placeholder="Merk"
+                                        value="{{ old('merk') }}" />
                                 </div>
                             </div>
                         </div>
@@ -111,7 +112,7 @@
                                 <div class="dx-form-group">
                                     <label for="nomor_seri">Nomor Seri</label>
                                     <input type="text" id="nomor_seri" name="nomor_seri" placeholder="Nomor Seri"
-                                        value="" />
+                                        value="{{ old('nomor_seri') }}" />
                                 </div>
                             </div>
                         </div>
@@ -151,7 +152,8 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="kuantitas">Quantity</label>
-                                    <input type="number" id="kuantitas" name="kuantitas" value="" />
+                                    <input type="number" id="kuantitas" name="kuantitas"
+                                        value="{{ old('kuantitas') }}" />
                                 </div>
                             </div>
                         </div>
@@ -159,7 +161,8 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="harga">Harga</label>
-                                    <input type="text" id="harga" class="input-currency" />
+                                    <input type="text" id="harga" class="input-currency"
+                                        value="{{ old('harga') }}" />
                                     <input type="hidden" id="harga_aset_hidden" name="harga">
                                 </div>
                             </div>
@@ -305,7 +308,7 @@
                                 <div class="dx-form-group">
                                     <label for="upload_bukti_aset">Upload Bukti Aset</label>
                                     <input type="file" id="upload_bukti_aset" name="upload_bukti_aset"
-                                        accept=".jpg,.jpeg,.png,.pdf" />
+                                        accept=".jpg,.jpeg,.png,.pdf" value="{{ old('upload_bukti_aset') }}" />
                                     <div class="dx-text-xs dx-text-abu-abu-gelap dx-py-1">
                                         Format: JPG, PNG (Maks 10MB) atau PDF (Maks 2MB).
                                     </div>
@@ -319,7 +322,7 @@
                             <div class="dx-form-control-full">
                                 <div class="dx-form-group">
                                     <label for="keterangan">Keterangan</label>
-                                    <textarea name="keterangan" id="keterangan"></textarea>
+                                    <textarea name="keterangan" id="keterangan">{{ old('keterangan') }}</textarea>
                                 </div>
                             </div>
                         </div>

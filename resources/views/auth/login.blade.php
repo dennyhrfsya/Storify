@@ -16,7 +16,7 @@
                 <div class="dx-mb-4 dx-shadow">
                     <div class="position-relative">
                         <input type="email" id="email" name="email" class="dx-form-input dx-input"
-                            placeholder="Masukan email" required>
+                            value="{{ old('email') }}" placeholder="Masukan email" required autofocus>
                         <label class="dx-form-label">Email</label>
                     </div>
                     <div class="position-relative">
