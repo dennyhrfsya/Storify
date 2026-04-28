@@ -241,9 +241,13 @@
                             @php
                                 $kondisi = strtolower($rpp->pengembalian->kondisi_pengembalian);
                             @endphp
-                            <span class="{{ $kondisi == 'baik' ? 'dx-text-hijau' : 'dx-text-merah' }}">
+                            <span class="{{ $kondisi == 'baik' ? 'dx-text-hijau' : 'dx-text-merah' }} d-block">
                                 {{ ucfirst($kondisi) }}
                             </span>
+                            @php
+                                $catatan = $rpp->pengembalian->catatan;
+                            @endphp
+                            <small>{{ $catatan }}</small>
                         @else
                             <span class="dx-text-muted">-</span>
                         @endif
