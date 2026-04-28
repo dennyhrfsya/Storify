@@ -1942,7 +1942,49 @@ button:not(:disabled) {
 .select2-container--default .select2-selection--single .select2-selection__clear {
   display: none !important;
 }
-.select2-container--default.select2-container--focus .select2-selection--single, .select2-container--default.select2-container--open .select2-selection--single {
+.select2-container--default .select2-selection--multiple {
+  min-height: 35.95px !important;
+  background-color: #fff !important;
+  border: none !important;
+  border-bottom: 1px solid #ccc !important;
+  border-radius: 0 !important;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-bottom: 2px !important;
+  box-sizing: border-box;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  padding: 0 0.5rem !important;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: #0652dd !important;
+  border: 2px solid #0652dd !important;
+  color: #fff !important;
+  font-size: 0.8rem !important;
+  margin-top: 4px !important;
+  display: flex;
+  align-items: center;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice .select2-selection__choice__remove {
+  color: #fff !important;
+  margin-right: 5px;
+  border: none;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice .select2-selection__choice__remove:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.select2-container--default .select2-selection--multiple .select2-search--inline .select2-search__field {
+  margin-top: 4px !important;
+  font-family: inherit;
+  font-size: 0.95em !important;
+}
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default.select2-container--open .select2-selection--single,
+.select2-container--default.select2-container--open .select2-selection--multiple {
   border-bottom: 1px solid #0652dd !important;
   outline: none !important;
 }
@@ -1973,6 +2015,10 @@ button:not(:disabled) {
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
   background-color: #0652dd !important;
   color: #fff !important;
+}
+.select2-container--default .select2-results__option[aria-selected=true] {
+  background-color: #fafafa !important;
+  color: #0652dd !important;
 }
 
 body.modal-open {

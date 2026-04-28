@@ -45,12 +45,30 @@ class ReportPeminjamanPengembalianController extends Controller
                 });
             }
 
-            if ($dari_tanggal && $sampai_tanggal) {
-                $query->whereBetween('tanggal_peminjaman', [$dari_tanggal, $sampai_tanggal]);
-            } elseif ($dari_tanggal) {
-                $query->where('tanggal_peminjaman', '>=', $dari_tanggal);
-            } elseif ($sampai_tanggal) {
-                $query->where('tanggal_peminjaman', '<=', $sampai_tanggal);
+            // Filter Rentang Tanggal (Mencakup Peminjaman DAN Pengembalian)
+            if ($dari_tanggal || $sampai_tanggal) {
+                $query->where(function($q) use ($dari_tanggal, $sampai_tanggal) {
+                    // Kondisi untuk Tanggal Peminjaman
+                    $q->where(function($qPinjam) use ($dari_tanggal, $sampai_tanggal) {
+                        if ($dari_tanggal && $sampai_tanggal) {
+                            $qPinjam->whereBetween('tanggal_peminjaman', [$dari_tanggal, $sampai_tanggal]);
+                        } elseif ($dari_tanggal) {
+                            $qPinjam->where('tanggal_peminjaman', '>=', $dari_tanggal);
+                        } elseif ($sampai_tanggal) {
+                            $qPinjam->where('tanggal_peminjaman', '<=', $sampai_tanggal);
+                        }
+                    })
+                    // ATAU Kondisi untuk Tanggal Pengembalian (melalui relasi)
+                    ->orWhereHas('pengembalian', function($qKembali) use ($dari_tanggal, $sampai_tanggal) {
+                        if ($dari_tanggal && $sampai_tanggal) {
+                            $qKembali->whereBetween('tanggal_pengembalian', [$dari_tanggal, $sampai_tanggal]);
+                        } elseif ($dari_tanggal) {
+                            $qKembali->where('tanggal_pengembalian', '>=', $dari_tanggal);
+                        } elseif ($sampai_tanggal) {
+                            $qKembali->where('tanggal_pengembalian', '<=', $sampai_tanggal);
+                        }
+                    });
+                });
             }
         }
 
