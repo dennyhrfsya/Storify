@@ -41,14 +41,28 @@
                 <p>Halaman untuk data <strong>Aset</strong></p>
 
                 <div class="row gap-2">
-                    <div class="col-12 col-md-5 order-1">
+                    <div class="col-12 col-md-5 order-1 d-flex gap-2">
                         @if ($perm && $perm->tambah)
                             <a href="{{ route('aset.tambah') }}" class="dx-btn dx-btn-primary">Tambah</a>
                         @endif
+                        <a href="#" class="dx-btn dx-btn-success">Excel</a>
                     </div>
                     <div class="col-12 col-md-5 order-2 ms-auto">
                         <form method="GET" action="{{ route('aset.index') }}"
                             class="d-flex justify-content-end align-items-center gap-2">
+                            <div class="dx-form-control-full w-50">
+                                <select id="select" name="status">
+                                    <option value="">Pilih Status...</option>
+                                    <option value="dipinjam" {{ request('status') == 'dipinjam' ? 'selected' : '' }}>
+                                        Delivered</option>
+                                    <option value="tertunda" {{ request('status') == 'tertunda' ? 'selected' : '' }}>
+                                        Pending</option>
+                                    <option value="permanen" {{ request('status') == 'permanen' ? 'selected' : '' }}>
+                                        Permanent</option>
+                                    <option value="tersedia" {{ request('status') == 'tersedia' ? 'selected' : '' }}>
+                                        Available</option>
+                                </select>
+                            </div>
                             <div class="dx-form-wrapper w-100">
                                 <input type="text" class="dx-form-input-src" name="search"
                                     placeholder="Ketik kode, nama, atau pt..." aria-label="Search"
@@ -57,7 +71,7 @@
                             <button type="submit" class="dx-btn dx-btn-secondary dx-src-btn">
                                 Cari
                             </button>
-                            @if (request('search'))
+                            @if (request('search') || request('status'))
                                 <a href="{{ route('aset.index') }}"
                                     class="dx-btn dx-btn-primary dx-src-btn text-decoration-none">Reset</a>
                             @endif

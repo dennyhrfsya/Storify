@@ -31,6 +31,11 @@ class AsetController extends Controller
             });
         }
 
+        // Fitur Filter Status (Kondisi)
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
         // Eksekusi query dengan pagination, tampilkan 5 data per halaman
         $asets = $query->paginate(10)->withQueryString();
 
