@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aset;
+use App\Exports\AsetExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -336,6 +338,12 @@ class AsetController extends Controller
         $aset->delete();
 
         return redirect()->back()->with('success', 'Aset berhasil <strong>Dihapus</strong>');
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $nama_file = 'Laporan_Data_Aset_' . date('Ymd_His') . '.xlsx';
+        return Excel::download(new AsetExport($request->all()), $nama_file);
     }
 
     private function compressImage($source, $destination, $extension)

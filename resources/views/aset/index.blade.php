@@ -45,7 +45,7 @@
                         @if ($perm && $perm->tambah)
                             <a href="{{ route('aset.tambah') }}" class="dx-btn dx-btn-primary">Tambah</a>
                         @endif
-                        <a href="#" class="dx-btn dx-btn-success">Excel</a>
+                        <a href="{{ route('aset.export', request()->all()) }}" class="dx-btn dx-btn-success">Excel</a>
                     </div>
                     <div class="col-12 col-md-5 order-2 ms-auto">
                         <form method="GET" action="{{ route('aset.index') }}"
@@ -65,7 +65,7 @@
                             </div>
                             <div class="dx-form-wrapper w-100">
                                 <input type="text" class="dx-form-input-src" name="search"
-                                    placeholder="Ketik kode, nama, atau pt..." aria-label="Search"
+                                    placeholder="Ketik kode, nama, kategori, atau pt..." aria-label="Search"
                                     value="{{ request('search') }}">
                             </div>
                             <button type="submit" class="dx-btn dx-btn-secondary dx-src-btn">

@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/aset', [AsetController::class, 'index'])->middleware('permission:Inventori,all')->name('aset.index');
     Route::get('/aset/tambah',[AsetController::class, 'tambah'])->middleware('permission:Inventori,tambah')->name('aset.tambah');
     Route::post('/aset', [AsetController::class, 'simpan'])->middleware('permission:Inventori,tambah')->name('aset.simpan');
+    Route::get('/aset/export', [AsetController::class, 'exportExcel'])->middleware('permission:Inventori,all')->name('aset.export');
     Route::get('/aset/{id}', [AsetController::class, 'detail'])->middleware('permission:Inventori,all')->name('aset.detail');
     Route::get('/aset/{id}/ubah', [AsetController::class, 'ubah'])->middleware('permission:Inventori,ubah')->name('aset.ubah');
     Route::put('/aset/{id}', [AsetController::class, 'update'])->middleware('permission:Inventori,ubah')->name('aset.update');
