@@ -30,7 +30,8 @@ class AsetExport implements FromQuery, WithHeadings, WithMapping, WithStyles
                 $q->where('nama_barang', 'like', "%{$search}%")
                   ->orWhere('kode_barang', 'like', "%{$search}%")
                   ->orWhere('kategori', 'like' , "%{$search}%")
-                  ->orWhere('pt_pembeban', 'like', "%{$search}%");
+                  ->orWhere('pt_pembeban', 'like', "%{$search}%")
+                  ->orWhere('user_aset', 'like', "%{$search}%");
             });
         }
 

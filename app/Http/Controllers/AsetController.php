@@ -29,7 +29,8 @@ class AsetController extends Controller
                 // Atau cari berdasarkan kategori
                 ->orWhere('kategori', 'like' , "%{$search}%")
                 // Atau cari berdasarkan pt_pembeban
-                ->orWhere('pt_pembeban', 'like', "%{$search}%");
+                ->orWhere('pt_pembeban', 'like', "%{$search}%")
+                ->orWhere('user_aset', 'like' , "%{$search}%");
             });
         }
 
